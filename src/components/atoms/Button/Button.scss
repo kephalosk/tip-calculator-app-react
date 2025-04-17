@@ -1,0 +1,31 @@
+.button {
+  padding: 8px 16px ;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #26C2AE;
+  color: #00474B;
+}
+.button:hover {
+  border: 1px solid #9FE8DF;
+  background-color: #9FE8DF;
+  outline: none;
+  box-shadow: none;
+}
+.button:focus {
+  border: 1px solid #9FE8DF;
+  background-color: #9FE8DF;
+  outline: none;
+  box-shadow: none;
+}
+.button:focus-visible {
+  border: 1px solid #FFFFFF;
+  background-color: #9FE8DF;
+  outline: none;
+  box-shadow: none;
+}
+
+.button.disabled {
+  border: 1px solid #0D686D;
+  background-color: #0D686D;
+  cursor: not-allowed;
+}
