@@ -1,0 +1,30 @@
+.input {
+  border: 2px solid #F3F9FA;
+  border-radius: 5px;
+  background-color: #F3F9FA;
+  padding: 12px 16px;
+  width: 100%;
+  font-weight: bold;
+  text-align: right;
+  color: #9EBBBD;
+}
+.input:hover {
+  border: 2px solid #26C2AE;
+}
+.input:focus, .input:focus-visible {
+  border: 2px solid #00474B;
+  outline: none;
+}
+.input::placeholder {
+  color: #547878;
+}
+.input.error {
+  border: 2px solid #E17052;
+}
+.input.error:hover {
+  border: 2px solid #26C2AE;
+}
+.input.error:focus, .input.error:focus-visible {
+  border: 2px solid #00474B;
+  outline: none;
+}
