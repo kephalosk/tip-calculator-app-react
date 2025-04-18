@@ -13,7 +13,7 @@ interface Props {
   hasError?: boolean;
 }
 
-const Input = React.memo(
+const Input: React.FC<Props> = React.memo(
   ({
     id,
     name,

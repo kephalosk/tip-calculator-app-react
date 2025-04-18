@@ -16,21 +16,25 @@ describe("Button", (): void => {
     isDisabled,
   };
 
-  beforeAll(() => {
+  beforeAll((): void => {
     jest.useFakeTimers();
   });
 
-  afterAll(() => {
-    jest.useRealTimers(); // ← Wichtig fürs Zurücksetzen!
+  beforeEach((): void => {
+    mockHandleButtonClick.mockClear();
   });
 
-  it("renders button button with passed prop text", (): void => {
+  afterAll((): void => {
+    jest.useRealTimers();
+  });
+
+  it("renders the button with the passed text", (): void => {
     const { container } = render(<Button {...testProps} />);
 
     const element: HTMLElement | null = container.querySelector(".button");
 
     expect(element).toBeInTheDocument();
-    expect(element).toHaveTextContent(text.toUpperCase());
+    expect(element).toHaveTextContent(text);
   });
 
   it("calls handleButtonClick on click", (): void => {
@@ -115,6 +119,5 @@ describe("Button", (): void => {
 
     expect(element).toHaveAttribute("tabindex", "0");
     expect(element).toHaveAttribute("aria-label", `button for: ${text}`);
-    expect(element).toHaveAttribute("aria-hidden", "false");
   });
 });

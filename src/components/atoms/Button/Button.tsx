@@ -1,6 +1,7 @@
 import "./Button.scss";
-import React, { ReactElement, useMemo, useRef } from "react";
+import React, { ReactElement, useRef } from "react";
 import { useBlurOnPointerUp, useKeyClickBypass } from "@/hooks";
+import clsx from "clsx";
 
 interface Props {
   text: string;
@@ -8,37 +9,33 @@ interface Props {
   isDisabled?: boolean;
 }
 
-const Button: React.MemoExoticComponent<
-  ({ text, handleButtonClick, isDisabled }: Props) => ReactElement
-> = React.memo(
+const Button: React.FC<Props> = React.memo(
   ({ text, handleButtonClick, isDisabled = false }: Props): ReactElement => {
     const buttonRef: React.RefObject<HTMLButtonElement | null> =
       useRef<HTMLButtonElement>(null);
-    const textUppercase: string = useMemo(() => text.toUpperCase(), [text]);
     const { handleClick, handleKeyDown } = useKeyClickBypass(handleButtonClick);
     const handlePointerUp = useBlurOnPointerUp(buttonRef);
 
     return (
-      <>
-        <button
-          ref={buttonRef}
-          className={`button ${isDisabled ? "disabled" : ""}`}
-          onClick={isDisabled ? undefined : handleClick}
-          onKeyDown={
-            isDisabled
-              ? undefined
-              : (event: React.KeyboardEvent<HTMLButtonElement>) =>
-                  handleKeyDown(event)
-          }
-          onMouseDown={isDisabled ? undefined : handlePointerUp}
-          aria-label={`button for: ${text}`}
-          aria-hidden={false}
-          tabIndex={isDisabled ? -1 : 0}
-          disabled={isDisabled}
-        >
-          {textUppercase}
-        </button>
-      </>
+      <button
+        ref={buttonRef}
+        className={clsx("button", { disabled: isDisabled })}
+        type="button"
+        onClick={isDisabled ? undefined : handleClick}
+        onKeyDown={
+          isDisabled
+            ? undefined
+            : (event: React.KeyboardEvent<HTMLButtonElement>) =>
+                handleKeyDown(event)
+        }
+        onMouseDown={isDisabled ? undefined : handlePointerUp}
+        aria-label={`button for: ${text}`}
+        aria-disabled={isDisabled}
+        tabIndex={isDisabled ? -1 : 0}
+        disabled={isDisabled}
+      >
+        {text}
+      </button>
     );
   },
 );
