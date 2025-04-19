@@ -8,6 +8,7 @@ import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
 import { useState } from "react";
 import PriceLabel from "@/components/atoms/PriceLabel/PriceLabel.tsx";
 import PriceSectionLabel from "@/components/atoms/PriceSectionLabel/PriceSectionLabel.tsx";
+import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabel/PriceSectionDivisorLabel.tsx";
 
 function App() {
   const [active, setActive] = useState<boolean>(false);
@@ -31,6 +32,7 @@ function App() {
       />
       <PriceLabel text="00.0" />
       <PriceSectionLabel text="Tip Amount" />
+      <PriceSectionDivisorLabel text="/ person" />
       <Button
         text="Reset"
         isDisabled={false}
