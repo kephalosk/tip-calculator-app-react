@@ -40,7 +40,10 @@ describe("TipFieldLabel Component", (): void => {
     });
   });
 
-  afterEach(cleanup);
+  afterEach((): void => {
+    process.env.NODE_ENV = "development";
+    cleanup();
+  });
 
   it("renders correctly with the provided text", (): void => {
     render(<TipFieldLabel {...testProps} />);

@@ -45,7 +45,6 @@ describe("Label Component", (): void => {
   });
 
   it("sets the default text value if no text prop is provided", (): void => {
-    render(<Label {...testProps} text="" />);
     const { container } = render(<Label {...testProps} text="" />);
 
     const labelElement: HTMLElement | null = container.querySelector(".label");

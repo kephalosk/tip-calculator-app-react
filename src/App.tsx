@@ -5,7 +5,8 @@ import Label from "@/components/atoms/Label/Label.tsx";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
 import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
-import React, { useState } from "react";
+import { useState } from "react";
+import PriceLabel from "@/components/atoms/PriceLabel/PriceLabel.tsx";
 
 function App() {
   const [active, setActive] = useState<boolean>(false);
@@ -13,9 +14,7 @@ function App() {
     console.log("click");
   };
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLLabelElement, MouseEvent>,
-  ): void => {
+  const handleChange = (): void => {
     setActive(true);
   };
 
@@ -29,6 +28,7 @@ function App() {
         isActive={active}
         propagateChange={handleChange}
       />
+      <PriceLabel text="00.0" />
       <Button
         text="Reset"
         isDisabled={false}
