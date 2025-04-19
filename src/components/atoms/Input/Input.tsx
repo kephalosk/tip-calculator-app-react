@@ -3,7 +3,7 @@ import React, { ReactElement } from "react";
 import useControlledNumericInput from "@/hooks/useControlledNumericInput";
 import clsx from "clsx";
 
-interface Props {
+export interface InputProps {
   id: string;
   name: string;
   maxValue: number;
@@ -13,7 +13,7 @@ interface Props {
   hasError?: boolean;
 }
 
-const Input: React.FC<Props> = React.memo(
+const Input: React.FC<InputProps> = React.memo(
   ({
     id,
     name,
@@ -22,7 +22,7 @@ const Input: React.FC<Props> = React.memo(
     placeholder = "",
     allowDecimals = false,
     hasError = false,
-  }: Props): ReactElement => {
+  }: InputProps): ReactElement => {
     const { value, handleInputChange } = useControlledNumericInput({
       maxValue,
       propagateValue,

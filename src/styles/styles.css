@@ -13,8 +13,13 @@ body {
   justify-content: center;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
 .attribution {
-  font-size: 11px;
+  font-size: 12px;
   text-align: center;
   color: hsl(183, 100%, 15%);
 }

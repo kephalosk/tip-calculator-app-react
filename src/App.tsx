@@ -9,11 +9,16 @@ import { useState } from "react";
 import PriceLabel from "@/components/atoms/PriceLabel/PriceLabel.tsx";
 import PriceSectionLabel from "@/components/atoms/PriceSectionLabel/PriceSectionLabel.tsx";
 import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabel/PriceSectionDivisorLabel.tsx";
+import BillContainer from "@/components/container/BillContainer/BillContainer.tsx";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store.ts";
 
 function App() {
   const [active, setActive] = useState<boolean>(false);
+  const billValue: number = useSelector((state: RootState) => state.bill.value);
+
   const handleButtonClick = () => {
-    console.log("click");
+    console.log("click", billValue);
   };
 
   const handleChange = (): void => {
@@ -33,6 +38,7 @@ function App() {
       <PriceLabel text="00.0" />
       <PriceSectionLabel text="Tip Amount" />
       <PriceSectionDivisorLabel text="/ person" />
+      <BillContainer />
       <Button
         text="Reset"
         isDisabled={false}

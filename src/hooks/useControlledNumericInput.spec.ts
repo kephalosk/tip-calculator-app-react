@@ -51,6 +51,17 @@ describe("useControlledNumericInput", (): void => {
     expect(propagateValue).toHaveBeenCalledWith(0);
   });
 
+  it("calls propagateValue with 0 and resets value when input is 0", (): void => {
+    const { result, propagateValue } = setup();
+
+    act((): void => {
+      result.current.handleInputChange("0");
+    });
+
+    expect(result.current.value).toBe("0");
+    expect(propagateValue).toHaveBeenCalledWith(0);
+  });
+
   it("does nothing if input is invalid (non-numeric)", (): void => {
     const { result, propagateValue } = setup();
 

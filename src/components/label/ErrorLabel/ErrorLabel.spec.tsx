@@ -27,7 +27,7 @@ describe("ErrorLabel Component", (): void => {
     const { container } = render(<ErrorLabel {...testProps} />);
 
     const spanElement: HTMLElement | null =
-      container.querySelector(".headlineLabel");
+      container.querySelector(".errorLabel");
 
     expect(spanElement).toBeInTheDocument();
   });
@@ -41,7 +41,7 @@ describe("ErrorLabel Component", (): void => {
 
   it("does not re-render if the text prop does not change (testing React.memo)", (): void => {
     const { rerender } = render(<ErrorLabel {...testProps} />);
-    const initialRender: HTMLElement = screen.getByText("Test Headline");
+    const initialRender: HTMLElement = screen.getByText("Test Error");
 
     rerender(<ErrorLabel text="Test Error" />);
 

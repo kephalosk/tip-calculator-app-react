@@ -27,7 +27,18 @@ export const useControlledNumericInput = ({
 
   const handleInputChange: (newValue: string) => void = useCallback(
     (newValue: string): void => {
-      if (newValue === "") {
+      if (
+        parseFloat(newValue) === 0 &&
+        newValue !== "0." &&
+        newValue !== "0.0" &&
+        newValue !== "0.00"
+      ) {
+        setValue("0");
+        propagateValue(0);
+        return;
+      }
+
+      if (newValue === "" || parseFloat(newValue) === 0) {
         setValue(newValue);
         propagateValue(0);
         return;
@@ -47,7 +58,7 @@ export const useControlledNumericInput = ({
         propagateValue(parsed);
       }
     },
-    [validateInput, propagateValue, maxValue],
+    [validateInput, maxValue, propagateValue, allowDecimals],
   );
 
   return {
