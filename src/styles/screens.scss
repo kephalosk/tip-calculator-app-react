@@ -1,0 +1,7 @@
+$phone-width: 600px;
+
+@mixin tablet-and-up {
+  @media (min-width: $phone-width) {
+    @content
+  }
+}

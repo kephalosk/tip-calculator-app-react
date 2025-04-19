@@ -1,0 +1,31 @@
+@use 'colors';
+@use 'functions';
+@use 'screens';
+@use 'spaces';
+
+$app-max-width: functions.to-rem(1140px);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: colors.$green-200;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.attribution {
+  font-size: 11px;
+  text-align: center;
+  color: colors.$green-900;
+}
+
+.attribution a {
+  color: colors.$attribution;
+}

@@ -1,0 +1,31 @@
+@use 'sass:math';
+@use 'sass:meta';
+
+@function to-rem($value) {
+  @if meta.type-of($value) != 'number' {
+    @error 'NaN: #{meta.type-of($value)}.';
+    @return null;
+  }
+
+  $unit: math.unit($value);
+
+  @if $unit == '' {
+    @error 'Missing unit: #{$value}.';
+    @return null;
+  }
+
+  @if $unit == 'px' {
+    @return math.div($value, 16px) * 1rem;
+  }
+
+  @if $unit == '%' {
+    @return math.div($value, 100%) * 1rem;
+  }
+
+  @if $unit == 'rem' {
+    @return $value;
+  }
+
+  @error 'Invalid unit: #{$unit}.';
+  @return null;
+}

@@ -1,30 +1,37 @@
+@use '../../../styles/colors';
+@use '../../../styles/fonts';
+@use '../../../styles/functions';
+@use '../../../styles/spaces';
+
 .input {
-  border: 2px solid #F3F9FA;
-  border-radius: 5px;
-  background-color: #F3F9FA;
-  padding: 12px 16px;
+  border: functions.to-rem(2px) solid colors.$grey-50;
+  border-radius: spaces.$radius-5px;
+  background-color: colors.$grey-50;
+  padding: spaces.$space-4px spaces.$space-16px;
   width: 100%;
   font-weight: bold;
   text-align: right;
-  color: #9EBBBD;
+  color: colors.$grey-200;
+
+  @include fonts.text-preset-2;
 }
 .input:hover {
-  border: 2px solid #26C2AE;
+  border: functions.to-rem(2px) solid colors.$green-400;
 }
 .input:focus, .input:focus-visible {
-  border: 2px solid #00474B;
+  border: functions.to-rem(2px) solid colors.$green-900;
   outline: none;
 }
 .input::placeholder {
-  color: #547878;
+  color: colors.$grey-500;
 }
 .input.error {
-  border: 2px solid #E17052;
+  border: functions.to-rem(2px) solid colors.$red;
 }
 .input.error:hover {
-  border: 2px solid #26C2AE;
+  border: functions.to-rem(2px) solid colors.$green-400;
 }
 .input.error:focus, .input.error:focus-visible {
-  border: 2px solid #00474B;
+  border: functions.to-rem(2px) solid colors.$green-900;
   outline: none;
 }

@@ -1,32 +1,39 @@
+@use '../../../styles/colors';
+@use '../../../styles/fonts';
+@use '../../../styles/functions';
+@use '../../../styles/spaces';
+
 .button {
-  padding: 8px 16px ;
+  padding: spaces.$space-8px spaces.$space-16px ;
   width: 100%;
-  border-radius: 5px;
-  background-color: #26C2AE;
+  border-radius: spaces.$radius-5px;
+  background-color: colors.$green-400;
   text-transform: uppercase;
-  color: #00474B;
+  color: colors.$green-900;
+
+  @include fonts.text-preset-3;
 }
 .button:hover {
-  border: 1px solid #9FE8DF;
-  background-color: #9FE8DF;
+  border: functions.to-rem(1px) solid colors.$green-200;
+  background-color: colors.$green-200;
   outline: none;
   box-shadow: none;
 }
 .button:focus {
-  border: 1px solid #9FE8DF;
-  background-color: #9FE8DF;
+  border: functions.to-rem(1px) solid colors.$green-200;
+  background-color: colors.$green-200;
   outline: none;
   box-shadow: none;
 }
 .button:focus-visible {
-  border: 1px solid #FFFFFF;
-  background-color: #9FE8DF;
+  border: functions.to-rem(1px) solid colors.$white;
+  background-color: colors.$green-200;
   outline: none;
   box-shadow: none;
 }
 
 .button.disabled {
-  border: 1px solid #0D686D;
-  background-color: #0D686D;
+  border: functions.to-rem(1px) solid colors.$green-600;
+  background-color: colors.$green-600;
   cursor: not-allowed;
 }

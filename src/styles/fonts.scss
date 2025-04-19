@@ -1,0 +1,98 @@
+@use 'functions';
+@use 'screens';
+
+$text-scale-factor-partial: 0.8;
+$text-scale-factor-viewport: 0.7vw;
+$text-scale-factor-max: 2;
+
+$text-preset-1-font-size-min: functions.to-rem(32px);
+$text-preset-1-font-size-partial: $text-preset-1-font-size-min * $text-scale-factor-partial;
+$text-preset-1-font-size-max: $text-preset-1-font-size-min * $text-scale-factor-max;
+$text-preset-1-font-size-tablet-and-up-min: functions.to-rem(48px);
+$text-preset-1-font-size-tablet-and-up-partial: $text-preset-1-font-size-tablet-and-up-min * $text-scale-factor-partial;
+$text-preset-1-font-size-tablet-and-up-max: $text-preset-1-font-size-tablet-and-up-min * $text-scale-factor-max;
+
+$text-preset-2-font-size-min: functions.to-rem(24px);
+$text-preset-2-font-size-partial: $text-preset-2-font-size-min * $text-scale-factor-partial;
+$text-preset-2-font-size-max: $text-preset-2-font-size-min * $text-scale-factor-max;
+
+$text-preset-3-font-size-min: functions.to-rem(20px);
+$text-preset-3-font-size-partial: $text-preset-3-font-size-min * $text-scale-factor-partial;
+$text-preset-3-font-size-max: $text-preset-3-font-size-min * $text-scale-factor-max;
+
+$text-preset-4-font-size-min: functions.to-rem(16px);
+$text-preset-4-font-size-partial: $text-preset-4-font-size-min * $text-scale-factor-partial;
+$text-preset-4-font-size-max: $text-preset-4-font-size-min * $text-scale-factor-max;
+
+$text-preset-5-font-size-min: functions.to-rem(13px);
+$text-preset-5-font-size-partial: $text-preset-5-font-size-min * $text-scale-factor-partial;
+$text-preset-5-font-size-max: $text-preset-5-font-size-min * $text-scale-factor-max;
+
+$text-preset-1-line-height-min: functions.to-rem(47px);
+$text-preset-1-line-height-partial: $text-preset-1-line-height-min * $text-scale-factor-partial;
+$text-preset-1-line-height-max: $text-preset-1-line-height-min * $text-scale-factor-max;
+$text-preset-1-line-height-tablet-and-up-min: functions.to-rem(71px);
+$text-preset-1-line-height-tablet-and-up-partial: $text-preset-1-line-height-tablet-and-up-min * $text-scale-factor-partial;
+$text-preset-1-line-height-tablet-and-up-max: $text-preset-1-line-height-tablet-and-up-min * $text-scale-factor-max;
+
+$text-preset-2-line-height-min: functions.to-rem(36px);
+$text-preset-2-line-height-partial: $text-preset-2-line-height-min * $text-scale-factor-partial;
+$text-preset-2-line-height-max: $text-preset-2-line-height-min * $text-scale-factor-max;
+
+$text-preset-3-line-height-min: functions.to-rem(30px);
+$text-preset-3-line-height-partial: $text-preset-3-line-height-min * $text-scale-factor-partial;
+$text-preset-3-line-height-max: $text-preset-3-line-height-min * $text-scale-factor-max;
+
+$text-preset-4-line-height-min: functions.to-rem(24px);
+$text-preset-4-line-height-partial: $text-preset-4-line-height-min * $text-scale-factor-partial;
+$text-preset-4-line-height-max: $text-preset-4-line-height-min * $text-scale-factor-max;
+
+$text-preset-5-line-height-min: functions.to-rem(19px);
+$text-preset-5-line-height-partial: $text-preset-5-line-height-min * $text-scale-factor-partial;
+$text-preset-5-line-height-max: $text-preset-5-line-height-min * $text-scale-factor-max;
+
+@mixin text-preset-1 {
+  font-family: "Space Mono", sans-serif;
+  font-weight: bold;
+  font-size: clamp($text-preset-1-font-size-min, $text-preset-1-font-size-partial + $text-scale-factor-viewport, $text-preset-1-font-size-max);
+  line-height: clamp($text-preset-1-line-height-min, $text-preset-1-line-height-partial + $text-scale-factor-viewport, $text-preset-1-line-height-max);
+  letter-spacing: functions.to-rem(-0.67px);
+
+  @include screens.tablet-and-up {
+    font-size: clamp($text-preset-1-font-size-tablet-and-up-min, $text-preset-1-font-size-tablet-and-up-partial + $text-scale-factor-viewport, $text-preset-1-font-size-tablet-and-up-max);
+    line-height: clamp($text-preset-1-line-height-tablet-and-up-min, $text-preset-1-line-height-tablet-and-up-partial + $text-scale-factor-viewport, $text-preset-1-line-height-tablet-and-up-max);
+    letter-spacing: functions.to-rem(-1px);
+  }
+}
+
+@mixin text-preset-2 {
+  font-family: "Space Mono", sans-serif;
+  font-weight: bold;
+  font-size: clamp($text-preset-2-font-size-min, $text-preset-2-font-size-partial + $text-scale-factor-viewport, $text-preset-2-font-size-max);
+  line-height: clamp($text-preset-2-line-height-min, $text-preset-2-line-height-partial + $text-scale-factor-viewport, $text-preset-2-line-height-max);
+  letter-spacing: 0;
+}
+
+@mixin text-preset-3 {
+  font-family: "Space Mono", sans-serif;
+  font-weight: bold;
+  font-size: clamp($text-preset-3-font-size-min, $text-preset-3-font-size-partial + $text-scale-factor-viewport, $text-preset-3-font-size-max);
+  line-height: clamp($text-preset-3-line-height-min, $text-preset-3-line-height-partial + $text-scale-factor-viewport, $text-preset-3-line-height-max);
+  letter-spacing: 0;
+}
+
+@mixin text-preset-4 {
+  font-family: "Space Mono", sans-serif;
+  font-weight: bold;
+  font-size: clamp($text-preset-4-font-size-min, $text-preset-4-font-size-partial + $text-scale-factor-viewport, $text-preset-4-font-size-max);
+  line-height: clamp($text-preset-4-line-height-min, $text-preset-4-line-height-partial + $text-scale-factor-viewport, $text-preset-4-line-height-max);
+  letter-spacing: 0;
+}
+
+@mixin text-preset-5 {
+  font-family: "Space Mono", sans-serif;
+  font-weight: bold;
+  font-size: clamp($text-preset-5-font-size-min, $text-preset-5-font-size-partial + $text-scale-factor-viewport, $text-preset-5-font-size-max);
+  line-height: clamp($text-preset-5-line-height-min, $text-preset-5-line-height-partial + $text-scale-factor-viewport, $text-preset-5-line-height-max);
+  letter-spacing: 0;
+}
