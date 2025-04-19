@@ -1,0 +1,49 @@
+@use '../../../styles/colors';
+@use '../../../styles/fonts';
+@use '../../../styles/functions';
+@use '../../../styles/spaces';
+
+.tipFieldLabel {
+  border: functions.to-rem(2px) solid colors.$green-900;
+  border-radius: spaces.$radius-5px;
+  background-color: colors.$green-900;
+  padding: spaces.$space-4px spaces.$space-16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: colors.$white;
+  transition:
+          border 0.2s ease,
+          background-color 0.2s ease,
+          color 0.2s ease;
+
+  @include fonts.text-preset-2;
+}
+.tipFieldLabel:hover {
+  border: functions.to-rem(2px) solid colors.$green-200;
+  background-color: colors.$green-200;
+  color: colors.$green-900;
+  cursor: pointer;
+}
+.tipFieldLabel:focus-visible {
+  border: functions.to-rem(2px) solid colors.$green-900;
+  background-color: colors.$green-200;
+  color: colors.$green-900;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+.tipFieldLabel.active {
+  border: functions.to-rem(2px) solid colors.$green-200;
+  background-color: colors.$green-200;
+  color: colors.$green-900;
+  cursor: pointer;
+}
+.tipFieldLabel.active:focus-visible {
+  border: functions.to-rem(2px) solid colors.$green-900;
+  outline: none;
+  box-shadow: none;
+}

@@ -12,6 +12,7 @@
   font-weight: bold;
   text-align: right;
   color: colors.$grey-200;
+  transition: border 0.2s ease;
 
   @include fonts.text-preset-2;
 }
