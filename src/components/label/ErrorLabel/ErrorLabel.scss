@@ -1,1 +1,10 @@
+@use '../../../styles/colors';
+@use '../../../styles/spaces';
 
+.errorLabel {
+  padding-bottom: spaces.$space-6px;
+  display: flex;
+  width: 100%;
+  text-align: right;
+  color: colors.$red;
+}
