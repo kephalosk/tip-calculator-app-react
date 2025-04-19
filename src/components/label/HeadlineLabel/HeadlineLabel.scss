@@ -1,0 +1,10 @@
+@use '../../../styles/colors';
+@use '../../../styles/spaces';
+
+.headlineLabel {
+  padding-bottom: spaces.$space-6px;
+  display: flex;
+  width: 100%;
+  text-align: left;
+  color: colors.$grey-500;
+}

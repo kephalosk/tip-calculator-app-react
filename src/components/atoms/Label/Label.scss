@@ -1,5 +1,8 @@
 @use '../../../styles/fonts';
 
 .label {
+  width: 100%;
+  display: inline-block;
+
   @include fonts.text-preset-4;
 }

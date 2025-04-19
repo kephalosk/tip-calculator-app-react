@@ -20,6 +20,11 @@ body {
   justify-content: center;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
 .attribution {
   font-size: 11px;
   text-align: center;
