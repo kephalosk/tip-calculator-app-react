@@ -1,0 +1,11 @@
+@use '../../../styles/colors';
+@use '../../../styles/fonts';
+
+.priceSectionLabel {
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+  color: colors.$white;
+
+  @include fonts.text-preset-4;
+}

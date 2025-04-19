@@ -7,6 +7,7 @@ import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
 import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
 import { useState } from "react";
 import PriceLabel from "@/components/atoms/PriceLabel/PriceLabel.tsx";
+import PriceSectionLabel from "@/components/atoms/PriceSectionLabel/PriceSectionLabel.tsx";
 
 function App() {
   const [active, setActive] = useState<boolean>(false);
@@ -29,6 +30,7 @@ function App() {
         propagateChange={handleChange}
       />
       <PriceLabel text="00.0" />
+      <PriceSectionLabel text="Tip Amount" />
       <Button
         text="Reset"
         isDisabled={false}
