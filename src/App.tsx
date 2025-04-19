@@ -1,6 +1,7 @@
 import "./App.css";
 import Button from "./components/atoms/Button/Button.tsx";
 import Input from "@/components/atoms/Input/Input.tsx";
+import Label from "@/components/atoms/Label/Label.tsx";
 
 function App() {
   const handleButtonClick = () => {
@@ -8,6 +9,7 @@ function App() {
   };
   return (
     <>
+      <Label text="Select Tip %" />
       <Button
         text="Reset"
         isDisabled={false}
