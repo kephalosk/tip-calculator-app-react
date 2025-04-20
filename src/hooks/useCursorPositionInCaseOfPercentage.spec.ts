@@ -10,9 +10,9 @@ describe("useCursorPositionInCaseOfPercentage", (): void => {
     setSelectionRange: setSelectionRangeMock,
   } as unknown as HTMLInputElement;
 
-  const setup = (
-    withPercentageSign: boolean = false,
-  ): {
+  const setup = (options?: {
+    withPercentageSign?: boolean;
+  }): {
     result: {
       current: {
         handleCursorPosition: (currentValue: string) => void;
@@ -21,7 +21,7 @@ describe("useCursorPositionInCaseOfPercentage", (): void => {
     };
   } => {
     const { result } = renderHook(() =>
-      useCursorPositionInCaseOfPercentage(withPercentageSign),
+      useCursorPositionInCaseOfPercentage(options?.withPercentageSign ?? false),
     );
     result.current.inputRef.current = mockInputElement;
 
@@ -37,7 +37,7 @@ describe("useCursorPositionInCaseOfPercentage", (): void => {
   });
 
   it("does not move cursor when withPercentageSign is false", async (): Promise<void> => {
-    const { result } = setup(false);
+    const { result } = setup({ withPercentageSign: false });
 
     result.current.handleCursorPosition("1500");
     await waitForTimeout();
@@ -46,7 +46,7 @@ describe("useCursorPositionInCaseOfPercentage", (): void => {
   });
 
   it("moves the cursor correctly when withPercentageSign is true", async (): Promise<void> => {
-    const { result } = setup(true);
+    const { result } = setup({ withPercentageSign: true });
 
     result.current.handleCursorPosition("1500%");
     await waitForTimeout();

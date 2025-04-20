@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 interface UseControlledNumericInputProps {
   maxValue: number;
@@ -6,7 +6,7 @@ interface UseControlledNumericInputProps {
   allowDecimals?: boolean;
 }
 
-export const useControlledNumericInput = ({
+const useControlledNumericInput = ({
   maxValue,
   propagateValue,
   allowDecimals = false,
@@ -16,47 +16,81 @@ export const useControlledNumericInput = ({
 } => {
   const [value, setValue] = useState("");
 
+  const decimalWithMax2Digits: RegExp = useMemo((): RegExp => {
+    return /^\d+(\.\d{1,2})?$|^\d+\.$/;
+  }, []);
+  const wholeNumber: RegExp = useMemo((): RegExp => {
+    return /^\d*$/;
+  }, []);
+
   const validateInput: (input: string) => boolean = useCallback(
     (input: string): boolean => {
-      const regex: RegExp = allowDecimals ? /^\d+(\.\d{0,2})?$/ : /^\d*$/;
+      const regex: RegExp = allowDecimals ? decimalWithMax2Digits : wholeNumber;
 
       return regex.test(input);
     },
-    [allowDecimals],
+    [allowDecimals, decimalWithMax2Digits, wholeNumber],
   );
 
   const removePercentageSign = useCallback((value: string): string => {
     return value.replace("%", "");
   }, []);
 
+  const hasValueEndingPoint = useCallback((value: string): boolean => {
+    return /^[0-9]+\.$/.test(value);
+  }, []);
+
+  const removeLeadingZeros = useCallback(
+    (value: string): string => {
+      if (value === "0" || value === "0.") {
+        return value;
+      }
+
+      if (hasValueEndingPoint(value)) {
+        return value;
+      }
+
+      if (value === "") {
+        return value;
+      }
+
+      return value.replace(/^0+/, "") || "0";
+    },
+    [hasValueEndingPoint],
+  );
+
   const handleInputChange: (newValue: string) => void = useCallback(
     (newValue: string): void => {
       const rawValue: string = removePercentageSign(newValue);
+      const rawValueWithoutLeadingZeros: string = removeLeadingZeros(rawValue);
 
       if (
-        parseFloat(rawValue) === 0 &&
-        rawValue !== "0." &&
-        rawValue !== "0.0" &&
-        rawValue !== "0.00"
+        parseFloat(rawValueWithoutLeadingZeros) === 0 &&
+        rawValueWithoutLeadingZeros !== "0." &&
+        rawValueWithoutLeadingZeros !== "0.0" &&
+        rawValueWithoutLeadingZeros !== "0.00"
       ) {
         setValue("0");
         propagateValue(0);
         return;
       }
 
-      if (rawValue === "" || parseFloat(rawValue) === 0) {
-        setValue(rawValue);
+      if (
+        rawValueWithoutLeadingZeros === "" ||
+        parseFloat(rawValueWithoutLeadingZeros) === 0
+      ) {
+        setValue(rawValueWithoutLeadingZeros);
         propagateValue(0);
         return;
       }
 
-      if (!validateInput(rawValue)) {
+      if (!validateInput(rawValueWithoutLeadingZeros)) {
         return;
       }
 
-      setValue(rawValue);
+      setValue(rawValueWithoutLeadingZeros);
 
-      const parsed: number = parseFloat(rawValue);
+      const parsed: number = parseFloat(rawValueWithoutLeadingZeros);
       if (parsed >= maxValue) {
         setValue(maxValue.toString());
         propagateValue(maxValue);
@@ -64,7 +98,13 @@ export const useControlledNumericInput = ({
         propagateValue(parsed);
       }
     },
-    [validateInput, maxValue, propagateValue, allowDecimals],
+    [
+      removePercentageSign,
+      removeLeadingZeros,
+      validateInput,
+      maxValue,
+      propagateValue,
+    ],
   );
 
   return {

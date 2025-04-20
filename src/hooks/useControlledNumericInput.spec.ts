@@ -2,6 +2,10 @@ import { renderHook, act } from "@testing-library/react";
 import useControlledNumericInput from "./useControlledNumericInput";
 
 describe("useControlledNumericInput", (): void => {
+  const maxValue: number = 100;
+  const allowDecimals: boolean = false;
+  const propagateValue: jest.Mock = jest.fn();
+
   const setup = (options?: {
     maxValue?: number;
     allowDecimals?: boolean;
@@ -11,11 +15,10 @@ describe("useControlledNumericInput", (): void => {
     };
     propagateValue: jest.Mock;
   } => {
-    const propagateValue: jest.Mock = jest.fn();
     const { result } = renderHook(() =>
       useControlledNumericInput({
-        maxValue: options?.maxValue ?? 100,
-        allowDecimals: options?.allowDecimals ?? false,
+        maxValue: options?.maxValue ?? maxValue,
+        allowDecimals: options?.allowDecimals ?? allowDecimals,
         propagateValue,
       }),
     );
@@ -137,5 +140,77 @@ describe("useControlledNumericInput", (): void => {
 
     expect(result.current.value).toBe("10");
     expect(propagateValue).toHaveBeenCalledWith(10);
+  });
+
+  it("keeps 0", (): void => {
+    const { result, propagateValue } = setup();
+
+    act((): void => {
+      result.current.handleInputChange("0");
+    });
+
+    expect(result.current.value).toBe("0");
+    expect(propagateValue).toHaveBeenCalledWith(0);
+  });
+
+  it("keeps 0.", (): void => {
+    const { result, propagateValue } = setup();
+
+    act((): void => {
+      result.current.handleInputChange("0.");
+    });
+
+    expect(result.current.value).toBe("0.");
+    expect(propagateValue).toHaveBeenCalledWith(0);
+  });
+
+  it("keeps 0.**", (): void => {
+    const { result, propagateValue } = setup({ allowDecimals: true });
+
+    act((): void => {
+      result.current.handleInputChange("0.99");
+    });
+
+    expect(result.current.value).toBe("0.99");
+    expect(propagateValue).toHaveBeenCalledWith(0.99);
+  });
+
+  it("removes leading 0", (): void => {
+    const { result, propagateValue } = setup();
+
+    act((): void => {
+      result.current.handleInputChange("00001");
+    });
+
+    expect(result.current.value).toBe("1");
+    expect(propagateValue).toHaveBeenCalledWith(1);
+  });
+
+  it("returns 0 for string of zeros", (): void => {
+    const { result, propagateValue } = setup();
+
+    act((): void => {
+      result.current.handleInputChange("00000");
+    });
+
+    expect(result.current.value).toBe("0");
+    expect(propagateValue).toHaveBeenCalledWith(0);
+  });
+
+  it("sets default when allowDecimals is undefined", (): void => {
+    const { result } = renderHook(() =>
+      useControlledNumericInput({
+        maxValue,
+        allowDecimals: undefined,
+        propagateValue,
+      }),
+    );
+
+    act((): void => {
+      result.current.handleInputChange("1.99");
+    });
+
+    expect(result.current.value).toBe("");
+    expect(propagateValue).not.toHaveBeenCalled();
   });
 });

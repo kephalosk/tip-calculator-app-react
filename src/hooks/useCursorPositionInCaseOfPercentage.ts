@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 
 export const useCursorPositionInCaseOfPercentage = (
   withPercentageSign: boolean,
@@ -9,20 +9,24 @@ export const useCursorPositionInCaseOfPercentage = (
   const inputRef: React.RefObject<HTMLInputElement | null> =
     useRef<HTMLInputElement | null>(null);
 
-  const handleCursorPosition = (currentValue: string): void => {
-    if (!withPercentageSign) {
-      return;
-    }
+  const handleCursorPosition = useCallback(
+    (currentValue: string): void => {
+      if (!withPercentageSign) {
+        return;
+      }
 
-    const rawCurrentValue: string = currentValue.replace("%", "");
-    const cursorPosition: number = inputRef.current?.selectionStart || 0;
+      const rawCurrentValue: string = currentValue.replace("%", "");
 
-    if (inputRef.current && cursorPosition === rawCurrentValue.length) {
-      setTimeout((): void => {
-        inputRef.current?.setSelectionRange(cursorPosition, cursorPosition);
-      }, 0);
-    }
-  };
+      const cursorPosition: number = inputRef.current?.selectionStart || 0;
+
+      if (inputRef.current && cursorPosition === rawCurrentValue.length) {
+        setTimeout((): void => {
+          inputRef.current?.setSelectionRange(cursorPosition, cursorPosition);
+        }, 0);
+      }
+    },
+    [withPercentageSign],
+  );
 
   return {
     inputRef,
