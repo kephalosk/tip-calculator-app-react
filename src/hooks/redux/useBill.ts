@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setBillValue } from "@/redux/billSlice";
+import { setBillValue } from "@/redux/slices/billSlice.ts";
 import { Dispatch } from "@reduxjs/toolkit";
 import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
 

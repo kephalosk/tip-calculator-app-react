@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useDispatch } from "react-redux";
-import { setBillValue } from "@/redux/billSlice";
+import { setBillValue } from "@/redux/slices/billSlice.ts";
 import useBill from "@/hooks/redux/useBill.ts";
 import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
 
@@ -8,7 +8,7 @@ jest.mock("react-redux", () => ({
   useDispatch: jest.fn(),
 }));
 
-jest.mock("@/redux/billSlice", () => ({
+jest.mock("@/redux/slices/billSlice.ts", () => ({
   setBillValue: jest.fn(),
 }));
 

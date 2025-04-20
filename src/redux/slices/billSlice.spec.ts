@@ -1,4 +1,4 @@
-import billReducer, { BillState, setBillValue } from "./billSlice";
+import billReducer, { BillState, setBillValue } from "./billSlice.ts";
 
 describe("billSlice", (): void => {
   const initialState: { value: number } = { value: 0 };

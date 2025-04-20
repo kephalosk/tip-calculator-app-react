@@ -6,7 +6,7 @@ import {
   BILL_INPUT_ID,
   BILL_INPUT_NAME,
   BILL_LABEL,
-} from "@/globals/constants.ts";
+} from "@/globals/constants/constants.ts";
 import useBill from "@/hooks/redux/useBill.ts";
 import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
 

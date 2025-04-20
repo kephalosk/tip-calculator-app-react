@@ -13,6 +13,7 @@ export interface InputProps {
   allowDecimals?: boolean;
   hasError?: boolean;
   withPercentageSign?: boolean;
+  //define new function here to reset input value
 }
 
 const Input: React.FC<InputProps> = React.memo(
@@ -25,6 +26,7 @@ const Input: React.FC<InputProps> = React.memo(
     allowDecimals = false,
     hasError = false,
     withPercentageSign = false,
+    //define new function here to reset input value
   }: InputProps): ReactElement => {
     const { value, handleInputChange } = useControlledNumericInput({
       maxValue,
