@@ -12,6 +12,7 @@ import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabe
 import BillContainer from "@/components/container/BillContainer/BillContainer.tsx";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store.ts";
+import TipContainer from "@/components/container/TipContainer/TipContainer.tsx";
 
 function App() {
   const [active, setActive] = useState<boolean>(false);
@@ -39,6 +40,7 @@ function App() {
       <PriceSectionLabel text="Tip Amount" />
       <PriceSectionDivisorLabel text="/ person" />
       <BillContainer />
+      <TipContainer />
       <Button
         text="Reset"
         isDisabled={false}

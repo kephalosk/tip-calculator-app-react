@@ -1,80 +1,116 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import Input from "./Input";
+import { render, fireEvent } from "@testing-library/react";
+import Input, { InputProps } from "./Input";
+import { useControlledNumericInput } from "@/hooks";
+import { useCursorPositionInCaseOfPercentage } from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
+
+jest.mock("@/hooks/useControlledNumericInput");
+jest.mock("@/hooks/useCursorPositionInCaseOfPercentage");
 
 describe("Input", (): void => {
+  const id: string = "amount";
+  const name: string = "amount";
+  const maxValue: number = 100;
+  const propagateValueMock: jest.Mock = jest.fn();
+  const placeholder: string = "Enter amount";
+  const allowDecimals: boolean = false;
+  const hasError: boolean = false;
+  const withPercentageSign: boolean = false;
+
   const setup = (
     propsOverride = {},
-  ): { input: HTMLElement; propagateValue: jest.Mock } => {
-    const propagateValue: jest.Mock = jest.fn();
-    const defaultProps: {
-      id: string;
-      name: string;
-      maxValue: number;
-      placeholder: string;
-      propagateValue: jest.Mock;
-      allowDecimals: boolean;
-      hasError: boolean;
-    } = {
-      id: "amount",
-      name: "amount",
-      maxValue: 100,
-      placeholder: "Enter amount",
-      propagateValue,
-      allowDecimals: false,
-      hasError: false,
+  ): { input: HTMLElement | null; propagateValueMock: jest.Mock } => {
+    const defaultProps: InputProps = {
+      id,
+      name,
+      maxValue,
+      propagateValue: propagateValueMock,
+      placeholder,
+      allowDecimals,
+      hasError,
+      withPercentageSign,
     };
 
-    const props = { ...defaultProps, ...propsOverride };
-    render(<Input {...props} />);
-    const input: HTMLElement = screen.getByRole("textbox");
-    return { input, propagateValue };
+    const props: InputProps = { ...defaultProps, ...propsOverride };
+    const { container } = render(<Input {...props} />);
+    const input: HTMLElement | null = container.querySelector(".input");
+    return { input, propagateValueMock };
   };
+
+  const mockedValue: string = "421";
+  const handleInputChangeMock: jest.Mock = jest.fn(() =>
+    propagateValueMock(mockedValue),
+  );
+
+  const handleCursorPositionMock: jest.Mock = jest.fn();
+  const setSelectionRangeMock: jest.Mock = jest.fn();
+  const selectionStart: number = 4;
+  const mockedInputRef: {
+    current: {
+      selectionStart: number;
+      setSelectionRange: jest.Mock;
+    };
+  } = {
+    current: {
+      selectionStart,
+      setSelectionRange: setSelectionRangeMock,
+    },
+  };
+
+  beforeEach((): void => {
+    (useControlledNumericInput as jest.Mock).mockReturnValue({
+      value: mockedValue,
+      handleInputChange: handleInputChangeMock,
+    });
+    (useCursorPositionInCaseOfPercentage as jest.Mock).mockReturnValue({
+      handleCursorPosition: handleCursorPositionMock,
+      inputRef: mockedInputRef,
+    });
+  });
 
   it("renders with correct placeholder and value", (): void => {
     const { input } = setup();
 
-    expect(input).toHaveAttribute("placeholder", "Enter amount");
-    expect(input).toHaveValue("");
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute("placeholder", placeholder);
+    expect(input).toHaveValue(mockedValue);
   });
 
-  it("calls propagateValue on valid integer input", (): void => {
-    const { input, propagateValue } = setup();
+  it("uses default values", () => {
+    const { input } = setup({
+      placeholder: undefined,
+      allowDecimals: undefined,
+      hasError: undefined,
+      withPercentageSign: undefined,
+    });
 
-    fireEvent.change(input, { target: { value: "42" } });
-
-    expect(propagateValue).toHaveBeenCalledWith(42);
+    expect(input).toHaveAttribute("placeholder", "");
+    expect(input).toHaveAttribute("pattern", "^\\d*$");
+    expect(input).not.toHaveClass("error");
+    expect(input).not.toHaveTextContent("%");
   });
 
-  it("respects maxValue", (): void => {
-    const { input, propagateValue } = setup({ maxValue: 10 });
+  it("calls handleInputChange when value changes", (): void => {
+    const { input } = setup();
 
-    fireEvent.change(input, { target: { value: "15" } });
+    fireEvent.change(input!, { target: { value: "42" } });
 
-    expect(propagateValue).toHaveBeenCalledWith(10);
+    expect(handleInputChangeMock).toHaveBeenCalledWith("42");
   });
 
-  it("ignores invalid input when allowDecimals is false", (): void => {
-    const { input, propagateValue } = setup({ allowDecimals: false });
+  it("propagates value when input changes", (): void => {
+    const { input, propagateValueMock } = setup();
 
-    fireEvent.change(input, { target: { value: "10.5" } });
+    fireEvent.change(input!, { target: { value: "1500" } });
 
-    expect(propagateValue).not.toHaveBeenCalled();
+    expect(propagateValueMock).toHaveBeenCalledWith(mockedValue);
   });
 
-  it("accepts decimal input when allowDecimals is true", (): void => {
-    const { input, propagateValue } = setup({ allowDecimals: true });
+  it("calls handleCursorPosition when input changes and withPercentageSign is true", () => {
+    const { input } = setup();
 
-    fireEvent.change(input, { target: { value: "10.25" } });
+    fireEvent.input(input!, { target: { value: mockedValue } });
 
-    expect(propagateValue).toHaveBeenCalledWith(10.25);
-  });
-
-  it("rejects decimal input with more than two digits after decimal", (): void => {
-    const { input, propagateValue } = setup({ allowDecimals: true });
-
-    fireEvent.change(input, { target: { value: "5.123" } });
-
-    expect(propagateValue).not.toHaveBeenCalled();
+    expect(handleCursorPositionMock).toHaveBeenCalledWith(mockedValue);
   });
 
   it("applies error class when hasError is true", (): void => {
@@ -103,5 +139,21 @@ describe("Input", (): void => {
     expect(input).toHaveAttribute("inputmode", "decimal");
     expect(input).toHaveAttribute("autocomplete", "off");
     expect(input).toHaveAttribute("pattern", "^\\d+(\\.\\d{0,2})?$");
+  });
+
+  it("applies percentage sign to the value if withPercentageSign is true", () => {
+    const { input } = setup({ withPercentageSign: true });
+
+    fireEvent.change(input!, { target: { value: mockedValue } });
+
+    expect(input).toHaveValue(`${mockedValue}%`);
+  });
+
+  it("does not apply percentage sign to the value if withPercentageSign is true", () => {
+    const { input } = setup({ withPercentageSign: false });
+
+    fireEvent.change(input!, { target: { value: mockedValue } });
+
+    expect(input).toHaveValue(mockedValue);
   });
 });

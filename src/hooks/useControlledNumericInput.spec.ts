@@ -127,4 +127,15 @@ describe("useControlledNumericInput", (): void => {
     expect(result.current.value).toBe("10.");
     expect(propagateValue).toHaveBeenCalledWith(10);
   });
+
+  it("removes percentage sign %", (): void => {
+    const { result, propagateValue } = setup();
+
+    act((): void => {
+      result.current.handleInputChange("10%");
+    });
+
+    expect(result.current.value).toBe("10");
+    expect(propagateValue).toHaveBeenCalledWith(10);
+  });
 });

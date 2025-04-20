@@ -25,32 +25,38 @@ export const useControlledNumericInput = ({
     [allowDecimals],
   );
 
+  const removePercentageSign = useCallback((value: string): string => {
+    return value.replace("%", "");
+  }, []);
+
   const handleInputChange: (newValue: string) => void = useCallback(
     (newValue: string): void => {
+      const rawValue: string = removePercentageSign(newValue);
+
       if (
-        parseFloat(newValue) === 0 &&
-        newValue !== "0." &&
-        newValue !== "0.0" &&
-        newValue !== "0.00"
+        parseFloat(rawValue) === 0 &&
+        rawValue !== "0." &&
+        rawValue !== "0.0" &&
+        rawValue !== "0.00"
       ) {
         setValue("0");
         propagateValue(0);
         return;
       }
 
-      if (newValue === "" || parseFloat(newValue) === 0) {
-        setValue(newValue);
+      if (rawValue === "" || parseFloat(rawValue) === 0) {
+        setValue(rawValue);
         propagateValue(0);
         return;
       }
 
-      if (!validateInput(newValue)) {
+      if (!validateInput(rawValue)) {
         return;
       }
 
-      setValue(newValue);
+      setValue(rawValue);
 
-      const parsed: number = parseFloat(newValue);
+      const parsed: number = parseFloat(rawValue);
       if (parsed >= maxValue) {
         setValue(maxValue.toString());
         propagateValue(maxValue);
