@@ -3,17 +3,21 @@ import React, { ReactElement } from "react";
 import useControlledNumericInput from "@/hooks/useControlledNumericInput";
 import clsx from "clsx";
 import { useCursorPositionInCaseOfPercentage } from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
+import useInputReset from "@/hooks/useInputReset.ts";
 
 export interface InputProps {
   id: string;
   name: string;
   maxValue: number;
-  propagateValue: (newValue: number) => void;
+  propagateValue: (
+    newValue: number,
+    event?: React.ChangeEvent<HTMLInputElement>,
+  ) => void;
   placeholder?: string;
   allowDecimals?: boolean;
   hasError?: boolean;
   withPercentageSign?: boolean;
-  //define new function here to reset input value
+  triggerReset?: boolean;
 }
 
 const Input: React.FC<InputProps> = React.memo(
@@ -26,7 +30,7 @@ const Input: React.FC<InputProps> = React.memo(
     allowDecimals = false,
     hasError = false,
     withPercentageSign = false,
-    //define new function here to reset input value
+    triggerReset = false,
   }: InputProps): ReactElement => {
     const { value, handleInputChange } = useControlledNumericInput({
       maxValue,
@@ -35,6 +39,7 @@ const Input: React.FC<InputProps> = React.memo(
     });
     const { inputRef, handleCursorPosition } =
       useCursorPositionInCaseOfPercentage(withPercentageSign);
+    useInputReset(triggerReset, handleInputChange);
 
     return (
       <input
@@ -46,7 +51,7 @@ const Input: React.FC<InputProps> = React.memo(
         value={withPercentageSign && !!value ? `${value}%` : value}
         placeholder={placeholder}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          handleInputChange(event.target.value)
+          handleInputChange(event.target.value, event)
         }
         onInput={(event: React.FormEvent<HTMLInputElement>) =>
           handleCursorPosition((event.target as HTMLInputElement).value)

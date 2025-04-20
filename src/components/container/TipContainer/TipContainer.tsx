@@ -1,5 +1,5 @@
 import "./TipContainer.scss";
-import { ReactElement, useState } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import {
   TIP_INPUT_ID,
@@ -19,41 +19,56 @@ const TipContainer: () => ReactElement = (): ReactElement => {
   const dispatch: Dispatch = useDispatch();
 
   const [tipItems, setTipItems] = useState<TipItem[]>(TipItems);
+  const [triggerReset, setTriggerReset] = useState<boolean>(false);
 
-  const handleTipItemClick = (selectedValue: number): void => {
-    setTipItems((prevItems: TipItem[]) =>
-      prevItems.map(
-        (item: TipItem): TipItem => ({
-          ...item,
-          isActive: item.value === selectedValue,
-        }),
-      ),
-    );
-    dispatch(setTipValue(selectedValue));
-    //trigger input reset here
-  };
+  const handleTipItemClick = useCallback(
+    (selectedValue: number): void => {
+      console.log("testTipItem");
+      setTipItems((prevItems: TipItem[]) =>
+        prevItems.map(
+          (item: TipItem): TipItem => ({
+            ...item,
+            isActive: item.value === selectedValue,
+          }),
+        ),
+      );
+      dispatch(setTipValue(selectedValue));
+      setTriggerReset((prevState: boolean) => !prevState);
+    },
+    [dispatch],
+  );
 
-  const handleInputChange = (value: number): void => {
-    setTipItems((prevItems: TipItem[]) =>
-      prevItems.map(
-        (item: TipItem): TipItem => ({
-          ...item,
-          isActive: false,
-        }),
-      ),
-    );
-    dispatch(setTipValue(value));
-  };
+  const handleInputChange = useCallback(
+    (value: number, event?: React.ChangeEvent<HTMLInputElement>): void => {
+      if (!event) {
+        return;
+      }
+
+      setTipItems((prevItems: TipItem[]) =>
+        prevItems.map(
+          (item: TipItem): TipItem => ({
+            ...item,
+            isActive: false,
+          }),
+        ),
+      );
+      dispatch(setTipValue(value));
+    },
+    [dispatch],
+  );
 
   const inputProps: InputProps = {
     allowDecimals: true,
     id: TIP_INPUT_ID,
     name: TIP_INPUT_NAME,
     maxValue: TIP_INPUT_MAX_VALUE,
-    propagateValue: (value: number) => handleInputChange(value / 100),
+    propagateValue: (
+      value: number,
+      event?: React.ChangeEvent<HTMLInputElement>,
+    ) => handleInputChange(value / 100, event),
     placeholder: TIP_INPUT_PLACEHOLDER,
     withPercentageSign: true,
-    //define new function here to reset input value
+    triggerReset,
   };
   return (
     <div className="tipContainer">

@@ -1,8 +1,11 @@
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 interface UseControlledNumericInputProps {
   maxValue: number;
-  propagateValue: (value: number) => void;
+  propagateValue: (
+    value: number,
+    event?: React.ChangeEvent<HTMLInputElement>,
+  ) => void;
   allowDecimals?: boolean;
 }
 
@@ -12,7 +15,10 @@ const useControlledNumericInput = ({
   allowDecimals = false,
 }: UseControlledNumericInputProps): {
   value: string;
-  handleInputChange: (newValue: string) => void;
+  handleInputChange: (
+    newValue: string,
+    event?: React.ChangeEvent<HTMLInputElement>,
+  ) => void;
 } => {
   const [value, setValue] = useState("");
 
@@ -40,6 +46,10 @@ const useControlledNumericInput = ({
     return /^[0-9]+\.$/.test(value);
   }, []);
 
+  const removeLeadingZerosFromDecimal = useCallback((value: string): string => {
+    return value.replace(/^0+(?=\d)/, "");
+  }, []);
+
   const removeLeadingZeros = useCallback(
     (value: string): string => {
       if (value === "0" || value === "0.") {
@@ -48,6 +58,10 @@ const useControlledNumericInput = ({
 
       if (hasValueEndingPoint(value)) {
         return value;
+      }
+
+      if (value.includes(".")) {
+        return removeLeadingZerosFromDecimal(value);
       }
 
       if (value === "") {
@@ -59,8 +73,11 @@ const useControlledNumericInput = ({
     [hasValueEndingPoint],
   );
 
-  const handleInputChange: (newValue: string) => void = useCallback(
-    (newValue: string): void => {
+  const handleInputChange: (
+    newValue: string,
+    event?: React.ChangeEvent<HTMLInputElement>,
+  ) => void = useCallback(
+    (newValue: string, event?: React.ChangeEvent<HTMLInputElement>): void => {
       const rawValue: string = removePercentageSign(newValue);
       const rawValueWithoutLeadingZeros: string = removeLeadingZeros(rawValue);
 
@@ -71,7 +88,7 @@ const useControlledNumericInput = ({
         rawValueWithoutLeadingZeros !== "0.00"
       ) {
         setValue("0");
-        propagateValue(0);
+        propagateValue(0, event);
         return;
       }
 
@@ -80,7 +97,7 @@ const useControlledNumericInput = ({
         parseFloat(rawValueWithoutLeadingZeros) === 0
       ) {
         setValue(rawValueWithoutLeadingZeros);
-        propagateValue(0);
+        propagateValue(0, event);
         return;
       }
 
@@ -93,9 +110,9 @@ const useControlledNumericInput = ({
       const parsed: number = parseFloat(rawValueWithoutLeadingZeros);
       if (parsed >= maxValue) {
         setValue(maxValue.toString());
-        propagateValue(maxValue);
+        propagateValue(maxValue, event);
       } else {
-        propagateValue(parsed);
+        propagateValue(parsed, event);
       }
     },
     [

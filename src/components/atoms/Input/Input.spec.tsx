@@ -1,10 +1,12 @@
 import { render, fireEvent } from "@testing-library/react";
 import Input, { InputProps } from "./Input";
-import { useControlledNumericInput } from "@/hooks";
 import { useCursorPositionInCaseOfPercentage } from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
+import useControlledNumericInput from "@/hooks/useControlledNumericInput.ts";
+import useInputReset from "@/hooks/useInputReset.ts";
 
 jest.mock("@/hooks/useControlledNumericInput");
 jest.mock("@/hooks/useCursorPositionInCaseOfPercentage");
+jest.mock("@/hooks/useInputReset");
 
 describe("Input", (): void => {
   const id: string = "amount";
@@ -65,6 +67,7 @@ describe("Input", (): void => {
       handleCursorPosition: handleCursorPositionMock,
       inputRef: mockedInputRef,
     });
+    (useInputReset as jest.Mock).mockReturnValue(undefined);
   });
 
   it("renders with correct placeholder and value", (): void => {
@@ -94,7 +97,10 @@ describe("Input", (): void => {
 
     fireEvent.change(input!, { target: { value: "42" } });
 
-    expect(handleInputChangeMock).toHaveBeenCalledWith("42");
+    expect(handleInputChangeMock).toHaveBeenCalledWith(
+      "42",
+      expect.objectContaining({}),
+    );
   });
 
   it("propagates value when input changes", (): void => {

@@ -40,7 +40,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("42");
-    expect(propagateValue).toHaveBeenCalledWith(42);
+    expect(propagateValue).toHaveBeenCalledWith(42, undefined);
   });
 
   it("calls propagateValue with 0 and resets value when input is empty", (): void => {
@@ -51,7 +51,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("");
-    expect(propagateValue).toHaveBeenCalledWith(0);
+    expect(propagateValue).toHaveBeenCalledWith(0, undefined);
   });
 
   it("calls propagateValue with 0 and resets value when input is 0", (): void => {
@@ -62,7 +62,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("0");
-    expect(propagateValue).toHaveBeenCalledWith(0);
+    expect(propagateValue).toHaveBeenCalledWith(0, undefined);
   });
 
   it("does nothing if input is invalid (non-numeric)", (): void => {
@@ -84,7 +84,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("50");
-    expect(propagateValue).toHaveBeenCalledWith(50);
+    expect(propagateValue).toHaveBeenCalledWith(50, undefined);
   });
 
   it("accepts decimals when allowed", (): void => {
@@ -95,7 +95,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("12.34");
-    expect(propagateValue).toHaveBeenCalledWith(12.34);
+    expect(propagateValue).toHaveBeenCalledWith(12.34, undefined);
   });
 
   it("rejects decimal input if allowDecimals is false", (): void => {
@@ -128,7 +128,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("10.");
-    expect(propagateValue).toHaveBeenCalledWith(10);
+    expect(propagateValue).toHaveBeenCalledWith(10, undefined);
   });
 
   it("removes percentage sign %", (): void => {
@@ -139,7 +139,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("10");
-    expect(propagateValue).toHaveBeenCalledWith(10);
+    expect(propagateValue).toHaveBeenCalledWith(10, undefined);
   });
 
   it("keeps 0", (): void => {
@@ -150,7 +150,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("0");
-    expect(propagateValue).toHaveBeenCalledWith(0);
+    expect(propagateValue).toHaveBeenCalledWith(0, undefined);
   });
 
   it("keeps 0.", (): void => {
@@ -161,7 +161,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("0.");
-    expect(propagateValue).toHaveBeenCalledWith(0);
+    expect(propagateValue).toHaveBeenCalledWith(0, undefined);
   });
 
   it("keeps 0.**", (): void => {
@@ -172,7 +172,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("0.99");
-    expect(propagateValue).toHaveBeenCalledWith(0.99);
+    expect(propagateValue).toHaveBeenCalledWith(0.99, undefined);
   });
 
   it("removes leading 0", (): void => {
@@ -183,7 +183,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("1");
-    expect(propagateValue).toHaveBeenCalledWith(1);
+    expect(propagateValue).toHaveBeenCalledWith(1, undefined);
   });
 
   it("returns 0 for string of zeros", (): void => {
@@ -194,7 +194,7 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("0");
-    expect(propagateValue).toHaveBeenCalledWith(0);
+    expect(propagateValue).toHaveBeenCalledWith(0, undefined);
   });
 
   it("sets default when allowDecimals is undefined", (): void => {
