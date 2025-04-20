@@ -112,6 +112,16 @@ describe("Button", (): void => {
     expect(mockHandleButtonClick).not.toHaveBeenCalled();
   });
 
+  it("renders the button with default isDisabled is false", (): void => {
+    const { container } = render(
+      <Button {...testProps} isDisabled={undefined} />,
+    );
+
+    const element: HTMLElement | null = container.querySelector(".button");
+
+    expect(element).not.toBeDisabled();
+  });
+
   it("has semantic accessibility attributes", (): void => {
     const { container } = render(<Button {...testProps} />);
 

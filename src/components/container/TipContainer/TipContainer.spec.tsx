@@ -80,6 +80,15 @@ describe("TipContainer", (): void => {
     });
   });
 
+  it("renders div billContainer", (): void => {
+    const { container } = render(<TipContainer />);
+
+    const headlineLabel: HTMLElement | null =
+      container.querySelector(".tipContainer");
+
+    expect(headlineLabel).toBeInTheDocument();
+  });
+
   it("renders component HeadlineLabel correctly", (): void => {
     render(<TipContainer />);
 
@@ -87,6 +96,15 @@ describe("TipContainer", (): void => {
 
     expect(component).toBeInTheDocument();
     expect(HeadlineLabel).toHaveBeenCalled();
+  });
+
+  it("renders div tipContainerGrid", (): void => {
+    const { container } = render(<TipContainer />);
+
+    const headlineLabel: HTMLElement | null =
+      container.querySelector(".tipContainerGrid");
+
+    expect(headlineLabel).toBeInTheDocument();
   });
 
   it("renders components TipFieldLabels correctly", (): void => {

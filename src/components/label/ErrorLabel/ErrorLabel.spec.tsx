@@ -19,7 +19,7 @@ describe("ErrorLabel Component", (): void => {
   it("renders ErrorLabel with the provided text", (): void => {
     render(<ErrorLabel {...testProps} />);
 
-    const labelElement = screen.getByText(text);
+    const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toBeInTheDocument();
   });
 
@@ -35,7 +35,7 @@ describe("ErrorLabel Component", (): void => {
   it("correctly renders and passes down the text prop to Label", (): void => {
     render(<ErrorLabel {...testProps} />);
 
-    const labelText = screen.getByText(text);
+    const labelText: HTMLElement = screen.getByText(text);
     expect(labelText).toBeInTheDocument();
   });
 

@@ -56,14 +56,14 @@ describe("TipFieldLabel Component", (): void => {
   it("applies the active class when isActive is true", (): void => {
     render(<TipFieldLabel {...testProps} isActive={true} />);
 
-    const labelElement = screen.getByText(text);
+    const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toHaveClass("tipFieldLabel active");
   });
 
   it("does not apply the active class when isActive is false", (): void => {
     render(<TipFieldLabel {...testProps} />);
 
-    const labelElement = screen.getByText(text);
+    const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toHaveClass("tipFieldLabel");
     expect(labelElement).not.toHaveClass("active");
   });
