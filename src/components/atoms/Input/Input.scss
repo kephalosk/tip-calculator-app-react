@@ -1,20 +1,27 @@
 @use '../../../styles/colors';
 @use '../../../styles/fonts';
 @use '../../../styles/functions';
+@use '../../../styles/screens';
 @use '../../../styles/spaces';
 
 .input {
   border: functions.to-rem(2px) solid colors.$grey-50;
   border-radius: spaces.$radius-5px;
   background-color: colors.$grey-50;
-  padding: spaces.$space-4px spaces.$space-16px;
+  padding: spaces.$space-4px spaces.$space-12px;
   width: 100%;
   font-weight: bold;
   text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: colors.$grey-200;
   transition: border 0.2s ease;
 
   @include fonts.text-preset-2;
+
+  @include screens.tablet-and-up{
+    padding: spaces.$space-4px spaces.$space-16px;
+  }
 }
 .input:hover {
   border: functions.to-rem(2px) solid colors.$green-400;

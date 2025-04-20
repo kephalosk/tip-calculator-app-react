@@ -1,0 +1,19 @@
+@use '../../../styles/screens';
+@use '../../../styles/spaces';
+
+.tipContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: spaces.$space-8px;
+}
+
+.tipContainerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: spaces.$space-16px;
+  column-gap: spaces.$space-16px;
+
+  @include screens.tablet-and-up{
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

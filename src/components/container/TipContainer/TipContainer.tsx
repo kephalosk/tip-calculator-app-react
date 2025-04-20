@@ -1,5 +1,5 @@
 import "./TipContainer.scss";
-import React, { ReactElement, useCallback, useState } from "react";
+import React, { ReactElement } from "react";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import {
   TIP_INPUT_ID,
@@ -11,51 +11,13 @@ import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import { TIP_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
-import { setTipValue } from "@/redux/slices/tipSlice.ts";
+import { useTipItems } from "@/hooks/useTipItems.ts";
+import { useInputValue } from "@/hooks/useInputValue.ts";
 
 const TipContainer: () => ReactElement = (): ReactElement => {
-  const dispatch: Dispatch = useDispatch();
-
-  const [tipItems, setTipItems] = useState<TipItem[]>(TipItems);
-  const [triggerReset, setTriggerReset] = useState<boolean>(false);
-
-  const handleTipItemClick = useCallback(
-    (selectedValue: number): void => {
-      console.log("testTipItem");
-      setTipItems((prevItems: TipItem[]) =>
-        prevItems.map(
-          (item: TipItem): TipItem => ({
-            ...item,
-            isActive: item.value === selectedValue,
-          }),
-        ),
-      );
-      dispatch(setTipValue(selectedValue));
-      setTriggerReset((prevState: boolean) => !prevState);
-    },
-    [dispatch],
-  );
-
-  const handleInputChange = useCallback(
-    (value: number, event?: React.ChangeEvent<HTMLInputElement>): void => {
-      if (!event) {
-        return;
-      }
-
-      setTipItems((prevItems: TipItem[]) =>
-        prevItems.map(
-          (item: TipItem): TipItem => ({
-            ...item,
-            isActive: false,
-          }),
-        ),
-      );
-      dispatch(setTipValue(value));
-    },
-    [dispatch],
-  );
+  const { tipItems, handleTipItemClick, triggerReset, deactivateAllItems } =
+    useTipItems(TipItems);
+  const { handleInputChange } = useInputValue(deactivateAllItems);
 
   const inputProps: InputProps = {
     allowDecimals: true,
@@ -70,13 +32,14 @@ const TipContainer: () => ReactElement = (): ReactElement => {
     withPercentageSign: true,
     triggerReset,
   };
+
   return (
     <div className="tipContainer">
       <HeadlineLabel text={TIP_LABEL} />
       <div className="tipContainerGrid">
-        {tipItems.map((item: TipItem) => (
+        {tipItems.map((item: TipItem, index: number) => (
           <TipFieldLabel
-            key={item.text}
+            key={index}
             text={item.text}
             isActive={item.isActive}
             propagateChange={() => handleTipItemClick(item.value)}
