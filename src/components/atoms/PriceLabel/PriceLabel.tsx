@@ -2,7 +2,7 @@ import "./PriceLabel.scss";
 import React, { ReactElement } from "react";
 
 interface Props extends React.HTMLProps<HTMLLabelElement> {
-  text: string;
+  text?: string;
 }
 
 const PriceLabel: React.FC<Props> = React.memo(

@@ -53,11 +53,34 @@ describe("TipFieldLabel Component", (): void => {
     expect(labelElement).toHaveAttribute("aria-label", text);
   });
 
+  it("renders with default empty text", () => {
+    const { container } = render(
+      <TipFieldLabel {...testProps} text={undefined} />,
+    );
+
+    const labelElement: HTMLElement | null =
+      container.querySelector(".tipFieldLabel");
+
+    expect(labelElement).toBeInTheDocument();
+    expect(labelElement).toHaveTextContent("");
+  });
+
   it("applies the active class when isActive is true", (): void => {
     render(<TipFieldLabel {...testProps} isActive={true} />);
 
     const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toHaveClass("tipFieldLabel active");
+  });
+
+  it("renders with default isActive is false", () => {
+    const { container } = render(
+      <TipFieldLabel {...testProps} isActive={undefined} />,
+    );
+
+    const labelElement: HTMLElement | null =
+      container.querySelector(".tipFieldLabel");
+
+    expect(labelElement).not.toHaveClass("tipFieldLabel active");
   });
 
   it("does not apply the active class when isActive is false", (): void => {

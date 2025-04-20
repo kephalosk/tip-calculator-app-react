@@ -22,6 +22,18 @@ describe("PriceSectionLabel Component", (): void => {
     expect(labelElement).toHaveAttribute("aria-label", "Test Label");
   });
 
+  it("renders with default empty text", () => {
+    const { container } = render(
+      <PriceSectionLabel {...testProps} text={undefined} />,
+    );
+
+    const labelElement: HTMLElement | null =
+      container.querySelector(".priceSectionLabel");
+
+    expect(labelElement).toBeInTheDocument();
+    expect(labelElement).toHaveTextContent("");
+  });
+
   it("renders correctly with empty text and shows a warning in development mode", (): void => {
     process.env.NODE_ENV = "development";
     const { container } = render(<PriceSectionLabel {...testProps} text="" />);

@@ -4,8 +4,8 @@ import clsx from "clsx";
 import { useKeyClickBypass } from "@/hooks";
 
 interface Props extends React.HTMLProps<HTMLLabelElement> {
-  text: string;
-  isActive: boolean;
+  text?: string;
+  isActive?: boolean;
   propagateChange: () => void;
 }
 
