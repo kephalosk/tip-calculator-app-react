@@ -1,13 +1,17 @@
-import billReducer, { BillState, setBillValue } from "./billSlice.ts";
+import billReducer, {
+  BillState,
+  resetBillValue,
+  setBillValue,
+} from "./billSlice.ts";
 
 describe("billSlice", (): void => {
   const initialState: { value: number } = { value: 0 };
 
-  it("should return the initial state", (): void => {
+  it("returns the initial state", (): void => {
     expect(billReducer(undefined, { type: "" })).toEqual(initialState);
   });
 
-  it("should handle setting the bill value", (): void => {
+  it("handles setting the bill value", (): void => {
     const newValue: number = 100;
     const action: { payload: number; type: "bill/setBillValue" } =
       setBillValue(newValue);
@@ -16,7 +20,7 @@ describe("billSlice", (): void => {
     expect(nextState.value).toEqual(newValue);
   });
 
-  it("should handle updating the bill value multiple times", (): void => {
+  it("handles updating the bill value multiple times", (): void => {
     const action1: { payload: number; type: "bill/setBillValue" } =
       setBillValue(200);
     const state1: BillState = billReducer(initialState, action1);
@@ -26,5 +30,21 @@ describe("billSlice", (): void => {
 
     expect(state1.value).toEqual(200);
     expect(state2.value).toEqual(300);
+  });
+
+  it("handles resetting the bill value", (): void => {
+    const action: { type: "bill/resetBillValue" } = resetBillValue();
+    const nextState: BillState = billReducer(initialState, action);
+
+    expect(nextState.value).toEqual(0);
+  });
+
+  it("handles resetting the bill value multiple times", (): void => {
+    const action: { type: "bill/resetBillValue" } = resetBillValue();
+    const state1: BillState = billReducer(initialState, action);
+    const state2: BillState = billReducer(initialState, action);
+
+    expect(state1.value).toEqual(0);
+    expect(state2.value).toEqual(0);
   });
 });

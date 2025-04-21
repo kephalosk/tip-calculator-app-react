@@ -17,3 +17,5 @@ export const LABEL_TEXT_EMPTY_MESSAGE: string = "Label text is empty!";
 export const PRICE_SECTION_LABEL_TEXT_AMOUNT: string = "Tip Amount";
 export const PRICE_SECTION_LABEL_TEXT_TOTAL: string = "Total";
 export const PRICE_SECTION_DIVISOR_TEXT: string = "person";
+export const BUTTON_TEXT_RESET: string = "reset";
+export const BILL_INPUT_ICON_ALT_TEXT: string = "Dollar Icon for Input Field";

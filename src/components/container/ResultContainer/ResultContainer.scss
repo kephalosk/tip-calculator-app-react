@@ -1,0 +1,24 @@
+@use '../../../styles/colors';
+@use '../../../styles/screens';
+@use '../../../styles/spaces';
+
+.resultContainer {
+  border-radius: spaces.$radius-15px;
+  background-color: colors.$green-900;
+  padding: spaces.$space-32px spaces.$space-24px spaces.$space-24px spaces.$space-24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: spaces.$space-20px;
+  max-width: 100%;
+  height: 100%;
+
+  @include screens.tablet-and-up{
+    padding: spaces.$space-54px spaces.$space-40px spaces.$space-40px spaces.$space-40px;
+    row-gap: spaces.$space-32px;
+  }
+}
+
+.resultContainerSpace {
+  flex-grow: 1;
+}

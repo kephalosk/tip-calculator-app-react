@@ -3,15 +3,19 @@ import { ReactElement } from "react";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import {
+  BILL_INPUT_ICON_ALT_TEXT,
   BILL_INPUT_ID,
   BILL_INPUT_NAME,
   BILL_LABEL,
 } from "@/globals/constants/constants.ts";
 import useBill from "@/hooks/redux/useBill.ts";
 import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
+import { DOLLAR_ICON_SRC } from "@/globals/constants/ressources.ts";
+import { useBillReset } from "@/hooks/redux/useBillReset.ts";
 
 const BillContainer: () => ReactElement = (): ReactElement => {
   const { updateBillValue } = useBill();
+  const { triggerReset } = useBillReset();
 
   const inputProps: InputProps = {
     allowDecimals: true,
@@ -19,6 +23,7 @@ const BillContainer: () => ReactElement = (): ReactElement => {
     name: BILL_INPUT_NAME,
     maxValue: BILL_INPUT_MAX_VALUE,
     propagateValue: updateBillValue,
+    triggerReset,
   };
 
   return (
@@ -28,8 +33,8 @@ const BillContainer: () => ReactElement = (): ReactElement => {
         <Input {...inputProps} />
         <img
           className="billContainerInputIcon"
-          src="src/assets/images/icon-dollar.svg"
-          alt="Dollar Icon for Input Field"
+          src={DOLLAR_ICON_SRC}
+          alt={BILL_INPUT_ICON_ALT_TEXT}
           aria-hidden="true"
         />
       </span>

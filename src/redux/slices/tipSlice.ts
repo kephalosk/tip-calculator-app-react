@@ -15,8 +15,11 @@ const tipSlice = createSlice({
     setTipValue(state, action: PayloadAction<number>) {
       state.tipValue = action.payload;
     },
+    resetTipValue: (state): void => {
+      state.tipValue = 0;
+    },
   },
 });
 
-export const { setTipValue } = tipSlice.actions;
+export const { setTipValue, resetTipValue } = tipSlice.actions;
 export default tipSlice.reducer;

@@ -12,10 +12,12 @@ import PeopleContainer from "@/components/container/PeopleContainer/PeopleContai
 import PriceContainer from "@/components/container/PriceContainer/PriceContainer.tsx";
 import { PRICE_SECTION_LABEL_TEXT_AMOUNT } from "@/globals/constants/constants.ts";
 import FormContainer from "@/components/container/FormContainer/FormContainer.tsx";
+import ResultContainer from "@/components/container/ResultContainer/ResultContainer.tsx";
 
 function App() {
   return (
     <div className="app">
+      <ResultContainer />
       <FormContainer />
       <Label text="Select Tip %" />
       <HeadlineLabel text="Select Tip %" />

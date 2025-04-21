@@ -1,4 +1,9 @@
-import peopleReducer, { PeopleState, setPeopleValue } from "./peopleSlice.ts";
+import peopleReducer, {
+  PeopleState,
+  resetPeopleValue,
+  setPeopleValue,
+} from "./peopleSlice.ts";
+import billReducer, { BillState } from "@/redux/slices/billSlice.ts";
 
 describe("peopleSlice", (): void => {
   const initialState: { value: number } = { value: 0 };
@@ -16,7 +21,7 @@ describe("peopleSlice", (): void => {
     expect(nextState.value).toEqual(newValue);
   });
 
-  it("handles updating the bill value multiple times", (): void => {
+  it("handles updating the people value multiple times", (): void => {
     const action1: { payload: number; type: "people/setPeopleValue" } =
       setPeopleValue(200);
     const state1: PeopleState = peopleReducer(initialState, action1);
@@ -26,5 +31,21 @@ describe("peopleSlice", (): void => {
 
     expect(state1.value).toEqual(200);
     expect(state2.value).toEqual(300);
+  });
+
+  it("handles resetting the people value", (): void => {
+    const action: { type: "people/resetPeopleValue" } = resetPeopleValue();
+    const nextState: BillState = billReducer(initialState, action);
+
+    expect(nextState.value).toEqual(0);
+  });
+
+  it("handles resetting the people value multiple times", (): void => {
+    const action: { type: "people/resetPeopleValue" } = resetPeopleValue();
+    const state1: BillState = billReducer(initialState, action);
+    const state2: BillState = billReducer(initialState, action);
+
+    expect(state1.value).toEqual(0);
+    expect(state2.value).toEqual(0);
   });
 });

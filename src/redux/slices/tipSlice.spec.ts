@@ -1,4 +1,4 @@
-import tipReducer, { setTipValue, TipState } from "./tipSlice";
+import tipReducer, { resetTipValue, setTipValue, TipState } from "./tipSlice";
 import {
   configureStore,
   EnhancedStore,
@@ -70,5 +70,13 @@ describe("tipSlice", (): void => {
     const state: TipState = store.getState().tip;
 
     expect(state.tipValue).toBe(1000);
+  });
+
+  it("handles resetting the tip value", (): void => {
+    store.dispatch(resetTipValue());
+
+    const state: TipState = store.getState().tip;
+
+    expect(state.tipValue).toEqual(0);
   });
 });

@@ -15,8 +15,11 @@ const billSlice = createSlice({
     setBillValue: (state, action: PayloadAction<number>) => {
       state.value = action.payload;
     },
+    resetBillValue: (state): void => {
+      state.value = 0;
+    },
   },
 });
 
-export const { setBillValue } = billSlice.actions;
+export const { setBillValue, resetBillValue } = billSlice.actions;
 export default billSlice.reducer;

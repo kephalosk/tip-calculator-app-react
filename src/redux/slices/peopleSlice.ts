@@ -15,8 +15,11 @@ const peopleSlice = createSlice({
     setPeopleValue: (state, action: PayloadAction<number>): void => {
       state.value = action.payload;
     },
+    resetPeopleValue: (state): void => {
+      state.value = 0;
+    },
   },
 });
 
-export const { setPeopleValue } = peopleSlice.actions;
+export const { setPeopleValue, resetPeopleValue } = peopleSlice.actions;
 export default peopleSlice.reducer;
