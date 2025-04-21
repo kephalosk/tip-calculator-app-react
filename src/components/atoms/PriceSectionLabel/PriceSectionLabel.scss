@@ -6,6 +6,9 @@
   display: inline-block;
   text-align: left;
   color: colors.$white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @include fonts.text-preset-4;
 }

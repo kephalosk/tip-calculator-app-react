@@ -18,11 +18,12 @@ const PeopleContainer: () => ReactElement = (): ReactElement => {
   const { hasError, handlePeopleUpdate } = usePeopleUpdate();
 
   const inputProps: InputProps = {
-    allowDecimals: false,
     id: PEOPLE_INPUT_ID,
     name: PEOPLE_INPUT_NAME,
     maxValue: PEOPLE_INPUT_MAX_VALUE,
     propagateValue: handlePeopleUpdate,
+    allowDecimals: false,
+    hasError: hasError,
   };
 
   return (

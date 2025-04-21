@@ -1,0 +1,11 @@
+.priceContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priceContainerSection {
+  display: flex;
+  flex-direction: column;
+}

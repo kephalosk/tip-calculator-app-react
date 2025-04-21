@@ -5,6 +5,9 @@
   width: 100%;
   display: inline-block;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: colors.$grey-400;
 
   @include fonts.text-preset-5;

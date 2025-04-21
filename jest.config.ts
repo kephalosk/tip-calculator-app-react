@@ -16,5 +16,9 @@ export default {
       isolatedModules: true,
     },
   },
+  coveragePathIgnorePatterns: [
+    "/src/globals/constants",
+    "/src/globals/config.ts",
+  ],
   collectCoverage: true,
 };

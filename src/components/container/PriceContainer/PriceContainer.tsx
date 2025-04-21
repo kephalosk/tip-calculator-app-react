@@ -1,28 +1,31 @@
-// import "./PriceContainer.scss";
-// import { ReactElement } from "react";
-// import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
-// import Input from "@/components/atoms/Input/Input.tsx";
-// import {
-//   PEOPLE_ICON_ALT_TEXT,
-//   PEOPLE_LABEL,
-// } from "@/globals/constants/constants.ts";
-// import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
-//
-// const PeopleContainer: () => ReactElement = (): ReactElement => {
-//   return (
-//     <div className="peopleContainer">
-//       <HeadlineLabel text={PEOPLE_LABEL} />
-//       <span className="peopleContainerInput">
-//         <Input {...inputProps} />
-//         <img
-//           className="peopleContainerInputIcon"
-//           src={PEOPLE_ICON_SRC}
-//           alt={PEOPLE_ICON_ALT_TEXT}
-//           aria-hidden="true"
-//         />
-//       </span>
-//     </div>
-//   );
-// };
-//
-// export default PeopleContainer;
+import "./PriceContainer.scss";
+import { ReactElement } from "react";
+import PriceLabel from "@/components/atoms/PriceLabel/PriceLabel.tsx";
+import PriceSectionLabel from "@/components/atoms/PriceSectionLabel/PriceSectionLabel.tsx";
+import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabel/PriceSectionDivisorLabel.tsx";
+import { PRICE_SECTION_DIVISOR_TEXT } from "@/globals/constants/constants.ts";
+
+export interface PriceContainerProps {
+  priceType: string;
+  priceAmount: string;
+}
+
+const PriceContainer: ({
+  priceType,
+  priceAmount,
+}: PriceContainerProps) => ReactElement = ({
+  priceType,
+  priceAmount,
+}: PriceContainerProps): ReactElement => {
+  return (
+    <div className="priceContainer">
+      <div className="priceContainerSection">
+        <PriceSectionLabel text={priceType} />
+        <PriceSectionDivisorLabel text={PRICE_SECTION_DIVISOR_TEXT} />
+      </div>
+      <PriceLabel text={priceAmount} />
+    </div>
+  );
+};
+
+export default PriceContainer;

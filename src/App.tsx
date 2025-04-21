@@ -9,6 +9,8 @@ import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabe
 import BillContainer from "@/components/container/BillContainer/BillContainer.tsx";
 import TipContainer from "@/components/container/TipContainer/TipContainer.tsx";
 import PeopleContainer from "@/components/container/PeopleContainer/PeopleContainer.tsx";
+import PriceContainer from "@/components/container/PriceContainer/PriceContainer.tsx";
+import { PRICE_SECTION_LABEL_TEXT_AMOUNT } from "@/globals/constants/constants.ts";
 
 function App() {
   return (
@@ -22,6 +24,10 @@ function App() {
       <BillContainer />
       <TipContainer />
       <PeopleContainer />
+      <PriceContainer
+        priceType={PRICE_SECTION_LABEL_TEXT_AMOUNT}
+        priceAmount="300000.00"
+      />
       <Input
         id="customtip"
         name="custom tip"

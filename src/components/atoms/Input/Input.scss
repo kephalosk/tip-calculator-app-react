@@ -37,9 +37,9 @@
   border: functions.to-rem(2px) solid colors.$red;
 }
 .input.error:hover {
-  border: functions.to-rem(2px) solid colors.$green-400;
+  border: functions.to-rem(2px) solid colors.$red;
 }
 .input.error:focus, .input.error:focus-visible {
-  border: functions.to-rem(2px) solid colors.$green-900;
+  border: functions.to-rem(2px) solid colors.$red;
   outline: none;
 }

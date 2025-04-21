@@ -1,10 +1,14 @@
 import { render } from "@testing-library/react";
 import PriceSectionDivisorLabel from "./PriceSectionDivisorLabel";
+import {
+  LABEL_TEXT_EMPTY_MESSAGE,
+  PRICE_SECTION_DEVISOR_PREFIX,
+} from "@/globals/constants/constants.ts";
 
 global.console.warn = jest.fn();
 
 describe("PriceSectionDivisorLabel Component", (): void => {
-  const text: string = "/ person";
+  const text: string = "person";
 
   const testProps: { text: string } = {
     text,
@@ -22,7 +26,10 @@ describe("PriceSectionDivisorLabel Component", (): void => {
     );
 
     expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveAttribute("aria-label", `${text}`);
+    expect(labelElement).toHaveAttribute(
+      "aria-label",
+      `${PRICE_SECTION_DEVISOR_PREFIX} ${text}`,
+    );
   });
 
   it("renders with default empty text", () => {
@@ -35,7 +42,7 @@ describe("PriceSectionDivisorLabel Component", (): void => {
     );
 
     expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveTextContent("");
+    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
   });
 
   it("renders correctly with empty text and shows a warning in development mode", (): void => {
@@ -48,9 +55,12 @@ describe("PriceSectionDivisorLabel Component", (): void => {
       ".priceSectionDivisorLabel",
     );
 
-    expect(labelElement).toHaveAttribute("aria-label", "");
-    expect(labelElement).toHaveTextContent("");
-    expect(console.warn).toHaveBeenCalledWith("Label text is empty!");
+    expect(labelElement).toHaveAttribute(
+      "aria-label",
+      `${PRICE_SECTION_DEVISOR_PREFIX} `,
+    );
+    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
+    expect(console.warn).toHaveBeenCalledWith(LABEL_TEXT_EMPTY_MESSAGE);
   });
 
   it("does not show a warning in production mode if text is empty", (): void => {
@@ -63,8 +73,11 @@ describe("PriceSectionDivisorLabel Component", (): void => {
       ".priceSectionDivisorLabel",
     );
 
-    expect(labelElement).toHaveAttribute("aria-label", "");
-    expect(labelElement).toHaveTextContent("");
+    expect(labelElement).toHaveAttribute(
+      "aria-label",
+      `${PRICE_SECTION_DEVISOR_PREFIX} `,
+    );
+    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
     expect(console.warn).not.toHaveBeenCalled();
   });
 
@@ -77,8 +90,11 @@ describe("PriceSectionDivisorLabel Component", (): void => {
       ".priceSectionDivisorLabel",
     );
 
-    expect(labelElement).toHaveTextContent("");
-    expect(labelElement).toHaveAttribute("aria-label", "");
+    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
+    expect(labelElement).toHaveAttribute(
+      "aria-label",
+      `${PRICE_SECTION_DEVISOR_PREFIX} `,
+    );
   });
 
   it("does not re-render when the text prop does not change", (): void => {

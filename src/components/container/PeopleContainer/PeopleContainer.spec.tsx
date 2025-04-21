@@ -130,11 +130,12 @@ describe("PeopleContainer", (): void => {
     expect(inputElement).toBeInTheDocument();
     expect(Input).toHaveBeenCalledWith(
       {
-        allowDecimals: false,
         id: PEOPLE_INPUT_ID,
-        maxValue: PEOPLE_INPUT_MAX_VALUE,
         name: PEOPLE_INPUT_NAME,
+        maxValue: PEOPLE_INPUT_MAX_VALUE,
         propagateValue: expect.any(Function),
+        allowDecimals: false,
+        hasError: false,
       },
       undefined,
     );
