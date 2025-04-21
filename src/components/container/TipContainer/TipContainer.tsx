@@ -12,7 +12,7 @@ import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import { TIP_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
 import { useTipItems } from "@/hooks/useTipItems.ts";
-import { useInputValue } from "@/hooks/useInputValue.ts";
+import { useInputValue } from "@/hooks/redux/useInputValue.ts";
 
 const TipContainer: () => ReactElement = (): ReactElement => {
   const { tipItems, handleTipItemClick, triggerReset, deactivateAllItems } =

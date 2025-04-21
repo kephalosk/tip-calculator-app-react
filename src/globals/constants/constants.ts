@@ -1,7 +1,13 @@
 export const BILL_LABEL: string = "Bill";
 export const BILL_INPUT_ID: string = "billInput";
 export const BILL_INPUT_NAME: string = "Bill Input";
+export const BILL_VALUE_INVALID: string = "Invalid Bill Value";
 export const TIP_LABEL: string = "Select Tip %";
 export const TIP_INPUT_ID: string = "tipInput";
 export const TIP_INPUT_NAME: string = "Tip Input";
 export const TIP_INPUT_PLACEHOLDER: string = "Custom";
+export const PEOPLE_LABEL: string = "Number of People";
+export const PEOPLE_INPUT_ID: string = "peopleInput";
+export const PEOPLE_INPUT_NAME: string = "Number of People Input";
+export const PEOPLE_VALUE_INVALID: string = "Invalid People Value";
+export const PEOPLE_ICON_ALT_TEXT: string = "People Icon for Input Field";

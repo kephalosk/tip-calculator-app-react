@@ -42,6 +42,8 @@ jest.mock("@/redux/slices/billSlice.ts", () => ({
   setBillValue: jest.fn(),
 }));
 
+jest.spyOn(console, "error").mockImplementation((): void | null => null);
+
 describe("BillContainer", (): void => {
   const dispatch: jest.Mock = jest.fn();
 
