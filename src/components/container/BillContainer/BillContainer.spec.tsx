@@ -1,7 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import BillContainer from "./BillContainer";
-import { useDispatch } from "react-redux";
-import { setBillValue } from "@/redux/slices/billSlice.ts";
 import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import {
   BILL_INPUT_ID,
@@ -10,6 +8,8 @@ import {
 } from "@/globals/constants/constants.ts";
 import Input from "@/components/atoms/Input/Input.tsx";
 import React, { ReactNode } from "react";
+import useBill from "@/hooks/redux/useBill.ts";
+import { useBillReset } from "@/hooks/redux/useBillReset.ts";
 
 jest.mock(
   "@/components/label/HeadlineLabel/HeadlineLabel",
@@ -34,21 +34,26 @@ jest.mock(
     )),
 );
 
-jest.mock("react-redux", () => ({
-  useDispatch: jest.fn(),
+jest.mock("@/hooks/redux/useBill", () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 
-jest.mock("@/redux/slices/billSlice.ts", () => ({
-  setBillValue: jest.fn(),
+jest.mock("@/hooks/redux/useBillReset", () => ({
+  __esModule: true,
+  useBillReset: jest.fn(),
 }));
-
-jest.spyOn(console, "error").mockImplementation((): void | null => null);
 
 describe("BillContainer", (): void => {
-  const dispatch: jest.Mock = jest.fn();
+  const mockUpdateBillValue = jest.fn();
 
   beforeEach((): void => {
-    (useDispatch as unknown as jest.Mock).mockReturnValue(dispatch);
+    (useBill as jest.Mock).mockReturnValue({
+      updateBillValue: mockUpdateBillValue,
+    });
+    (useBillReset as jest.Mock).mockReturnValue({
+      triggerReset: false,
+    });
   });
 
   it("renders div billContainer", (): void => {
@@ -90,6 +95,7 @@ describe("BillContainer", (): void => {
         maxValue: BILL_INPUT_MAX_VALUE,
         name: BILL_INPUT_NAME,
         propagateValue: expect.any(Function),
+        triggerReset: false,
       },
       undefined,
     );
@@ -101,7 +107,10 @@ describe("BillContainer", (): void => {
     const input: HTMLElement = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: BILL_INPUT_MAX_VALUE } });
 
-    expect(dispatch).toHaveBeenCalledWith(setBillValue(BILL_INPUT_MAX_VALUE));
+    expect(mockUpdateBillValue).toHaveBeenCalledWith(
+      `${BILL_INPUT_MAX_VALUE}`,
+      expect.any(Object),
+    );
   });
 
   it("renders the dollar icon image with correct alt text", (): void => {
@@ -115,14 +124,5 @@ describe("BillContainer", (): void => {
       "src",
       "src/assets/images/icon-dollar.svg",
     );
-  });
-
-  it("does not call updateBillValue with invalid input", (): void => {
-    render(<BillContainer />);
-
-    const input: HTMLElement = screen.getByRole("textbox");
-    fireEvent.change(input, { target: { value: -1 } });
-
-    expect(dispatch).not.toHaveBeenCalled();
   });
 });

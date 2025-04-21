@@ -16,6 +16,7 @@ import usePeopleUpdate from "@/hooks/usePeopleUpdate.ts";
 
 const PeopleContainer: () => ReactElement = (): ReactElement => {
   const { hasError, handlePeopleUpdate } = usePeopleUpdate();
+  // const { triggerReset } = usePeopleReset();
 
   const inputProps: InputProps = {
     id: PEOPLE_INPUT_ID,
@@ -24,6 +25,7 @@ const PeopleContainer: () => ReactElement = (): ReactElement => {
     propagateValue: handlePeopleUpdate,
     allowDecimals: false,
     hasError: hasError,
+    // triggerReset,
   };
 
   return (

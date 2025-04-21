@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import {
-  BILL_INPUT_ICON_ALT_TEXT,
+  BILL_ICON_ALT_TEXT,
   BILL_INPUT_ID,
   BILL_INPUT_NAME,
   BILL_LABEL,
@@ -34,7 +34,7 @@ const BillContainer: () => ReactElement = (): ReactElement => {
         <img
           className="billContainerInputIcon"
           src={DOLLAR_ICON_SRC}
-          alt={BILL_INPUT_ICON_ALT_TEXT}
+          alt={BILL_ICON_ALT_TEXT}
           aria-hidden="true"
         />
       </span>

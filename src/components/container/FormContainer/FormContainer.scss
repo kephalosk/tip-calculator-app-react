@@ -1,10 +1,19 @@
+@use '../../../styles/colors';
+@use '../../../styles/screens';
 @use '../../../styles/spaces';
 
 .formContainer {
+  border-radius: spaces.$radius-15px;
+  background-color: colors.$white;
+  padding: spaces.$space-8px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   row-gap: spaces.$space-32px;
   max-width: 100%;
   height: 100%;
+
+  @include screens.tablet-and-up{
+    padding: spaces.$space-16px;
+  }
 }
