@@ -1,0 +1,9 @@
+@use '../../../styles/spaces';
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  row-gap: spaces.$space-32px;
+  max-width: 100%;
+}

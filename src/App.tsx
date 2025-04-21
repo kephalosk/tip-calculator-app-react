@@ -11,10 +11,12 @@ import TipContainer from "@/components/container/TipContainer/TipContainer.tsx";
 import PeopleContainer from "@/components/container/PeopleContainer/PeopleContainer.tsx";
 import PriceContainer from "@/components/container/PriceContainer/PriceContainer.tsx";
 import { PRICE_SECTION_LABEL_TEXT_AMOUNT } from "@/globals/constants/constants.ts";
+import FormContainer from "@/components/container/FormContainer/FormContainer.tsx";
 
 function App() {
   return (
     <div className="app">
+      <FormContainer />
       <Label text="Select Tip %" />
       <HeadlineLabel text="Select Tip %" />
       <ErrorLabel text="Error Message!" />
@@ -26,7 +28,7 @@ function App() {
       <PeopleContainer />
       <PriceContainer
         priceType={PRICE_SECTION_LABEL_TEXT_AMOUNT}
-        priceAmount="300000.00"
+        priceAmount="300000"
       />
       <Input
         id="customtip"
