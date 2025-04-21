@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { useDispatch } from "react-redux";
 import Input from "@/components/atoms/Input/Input.tsx";
 import React, { ReactNode } from "react";
 import PeopleContainer from "@/components/container/PeopleContainer/PeopleContainer.tsx";
@@ -9,7 +8,7 @@ import {
   PEOPLE_INPUT_NAME,
 } from "@/globals/constants/constants.ts";
 import { PEOPLE_INPUT_MAX_VALUE } from "@/globals/config.ts";
-import { setPeopleValue } from "@/redux/slices/peopleSlice.ts";
+import usePeopleUpdate from "@/hooks/usePeopleUpdate.ts";
 
 const headlineTestId: string = "headline-label";
 jest.mock(
@@ -20,6 +19,17 @@ jest.mock(
         <div data-testid={headlineTestId}>{props.text}</div>
       ),
     ),
+);
+
+const errorTestId: string = "error-label";
+jest.mock(
+  "@/components/label/ErrorLabel/ErrorLabel.tsx",
+  (): jest.Mock =>
+    jest.fn((props) => (
+      <label data-testid={errorTestId} className={errorTestId}>
+        {props.text}
+      </label>
+    )),
 );
 
 const inputTestId: string = "input";
@@ -36,24 +46,20 @@ jest.mock(
     )),
 );
 
-jest.mock("react-redux", (): { useDispatch: jest.Mock } => ({
-  useDispatch: jest.fn(),
-}));
-
-jest.mock(
-  "@/redux/slices/peopleSlice.ts",
-  (): { setPeopleValue: jest.Mock } => ({
-    setPeopleValue: jest.fn(),
-  }),
-);
-
-jest.spyOn(console, "error").mockImplementation((): void | null => null);
+jest.mock("@/hooks/usePeopleUpdate.ts");
 
 describe("PeopleContainer", (): void => {
-  const dispatch: jest.Mock = jest.fn();
+  const handlePeopleUpdateMock: jest.Mock = jest.fn();
+  const usePeopleUpdateMock: {
+    hasError: boolean;
+    handlePeopleUpdate: jest.Mock;
+  } = {
+    hasError: false,
+    handlePeopleUpdate: handlePeopleUpdateMock,
+  };
 
   beforeEach((): void => {
-    (useDispatch as unknown as jest.Mock).mockReturnValue(dispatch);
+    (usePeopleUpdate as jest.Mock).mockReturnValue(usePeopleUpdateMock);
   });
 
   it("renders div peopleContainer", (): void => {
@@ -65,12 +71,45 @@ describe("PeopleContainer", (): void => {
     expect(headlineLabel).toBeInTheDocument();
   });
 
+  it("renders div peopleContainerHeader", (): void => {
+    const { container } = render(<PeopleContainer />);
+
+    const headlineLabel: HTMLElement | null = container.querySelector(
+      ".peopleContainerHeader",
+    );
+
+    expect(headlineLabel).toBeInTheDocument();
+  });
+
   it("renders the HeadlineLabel with correct text", (): void => {
     render(<PeopleContainer />);
 
     const headlineLabel: HTMLElement = screen.getByTestId(headlineTestId);
 
     expect(headlineLabel).toBeInTheDocument();
+  });
+
+  it("renders component ErrorLabel when hasError is true", (): void => {
+    (usePeopleUpdate as jest.Mock).mockReturnValue({
+      ...usePeopleUpdateMock,
+      hasError: true,
+    });
+    render(<PeopleContainer />);
+
+    const headlineLabel: HTMLElement = screen.getByTestId(errorTestId);
+    expect(headlineLabel).toBeInTheDocument();
+  });
+
+  it("does not render component ErrorLabel when hasError is false", (): void => {
+    (usePeopleUpdate as jest.Mock).mockReturnValue({
+      ...usePeopleUpdateMock,
+      hasError: false,
+    });
+    const { container } = render(<PeopleContainer />);
+
+    const headlineLabel: HTMLElement | null =
+      container.querySelector(errorTestId);
+    expect(headlineLabel).not.toBeInTheDocument();
   });
 
   it("renders span peopleContainerInput", (): void => {
@@ -91,24 +130,13 @@ describe("PeopleContainer", (): void => {
     expect(inputElement).toBeInTheDocument();
     expect(Input).toHaveBeenCalledWith(
       {
-        allowDecimals: true,
+        allowDecimals: false,
         id: PEOPLE_INPUT_ID,
         maxValue: PEOPLE_INPUT_MAX_VALUE,
         name: PEOPLE_INPUT_NAME,
         propagateValue: expect.any(Function),
       },
       undefined,
-    );
-  });
-
-  it("calls updatePeopleValue when input value changes", (): void => {
-    render(<PeopleContainer />);
-
-    const input: HTMLElement = screen.getByTestId(inputTestId);
-    fireEvent.change(input, { target: { value: PEOPLE_INPUT_MAX_VALUE } });
-
-    expect(dispatch).toHaveBeenCalledWith(
-      setPeopleValue(PEOPLE_INPUT_MAX_VALUE),
     );
   });
 
@@ -127,12 +155,15 @@ describe("PeopleContainer", (): void => {
     expect(imgElement).toHaveAttribute("alt", PEOPLE_ICON_ALT_TEXT);
   });
 
-  it("does not call updatePeopleValue with invalid input", (): void => {
+  it("calls handlePeopleUpdate when input value changes", (): void => {
     render(<PeopleContainer />);
 
     const input: HTMLElement = screen.getByTestId(inputTestId);
-    fireEvent.change(input, { target: { value: -1 } });
+    fireEvent.change(input, { target: { value: PEOPLE_INPUT_MAX_VALUE } });
 
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(handlePeopleUpdateMock).toHaveBeenCalledWith(
+      `${PEOPLE_INPUT_MAX_VALUE}`,
+      expect.any(Object),
+    );
   });
 });

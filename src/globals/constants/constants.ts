@@ -6,6 +6,7 @@ export const TIP_LABEL: string = "Select Tip %";
 export const TIP_INPUT_ID: string = "tipInput";
 export const TIP_INPUT_NAME: string = "Tip Input";
 export const TIP_INPUT_PLACEHOLDER: string = "Custom";
+export const PEOPLE_INPUT_ERROR_MESSAGE: string = "Can't be zero";
 export const PEOPLE_LABEL: string = "Number of People";
 export const PEOPLE_INPUT_ID: string = "peopleInput";
 export const PEOPLE_INPUT_NAME: string = "Number of People Input";

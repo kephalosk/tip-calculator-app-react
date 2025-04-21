@@ -52,7 +52,11 @@ const useControlledNumericInput = ({
 
   const removeLeadingZeros = useCallback(
     (value: string): string => {
-      if (value === "0" || value === "0.") {
+      if (value === "0") {
+        return value;
+      }
+
+      if (allowDecimals && value === "0.") {
         return value;
       }
 
@@ -80,6 +84,17 @@ const useControlledNumericInput = ({
     (newValue: string, event?: React.ChangeEvent<HTMLInputElement>): void => {
       const rawValue: string = removePercentageSign(newValue);
       const rawValueWithoutLeadingZeros: string = removeLeadingZeros(rawValue);
+
+      if (
+        !allowDecimals &&
+        (rawValueWithoutLeadingZeros === "0." ||
+          rawValueWithoutLeadingZeros === "0.0" ||
+          rawValueWithoutLeadingZeros === "0.00")
+      ) {
+        setValue("0");
+        propagateValue(0, event);
+        return;
+      }
 
       if (
         parseFloat(rawValueWithoutLeadingZeros) === 0 &&

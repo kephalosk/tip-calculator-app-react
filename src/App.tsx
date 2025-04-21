@@ -8,6 +8,7 @@ import PriceSectionLabel from "@/components/atoms/PriceSectionLabel/PriceSection
 import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabel/PriceSectionDivisorLabel.tsx";
 import BillContainer from "@/components/container/BillContainer/BillContainer.tsx";
 import TipContainer from "@/components/container/TipContainer/TipContainer.tsx";
+import PeopleContainer from "@/components/container/PeopleContainer/PeopleContainer.tsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <PriceSectionDivisorLabel text="/ person" />
       <BillContainer />
       <TipContainer />
+      <PeopleContainer />
       <Input
         id="customtip"
         name="custom tip"

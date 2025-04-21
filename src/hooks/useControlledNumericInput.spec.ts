@@ -154,7 +154,7 @@ describe("useControlledNumericInput", (): void => {
   });
 
   it("keeps 0.", (): void => {
-    const { result, propagateValue } = setup();
+    const { result, propagateValue } = setup({ allowDecimals: true });
 
     act((): void => {
       result.current.handleInputChange("0.");
@@ -174,6 +174,20 @@ describe("useControlledNumericInput", (): void => {
     expect(result.current.value).toBe("0.99");
     expect(propagateValue).toHaveBeenCalledWith(0.99, undefined);
   });
+
+  it.each(["0.", "0.0", "0.00"])(
+    "does not keep %s when allowDecimals is false",
+    (input: string): void => {
+      const { result, propagateValue } = setup({ allowDecimals: false });
+
+      act((): void => {
+        result.current.handleInputChange(input);
+      });
+
+      expect(result.current.value).toBe("0");
+      expect(propagateValue).toHaveBeenCalledWith(0, undefined);
+    },
+  );
 
   it("removes leading 0", (): void => {
     const { result, propagateValue } = setup();

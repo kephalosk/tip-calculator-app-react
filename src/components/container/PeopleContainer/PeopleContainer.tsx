@@ -1,31 +1,36 @@
-import "./BillContainer.scss";
+import "./PeopleContainer.scss";
 import { ReactElement } from "react";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import {
   PEOPLE_ICON_ALT_TEXT,
+  PEOPLE_INPUT_ERROR_MESSAGE,
   PEOPLE_INPUT_ID,
   PEOPLE_INPUT_NAME,
   PEOPLE_LABEL,
 } from "@/globals/constants/constants.ts";
 import { PEOPLE_INPUT_MAX_VALUE } from "@/globals/config.ts";
-import usePeople from "@/hooks/redux/usePeople.ts";
 import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
+import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
+import usePeopleUpdate from "@/hooks/usePeopleUpdate.ts";
 
 const PeopleContainer: () => ReactElement = (): ReactElement => {
-  const { updatePeopleValue } = usePeople();
+  const { hasError, handlePeopleUpdate } = usePeopleUpdate();
 
   const inputProps: InputProps = {
-    allowDecimals: true,
+    allowDecimals: false,
     id: PEOPLE_INPUT_ID,
     name: PEOPLE_INPUT_NAME,
     maxValue: PEOPLE_INPUT_MAX_VALUE,
-    propagateValue: updatePeopleValue,
+    propagateValue: handlePeopleUpdate,
   };
 
   return (
     <div className="peopleContainer">
-      <HeadlineLabel text={PEOPLE_LABEL} />
+      <div className="peopleContainerHeader">
+        <HeadlineLabel text={PEOPLE_LABEL} />
+        {hasError && <ErrorLabel text={PEOPLE_INPUT_ERROR_MESSAGE} />}
+      </div>
       <span className="peopleContainerInput">
         <Input {...inputProps} />
         <img
