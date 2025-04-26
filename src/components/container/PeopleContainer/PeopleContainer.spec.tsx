@@ -4,11 +4,17 @@ import React, { ReactNode } from "react";
 import PeopleContainer from "@/components/container/PeopleContainer/PeopleContainer.tsx";
 import {
   PEOPLE_ICON_ALT_TEXT,
+  PEOPLE_INPUT_ERROR_MESSAGE,
   PEOPLE_INPUT_ID,
   PEOPLE_INPUT_NAME,
+  PEOPLE_LABEL,
 } from "@/globals/constants/constants.ts";
 import { PEOPLE_INPUT_MAX_VALUE } from "@/globals/config.ts";
-import usePeopleUpdate from "@/hooks/usePeopleUpdate.ts";
+import usePeopleUpdate from "@/hooks/redux/usePeopleUpdate";
+import { usePeopleReset } from "@/hooks/redux/usePeopleReset";
+import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
+import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
+import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
 
 const headlineTestId: string = "headline-label";
 jest.mock(
@@ -46,20 +52,50 @@ jest.mock(
     )),
 );
 
-jest.mock("@/hooks/usePeopleUpdate.ts");
+jest.mock(
+  "@/hooks/redux/usePeopleUpdate.ts",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
+
+jest.mock(
+  "@/hooks/redux/usePeopleReset.ts",
+  (): {
+    __esModule: boolean;
+    usePeopleReset: jest.Mock;
+  } => ({
+    __esModule: true,
+    usePeopleReset: jest.fn(),
+  }),
+);
 
 describe("PeopleContainer", (): void => {
+  const hasError: boolean = false;
   const handlePeopleUpdateMock: jest.Mock = jest.fn();
+  const triggerReset: boolean = false;
+
   const usePeopleUpdateMock: {
     hasError: boolean;
     handlePeopleUpdate: jest.Mock;
   } = {
-    hasError: false,
+    hasError,
     handlePeopleUpdate: handlePeopleUpdateMock,
+  };
+
+  const usePeopleResetMock: {
+    triggerReset: boolean;
+  } = {
+    triggerReset,
   };
 
   beforeEach((): void => {
     (usePeopleUpdate as jest.Mock).mockReturnValue(usePeopleUpdateMock);
+    (usePeopleReset as jest.Mock).mockReturnValue(usePeopleResetMock);
   });
 
   it("renders div peopleContainer", (): void => {
@@ -87,6 +123,10 @@ describe("PeopleContainer", (): void => {
     const headlineLabel: HTMLElement = screen.getByTestId(headlineTestId);
 
     expect(headlineLabel).toBeInTheDocument();
+    expect(HeadlineLabel).toHaveBeenCalledWith(
+      { text: PEOPLE_LABEL },
+      undefined,
+    );
   });
 
   it("renders component ErrorLabel when hasError is true", (): void => {
@@ -96,8 +136,13 @@ describe("PeopleContainer", (): void => {
     });
     render(<PeopleContainer />);
 
-    const headlineLabel: HTMLElement = screen.getByTestId(errorTestId);
-    expect(headlineLabel).toBeInTheDocument();
+    const errorLabel: HTMLElement = screen.getByTestId(errorTestId);
+
+    expect(errorLabel).toBeInTheDocument();
+    expect(ErrorLabel).toHaveBeenCalledWith(
+      { text: PEOPLE_INPUT_ERROR_MESSAGE },
+      undefined,
+    );
   });
 
   it("does not render component ErrorLabel when hasError is false", (): void => {
@@ -110,6 +155,7 @@ describe("PeopleContainer", (): void => {
     const headlineLabel: HTMLElement | null =
       container.querySelector(errorTestId);
     expect(headlineLabel).not.toBeInTheDocument();
+    expect(ErrorLabel).not.toHaveBeenCalled();
   });
 
   it("renders span peopleContainerInput", (): void => {
@@ -133,9 +179,10 @@ describe("PeopleContainer", (): void => {
         id: PEOPLE_INPUT_ID,
         name: PEOPLE_INPUT_NAME,
         maxValue: PEOPLE_INPUT_MAX_VALUE,
-        propagateValue: expect.any(Function),
+        propagateValue: handlePeopleUpdateMock,
         allowDecimals: false,
-        hasError: false,
+        hasError,
+        triggerReset,
       },
       undefined,
     );
@@ -149,11 +196,9 @@ describe("PeopleContainer", (): void => {
     );
 
     expect(imgElement).toBeInTheDocument();
-    expect(imgElement).toHaveAttribute(
-      "src",
-      "src/assets/images/icon-person.svg",
-    );
+    expect(imgElement).toHaveAttribute("src", PEOPLE_ICON_SRC);
     expect(imgElement).toHaveAttribute("alt", PEOPLE_ICON_ALT_TEXT);
+    expect(imgElement).toHaveAttribute("aria-hidden", "true");
   });
 
   it("calls handlePeopleUpdate when input value changes", (): void => {

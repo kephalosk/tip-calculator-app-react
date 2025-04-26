@@ -12,11 +12,12 @@ import {
 import { PEOPLE_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
 import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
-import usePeopleUpdate from "@/hooks/usePeopleUpdate.ts";
+import usePeopleUpdate from "@/hooks/redux/usePeopleUpdate.ts";
+import { usePeopleReset } from "@/hooks/redux/usePeopleReset.ts";
 
 const PeopleContainer: () => ReactElement = (): ReactElement => {
   const { hasError, handlePeopleUpdate } = usePeopleUpdate();
-  // const { triggerReset } = usePeopleReset();
+  const { triggerReset } = usePeopleReset();
 
   const inputProps: InputProps = {
     id: PEOPLE_INPUT_ID,
@@ -25,7 +26,7 @@ const PeopleContainer: () => ReactElement = (): ReactElement => {
     propagateValue: handlePeopleUpdate,
     allowDecimals: false,
     hasError: hasError,
-    // triggerReset,
+    triggerReset,
   };
 
   return (
