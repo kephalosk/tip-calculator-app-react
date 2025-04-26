@@ -1,148 +1,130 @@
+import { render, screen } from "@testing-library/react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store.ts";
 import calculateTotalAndTip from "@/globals/helper/calculateTotalAndTip.ts";
-import useResultCalculations from "@/hooks/useResultCalculations.ts";
+import {
+  selectBillValue,
+  selectPeopleValue,
+  selectTipValue,
+  useResultCalculations,
+} from "@/hooks/useResultCalculations.ts";
+import { EMPTY_STRING } from "@/globals/constants/constants.ts";
 
-// Mocking of necessary functions and hooks
-jest.mock("react-redux", () => ({
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-}));
+jest.mock(
+  "react-redux",
+  (): {
+    useDispatch: jest.Mock;
+    useSelector: jest.Mock;
+  } => ({
+    useDispatch: jest.fn(),
+    useSelector: jest.fn(),
+  }),
+);
 
-jest.mock("@/globals/helper/calculateTotalAndTip.ts", () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+jest.mock(
+  "@/globals/helper/calculateTotalAndTip.ts",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
 
 describe("useResultCalculations Hook", () => {
-  const mockCalculateTotalAndTip = calculateTotalAndTip as jest.Mock;
+  const tipTotal: string = "100.00";
+  const totalSum: string = "1000.00";
 
-  beforeEach(() => {
-    // Reset the mock before each test
-    mockCalculateTotalAndTip.mockReset();
-  });
+  const billAmount: number = 100;
+  const tipAmount: number = 20;
+  const peopleCount: number = 5;
 
-  it("calculates tipTotal and totalSum correctly when values are provided", () => {
-    const mockState: RootState = {
-      bill: { value: 100 },
-      tip: { tipValue: 20 },
-      people: { value: 5 },
-    };
+  const mockState: RootState = {
+    bill: { value: billAmount },
+    tip: { value: tipAmount },
+    people: { value: peopleCount },
+  };
 
-    // Mock useSelector to return values from mockState
+  beforeEach((): void => {
     (useSelector as unknown as jest.Mock).mockImplementation((selector) =>
       selector(mockState),
     );
-
-    // Mock the calculateTotalAndTip function to return expected values
-    mockCalculateTotalAndTip.mockReturnValue({
-      tipTotal: "4.00", // expected tip per person
-      totalSum: "20.00", // expected total per person
+    (calculateTotalAndTip as jest.Mock).mockReturnValue({
+      tipTotal,
+      totalSum,
     });
+  });
 
-    // Using the hook to test the behavior
+  const tipTotalTestId: string = "tip-total";
+  const totalSumTestId: string = "total-sum";
+  const TestComponent = () => {
     const { tipTotal, totalSum } = useResultCalculations();
+    return (
+      <div>
+        <div data-testid={tipTotalTestId}>{tipTotal}</div>
+        <div data-testid={totalSumTestId}>{totalSum}</div>
+      </div>
+    );
+  };
 
-    // Assert that the calculated tipTotal and totalSum are correct
-    expect(tipTotal).toBe("4.00");
-    expect(totalSum).toBe("20.00");
+  it("returns tipTotal and totalSum correctly when values are provided", (): void => {
+    render(<TestComponent />);
 
-    // Ensure the calculation function was called with correct parameters
-    expect(mockCalculateTotalAndTip).toHaveBeenCalledWith(
-      100, // billAmount
-      20, // tipAmount
-      5, // peopleCount
+    const tipTotalElement: HTMLElement = screen.getByTestId(tipTotalTestId);
+    const totalSumElement: HTMLElement = screen.getByTestId(totalSumTestId);
+
+    expect(tipTotalElement).toHaveTextContent(tipTotal);
+    expect(totalSumElement).toHaveTextContent(totalSum);
+    expect(calculateTotalAndTip).toHaveBeenCalledWith(
+      billAmount,
+      tipAmount,
+      peopleCount,
     );
   });
 
-  it("returns empty strings when one of the values is missing", () => {
-    const mockState: RootState = {
-      bill: { value: 100 },
-      tip: { tipValue: 20 },
-      people: { value: 0 }, // peopleCount is 0, which should reset the values
-    };
+  it.each([
+    ["bill", 0],
+    ["tip", 0],
+    ["people", -1],
+  ])(
+    "does not call calculateTotalAndTip if %s is %s",
+    (field: string, value: number): void => {
+      (useSelector as unknown as jest.Mock).mockImplementation((selector) =>
+        selector({ ...mockState, [field]: value }),
+      );
+      render(<TestComponent />);
 
-    (useSelector as unknown as jest.Mock).mockImplementation((selector) =>
-      selector(mockState),
-    );
+      const tipTotalElement: HTMLElement = screen.getByTestId(tipTotalTestId);
+      const totalSumElement: HTMLElement = screen.getByTestId(totalSumTestId);
 
-    mockCalculateTotalAndTip.mockReturnValue({
-      tipTotal: "4.00",
-      totalSum: "20.00",
-    });
+      expect(tipTotalElement).toHaveTextContent(EMPTY_STRING);
+      expect(totalSumElement).toHaveTextContent(EMPTY_STRING);
+      expect(calculateTotalAndTip).not.toHaveBeenCalled();
+    },
+  );
 
-    const { tipTotal, totalSum } = useResultCalculations();
+  it.each([
+    ["bill", 100, selectBillValue],
+    ["tip", 100, selectTipValue],
+    ["people", 100, selectPeopleValue],
+  ])(
+    "calls %s and returns the correct value from the store",
+    (
+      field: string,
+      value: number,
+      selectValue: (state: RootState) => number,
+    ): void => {
+      const state: RootState = {
+        bill: { value: billAmount },
+        tip: { value: tipAmount },
+        people: { value: peopleCount },
+        [field]: { value },
+      };
 
-    expect(tipTotal).toBe(""); // Since peopleCount is 0, we expect empty values
-    expect(totalSum).toBe("");
+      const amount: number = selectValue(state);
 
-    // Ensure that the calculation function was not called due to invalid data
-    expect(mockCalculateTotalAndTip).not.toHaveBeenCalled();
-  });
-
-  it("does not call calculateTotalAndTip if billAmount, tipAmount or peopleCount are zero", () => {
-    const mockState: RootState = {
-      bill: { value: 0 },
-      tip: { tipValue: 0 },
-      people: { value: 5 },
-    };
-
-    (useSelector as unknown as jest.Mock).mockImplementation((selector) =>
-      selector(mockState),
-    );
-
-    const { tipTotal, totalSum } = useResultCalculations();
-
-    expect(tipTotal).toBe(""); // Since billAmount and tipAmount are zero, we expect empty values
-    expect(totalSum).toBe("");
-
-    // Ensure that the calculation function was not called
-    expect(mockCalculateTotalAndTip).not.toHaveBeenCalled();
-  });
-
-  it("recalculates values when billAmount, tipAmount or peopleCount changes", () => {
-    const mockState: RootState = {
-      bill: { value: 100 },
-      tip: { tipValue: 20 },
-      people: { value: 5 },
-    };
-
-    (useSelector as unknown as jest.Mock).mockImplementation((selector) =>
-      selector(mockState),
-    );
-
-    mockCalculateTotalAndTip.mockReturnValue({
-      tipTotal: "4.00",
-      totalSum: "20.00",
-    });
-
-    const { tipTotal, totalSum } = useResultCalculations();
-
-    expect(tipTotal).toBe("4.00");
-    expect(totalSum).toBe("20.00");
-
-    // Simulate state change by mocking different values
-    const mockStateChanged: RootState = {
-      bill: { value: 200 },
-      tip: { tipValue: 15 },
-      people: { value: 4 },
-    };
-
-    (useSelector as unknown as jest.Mock).mockImplementation((selector) =>
-      selector(mockStateChanged),
-    );
-
-    const { tipTotal: newTipTotal, totalSum: newTotalSum } =
-      useResultCalculations();
-
-    expect(newTipTotal).toBe("7.50"); // (200 * 15%) / 4 = 7.50
-    expect(newTotalSum).toBe("51.25"); // (200 + 30) / 4 = 51.25
-
-    expect(mockCalculateTotalAndTip).toHaveBeenCalledTimes(2);
-    expect(mockCalculateTotalAndTip).toHaveBeenCalledWith(
-      200, // new billAmount
-      15, // new tipAmount
-      4, // new peopleCount
-    );
-  });
+      expect(amount).toEqual(value);
+    },
+  );
 });
