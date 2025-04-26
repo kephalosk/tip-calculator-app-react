@@ -1,6 +1,6 @@
 import { render, act, screen } from "@testing-library/react";
 import usePeople from "@/hooks/redux/usePeople.ts";
-import usePeopleUpdate from "@/hooks/usePeopleUpdate.ts";
+import usePeopleUpdate from "@/hooks/redux/usePeopleUpdate.ts";
 
 jest.mock(
   "@/hooks/redux/usePeople.ts",
@@ -74,18 +74,5 @@ describe("usePeopleUpdate", (): void => {
     const errorElement: HTMLElement = screen.getByTestId("has-error");
     expect(errorElement.textContent).toBe("No Error");
     expect(updatePeopleValue).toHaveBeenCalledWith(10);
-  });
-
-  it("does not trigger update on first render when value is 0", (): void => {
-    render(<TestComponent />);
-
-    const button: HTMLElement = screen.getByText("Set 0");
-    act((): void => {
-      button.click();
-    });
-
-    const errorElement: HTMLElement = screen.getByTestId("has-error");
-    expect(errorElement.textContent).toBe("No Error");
-    expect(updatePeopleValue).not.toHaveBeenCalled();
   });
 });

@@ -1,20 +1,37 @@
 import { renderHook, act } from "@testing-library/react";
-import useControlledNumericInput from "./useControlledNumericInput";
+import useControlledNumericInput, {
+  UseControlledNumericInputProps,
+} from "./useControlledNumericInput";
+import React, { ChangeEvent } from "react";
+import { jest } from "@jest/globals";
 
 describe("useControlledNumericInput", (): void => {
   const maxValue: number = 100;
   const allowDecimals: boolean = false;
-  const propagateValue: jest.Mock = jest.fn();
+  const propagateValueMock: jest.Mock = jest.fn();
 
-  const setup = (options?: {
-    maxValue?: number;
-    allowDecimals?: boolean;
-  }): {
+  const setup = (
+    options?: Partial<UseControlledNumericInputProps>,
+  ): {
     result: {
-      current: { value: string; handleInputChange: (newValue: string) => void };
+      current: {
+        value: string;
+        handleInputChange: (
+          newValue: string,
+          event?: React.ChangeEvent<HTMLInputElement>,
+        ) => void;
+      };
     };
-    propagateValue: jest.Mock;
+    propagateValue: (
+      value: number,
+      event?: ChangeEvent<HTMLInputElement> | undefined,
+    ) => void | jest.Mock;
   } => {
+    const propagateValue: (
+      value: number,
+      event?: React.ChangeEvent<HTMLInputElement>,
+    ) => void = options?.propagateValue ?? propagateValueMock;
+
     const { result } = renderHook(() =>
       useControlledNumericInput({
         maxValue: options?.maxValue ?? maxValue,
@@ -43,15 +60,32 @@ describe("useControlledNumericInput", (): void => {
     expect(propagateValue).toHaveBeenCalledWith(42, undefined);
   });
 
-  it("calls propagateValue with 0 and resets value when input is empty", (): void => {
-    const { result, propagateValue } = setup();
+  it("calls propagateValue with 0 and resets value when input is empty and triggered by changeEvent", (): void => {
+    const { result, propagateValue } = setup({
+      propagateValue: propagateValueMock,
+    });
+    const eventMock: ChangeEvent<HTMLInputElement> =
+      jest.fn() as unknown as ChangeEvent<HTMLInputElement>;
 
     act((): void => {
-      result.current.handleInputChange("");
+      result.current.handleInputChange("", eventMock);
+    });
+
+    expect(result.current.value).toBe("0");
+    expect(propagateValue).toHaveBeenCalledWith(0, eventMock);
+  });
+
+  it("does not call propagateValue and resets value when input is empty and triggered without event", (): void => {
+    const { result, propagateValue } = setup({
+      propagateValue: propagateValueMock,
+    });
+
+    act((): void => {
+      result.current.handleInputChange("", undefined);
     });
 
     expect(result.current.value).toBe("");
-    expect(propagateValue).toHaveBeenCalledWith(0, undefined);
+    expect(propagateValue).not.toHaveBeenCalled();
   });
 
   it("calls propagateValue with 0 and resets value when input is 0", (): void => {
@@ -216,7 +250,7 @@ describe("useControlledNumericInput", (): void => {
       useControlledNumericInput({
         maxValue,
         allowDecimals: undefined,
-        propagateValue,
+        propagateValue: propagateValueMock,
       }),
     );
 
@@ -225,6 +259,6 @@ describe("useControlledNumericInput", (): void => {
     });
 
     expect(result.current.value).toBe("");
-    expect(propagateValue).not.toHaveBeenCalled();
+    expect(propagateValueMock).not.toHaveBeenCalled();
   });
 });

@@ -4,12 +4,12 @@ import { useBlurOnPointerUp } from "./useBlurOnPointerUp";
 describe("useBlurOnPointerUp", (): void => {
   const mockBlur: jest.Mock = jest.fn();
 
-  beforeAll(() => {
+  beforeAll((): void => {
     jest.useFakeTimers();
   });
 
-  afterAll(() => {
-    jest.useRealTimers(); // ← Wichtig fürs Zurücksetzen!
+  afterAll((): void => {
+    jest.useRealTimers();
   });
 
   it("blurs the referenced element after pointer up", (): void => {

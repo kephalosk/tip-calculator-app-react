@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store.ts";
 import calculateTotalAndTip from "@/globals/helper/calculateTotalAndTip.ts";
 import {
-  selectBillValue,
-  selectPeopleValue,
-  selectTipValue,
+  selectBillValueResult,
+  selectPeopleValueResult,
+  selectTipValueResult,
   useResultCalculations,
 } from "@/hooks/useResultCalculations.ts";
 import { EMPTY_STRING } from "@/globals/constants/constants.ts";
@@ -105,9 +105,9 @@ describe("useResultCalculations Hook", () => {
   );
 
   it.each([
-    ["bill", 100, selectBillValue],
-    ["tip", 100, selectTipValue],
-    ["people", 100, selectPeopleValue],
+    ["bill", 100, selectBillValueResult],
+    ["tip", 100, selectTipValueResult],
+    ["people", 100, selectPeopleValueResult],
   ])(
     "calls %s and returns the correct value from the store",
     (

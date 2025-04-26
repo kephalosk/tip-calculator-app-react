@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 
-interface UseControlledNumericInputProps {
+export interface UseControlledNumericInputProps {
   maxValue: number;
   propagateValue: (
     value: number,
@@ -68,10 +68,6 @@ const useControlledNumericInput = ({
         return removeLeadingZerosFromDecimal(value);
       }
 
-      if (value === "") {
-        return value;
-      }
-
       return value.replace(/^0+/, "") || "0";
     },
     [hasValueEndingPoint],
@@ -82,6 +78,11 @@ const useControlledNumericInput = ({
     event?: React.ChangeEvent<HTMLInputElement>,
   ) => void = useCallback(
     (newValue: string, event?: React.ChangeEvent<HTMLInputElement>): void => {
+      if (newValue === "" && !event) {
+        setValue("");
+        return;
+      }
+
       const rawValue: string = removePercentageSign(newValue);
       const rawValueWithoutLeadingZeros: string = removeLeadingZeros(rawValue);
 

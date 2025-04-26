@@ -9,15 +9,9 @@ interface UsePeopleUpdate {
 const usePeopleUpdate = (): UsePeopleUpdate => {
   const { updatePeopleValue } = usePeople();
   const [hasError, setHasError] = useState<boolean>(false);
-  const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
 
   const handlePeopleUpdate = useCallback(
     (newValue: number): void => {
-      if (isInitialRender) {
-        setIsInitialRender(false);
-        return;
-      }
-
       if (newValue === 0) {
         setHasError(true);
       } else {
@@ -25,7 +19,7 @@ const usePeopleUpdate = (): UsePeopleUpdate => {
       }
       updatePeopleValue(newValue);
     },
-    [isInitialRender, updatePeopleValue],
+    [updatePeopleValue],
   );
 
   return {

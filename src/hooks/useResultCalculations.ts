@@ -4,9 +4,9 @@ import { RootState } from "@/redux/store.ts";
 import calculateTotalAndTip from "@/globals/helper/calculateTotalAndTip.ts";
 import { EMPTY_STRING } from "@/globals/constants/constants.ts";
 
-export const selectTipValue = (state: RootState) => state.tip.value;
-export const selectBillValue = (state: RootState) => state.bill.value;
-export const selectPeopleValue = (state: RootState) => state.people.value;
+export const selectTipValueResult = (state: RootState) => state.tip.value;
+export const selectBillValueResult = (state: RootState) => state.bill.value;
+export const selectPeopleValueResult = (state: RootState) => state.people.value;
 
 export const useResultCalculations = (): {
   tipTotal: string;
@@ -15,9 +15,9 @@ export const useResultCalculations = (): {
   const [tipTotal, setTipTotal] = useState<string>("");
   const [totalSum, setTotalSum] = useState<string>("");
 
-  const billAmount: number = useSelector(selectBillValue);
-  const tipAmount: number = useSelector(selectTipValue);
-  const peopleCount: number = useSelector(selectPeopleValue);
+  const billAmount: number = useSelector(selectBillValueResult);
+  const tipAmount: number = useSelector(selectTipValueResult);
+  const peopleCount: number = useSelector(selectPeopleValueResult);
 
   useEffect((): void => {
     if (billAmount && tipAmount && peopleCount > 0) {
