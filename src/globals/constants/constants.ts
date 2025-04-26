@@ -19,3 +19,7 @@ export const PRICE_SECTION_LABEL_TEXT_TOTAL: string = "Total";
 export const PRICE_SECTION_DIVISOR_TEXT: string = "person";
 export const BUTTON_TEXT_RESET: string = "reset";
 export const BILL_ICON_ALT_TEXT: string = "Dollar Icon for Input Field";
+export const CALCULATE_TOTAL_AND_TIP_ERROR_MESSAGE: string =
+  "Invalid Input value for calculateTotalAndTip";
+export const EMPTY_PRICE_DECIMAL_STRING: string = "0.00";
+export const EMPTY_STRING: string = "";

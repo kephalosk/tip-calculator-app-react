@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { ReactNode } from "react";
 import {
+  EMPTY_PRICE_DECIMAL_STRING,
   PRICE_SECTION_DIVISOR_TEXT,
   PRICE_SECTION_LABEL_TEXT_AMOUNT,
 } from "@/globals/constants/constants.ts";
@@ -110,5 +111,17 @@ describe("PriceContainer", (): void => {
 
     expect(element).toBeInTheDocument();
     expect(PriceLabel).toHaveBeenCalledWith({ text: priceAmount }, undefined);
+  });
+
+  it("renders component PriceLabel with default priceAmount", (): void => {
+    setup({ priceAmount: "" });
+
+    const element: HTMLElement | null = screen.getByTestId(priceTestId);
+
+    expect(element).toBeInTheDocument();
+    expect(PriceLabel).toHaveBeenCalledWith(
+      { text: EMPTY_PRICE_DECIMAL_STRING },
+      undefined,
+    );
   });
 });
