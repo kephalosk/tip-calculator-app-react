@@ -1,10 +1,11 @@
 import { render } from "@testing-library/react";
 import PriceLabel from "./PriceLabel";
+import { EMPTY_PRICE_DECIMAL_STRING } from "@/globals/constants/constants.ts";
 
 global.console.warn = jest.fn();
 
 describe("PriceLabel Component", (): void => {
-  const text: string = "0.00";
+  const text: string = EMPTY_PRICE_DECIMAL_STRING;
 
   const testProps: { text: string } = {
     text,
@@ -61,13 +62,18 @@ describe("PriceLabel Component", (): void => {
   });
 
   it("sets the default text value if no text prop is provided", (): void => {
-    const { container } = render(<PriceLabel {...testProps} text="" />);
+    const { container } = render(
+      <PriceLabel {...testProps} text={undefined} />,
+    );
 
     const labelElement: HTMLElement | null =
       container.querySelector(".priceLabel");
 
-    expect(labelElement).toHaveTextContent("$");
-    expect(labelElement).toHaveAttribute("aria-label", "$");
+    expect(labelElement).toHaveTextContent(`$${EMPTY_PRICE_DECIMAL_STRING}`);
+    expect(labelElement).toHaveAttribute(
+      "aria-label",
+      `$${EMPTY_PRICE_DECIMAL_STRING}`,
+    );
   });
 
   it("does not re-render when the text prop does not change", (): void => {

@@ -3,7 +3,7 @@ import React, { ReactElement } from "react";
 import useControlledNumericInput from "@/hooks/useControlledNumericInput";
 import clsx from "clsx";
 import { useCursorPositionInCaseOfPercentage } from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
-import useInputReset from "@/hooks/useInputReset.ts";
+import useInputReset from "@/hooks/redux/useInputReset.ts";
 
 export interface InputProps {
   id: string;

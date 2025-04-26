@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import BillContainer from "./BillContainer";
 import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import {
+  BILL_ICON_ALT_TEXT,
   BILL_INPUT_ID,
   BILL_INPUT_NAME,
   BILL_LABEL,
@@ -34,15 +35,27 @@ jest.mock(
     )),
 );
 
-jest.mock("@/hooks/redux/useBill", () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+jest.mock(
+  "@/hooks/redux/useBill",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
 
-jest.mock("@/hooks/redux/useBillReset", () => ({
-  __esModule: true,
-  useBillReset: jest.fn(),
-}));
+jest.mock(
+  "@/hooks/redux/useBillReset",
+  (): {
+    __esModule: boolean;
+    useBillReset: jest.Mock;
+  } => ({
+    __esModule: true,
+    useBillReset: jest.fn(),
+  }),
+);
 
 describe("BillContainer", (): void => {
   const mockUpdateBillValue = jest.fn();
@@ -116,9 +129,8 @@ describe("BillContainer", (): void => {
   it("renders the dollar icon image with correct alt text", (): void => {
     render(<BillContainer />);
 
-    const imgElement: HTMLElement = screen.getByAltText(
-      "Dollar Icon for Input Field",
-    );
+    const imgElement: HTMLElement = screen.getByAltText(BILL_ICON_ALT_TEXT);
+
     expect(imgElement).toBeInTheDocument();
     expect(imgElement).toHaveAttribute(
       "src",
