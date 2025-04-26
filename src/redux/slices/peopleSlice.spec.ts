@@ -3,10 +3,9 @@ import peopleReducer, {
   resetPeopleValue,
   setPeopleValue,
 } from "./peopleSlice.ts";
-import billReducer, { BillState } from "@/redux/slices/billSlice.ts";
 
 describe("peopleSlice", (): void => {
-  const initialState: { value: number } = { value: 0 };
+  const initialState: { value: number } = { value: -1 };
 
   it("returns the initial state", (): void => {
     expect(peopleReducer(undefined, { type: "" })).toEqual(initialState);
@@ -35,17 +34,17 @@ describe("peopleSlice", (): void => {
 
   it("handles resetting the people value", (): void => {
     const action: { type: "people/resetPeopleValue" } = resetPeopleValue();
-    const nextState: BillState = billReducer(initialState, action);
+    const nextState: PeopleState = peopleReducer(initialState, action);
 
-    expect(nextState.value).toEqual(0);
+    expect(nextState.value).toEqual(-1);
   });
 
   it("handles resetting the people value multiple times", (): void => {
     const action: { type: "people/resetPeopleValue" } = resetPeopleValue();
-    const state1: BillState = billReducer(initialState, action);
-    const state2: BillState = billReducer(initialState, action);
+    const state1: PeopleState = peopleReducer(initialState, action);
+    const state2: PeopleState = peopleReducer(initialState, action);
 
-    expect(state1.value).toEqual(0);
-    expect(state2.value).toEqual(0);
+    expect(state1.value).toEqual(-1);
+    expect(state2.value).toEqual(-1);
   });
 });

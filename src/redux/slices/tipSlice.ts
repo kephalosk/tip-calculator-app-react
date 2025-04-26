@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface TipState {
-  tipValue: number;
+  value: number;
 }
 
 const initialState: TipState = {
-  tipValue: 0,
+  value: 0,
 };
 
 const tipSlice = createSlice({
@@ -13,10 +13,10 @@ const tipSlice = createSlice({
   initialState,
   reducers: {
     setTipValue(state, action: PayloadAction<number>) {
-      state.tipValue = action.payload;
+      state.value = action.payload;
     },
     resetTipValue: (state): void => {
-      state.tipValue = 0;
+      state.value = 0;
     },
   },
 });

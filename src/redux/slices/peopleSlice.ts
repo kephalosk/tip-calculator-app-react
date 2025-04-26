@@ -5,7 +5,7 @@ export interface PeopleState {
 }
 
 const initialState: PeopleState = {
-  value: 0,
+  value: -1,
 };
 
 const peopleSlice = createSlice({
@@ -16,7 +16,7 @@ const peopleSlice = createSlice({
       state.value = action.payload;
     },
     resetPeopleValue: (state): void => {
-      state.value = 0;
+      state.value = -1;
     },
   },
 });

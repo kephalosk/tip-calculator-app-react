@@ -28,7 +28,7 @@ const store: EnhancedStore<
 describe("tipSlice", (): void => {
   it("returns the initial state", () => {
     const initialState: TipState = {
-      tipValue: 0,
+      value: 0,
     };
 
     const state: TipState = store.getState().tip;
@@ -41,27 +41,27 @@ describe("tipSlice", (): void => {
 
     const state: TipState = store.getState().tip;
 
-    expect(state.tipValue).toEqual(0.15);
+    expect(state.value).toEqual(0.15);
   });
 
-  it("updates tipValue when setTipValue is called", (): void => {
+  it("updates value when setTipValue is called", (): void => {
     store.dispatch(setTipValue(0.1));
     const stateAfterFirstDispatch: TipState = store.getState().tip;
 
-    expect(stateAfterFirstDispatch.tipValue).toBe(0.1);
+    expect(stateAfterFirstDispatch.value).toBe(0.1);
 
     store.dispatch(setTipValue(0.25));
     const stateAfterSecondDispatch: TipState = store.getState().tip;
 
-    expect(stateAfterSecondDispatch.tipValue).toBe(0.25);
+    expect(stateAfterSecondDispatch.value).toBe(0.25);
   });
 
-  it("handles 0 as a valid tipValue", (): void => {
+  it("handles 0 as a valid value", (): void => {
     store.dispatch(setTipValue(0));
 
     const state: TipState = store.getState().tip;
 
-    expect(state.tipValue).toBe(0);
+    expect(state.value).toBe(0);
   });
 
   it("handles large numbers", (): void => {
@@ -69,7 +69,7 @@ describe("tipSlice", (): void => {
 
     const state: TipState = store.getState().tip;
 
-    expect(state.tipValue).toBe(1000);
+    expect(state.value).toBe(1000);
   });
 
   it("handles resetting the tip value", (): void => {
@@ -77,6 +77,6 @@ describe("tipSlice", (): void => {
 
     const state: TipState = store.getState().tip;
 
-    expect(state.tipValue).toEqual(0);
+    expect(state.value).toEqual(0);
   });
 });
