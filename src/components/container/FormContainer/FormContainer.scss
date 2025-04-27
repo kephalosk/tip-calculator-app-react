@@ -5,7 +5,7 @@
 .formContainer {
   border-radius: spaces.$radius-15px;
   background-color: colors.$white;
-  padding: spaces.$space-8px;
+  padding: 0 spaces.$space-8px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

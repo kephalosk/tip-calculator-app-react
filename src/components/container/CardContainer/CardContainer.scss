@@ -1,0 +1,23 @@
+@use '../../../styles/colors';
+@use '../../../styles/functions';
+@use '../../../styles/screens';
+@use '../../../styles/spaces';
+
+.cardContainer {
+  border-radius: spaces.$radius-25px spaces.$radius-25px 0 0;
+  background-color: colors.$white;
+  padding: spaces.$space-32px spaces.$space-24px;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  max-width: functions.to-rem(920px);
+  row-gap: spaces.$space-32px;
+
+  @include screens.tablet-and-up{
+    border-radius: spaces.$radius-25px;
+    padding: spaces.$space-24px;
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0, 50vw));
+    column-gap: spaces.$space-12px;
+  }
+}

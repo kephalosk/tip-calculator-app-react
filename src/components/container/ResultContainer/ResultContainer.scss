@@ -13,7 +13,7 @@
   height: 100%;
 
   @include screens.tablet-and-up{
-    padding: spaces.$space-54px spaces.$space-40px spaces.$space-40px spaces.$space-40px;
+    padding: spaces.$space-40px spaces.$space-32px spaces.$space-32px spaces.$space-32px;
     row-gap: spaces.$space-32px;
   }
 }

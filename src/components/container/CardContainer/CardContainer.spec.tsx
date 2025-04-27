@@ -1,18 +1,58 @@
-import { render } from "@testing-library/react";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store.ts";
-import App from "@/App.tsx";
+import { ReactElement } from "react";
+import { render, screen } from "@testing-library/react";
+import CardContainer from "@/components/container/CardContainer/CardContainer.tsx";
+import FormContainer from "@/components/container/FormContainer/FormContainer.tsx";
+import ResultContainer from "@/components/container/ResultContainer/ResultContainer.tsx";
 
-describe("App", (): void => {
-  it("renders App", (): void => {
-    const { container } = render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+const formContainerTestId: string = "form-container";
+jest.mock(
+  "@/components/container/FormContainer/FormContainer.tsx",
+  (): jest.Mock =>
+    jest.fn((): ReactElement => {
+      return <div data-testid={formContainerTestId}></div>;
+    }),
+);
 
-    const element: HTMLElement | null = container.querySelector(".app");
+const resultContainerTestId: string = "result-container";
+jest.mock(
+  "@/components/container/ResultContainer/ResultContainer.tsx",
+  (): jest.Mock =>
+    jest.fn((): ReactElement => {
+      return <div data-testid={resultContainerTestId}></div>;
+    }),
+);
+
+describe("CardContainer", (): void => {
+  const setup = (): { container: HTMLElement } => {
+    return render(<CardContainer />);
+  };
+
+  it("renders div cardContainer", (): void => {
+    const { container } = setup();
+
+    const element: HTMLElement | null =
+      container.querySelector(".cardContainer");
 
     expect(element).toBeInTheDocument();
+  });
+
+  it("renders component FormContainer", (): void => {
+    setup();
+
+    const element: HTMLElement | null = screen.getByTestId(formContainerTestId);
+
+    expect(element).toBeInTheDocument();
+    expect(FormContainer).toHaveBeenCalledWith({}, undefined);
+  });
+
+  it("renders component ResultContainer", (): void => {
+    setup();
+
+    const element: HTMLElement | null = screen.getByTestId(
+      resultContainerTestId,
+    );
+
+    expect(element).toBeInTheDocument();
+    expect(ResultContainer).toHaveBeenCalledWith({}, undefined);
   });
 });
