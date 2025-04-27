@@ -1,8 +1,11 @@
-import { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { setTipValue } from "@/redux/slices/tipSlice.ts";
 import { TipItem } from "@/globals/constants/TipItems.ts";
 import { Dispatch } from "@reduxjs/toolkit";
+import { RootState } from "@/redux/store.ts";
+
+export const selectTipValue = (state: RootState) => state.tip.value;
 
 export const useTipItems = (
   initialItems: TipItem[],
@@ -15,6 +18,8 @@ export const useTipItems = (
   const dispatch: Dispatch = useDispatch();
   const [tipItems, setTipItems] = useState<TipItem[]>(initialItems);
   const [triggerReset, setTriggerReset] = useState<boolean>(false);
+
+  const tipAmount: number = useSelector(selectTipValue);
 
   const handleTipItemClick = useCallback(
     (selectedValue: number): void => {
@@ -43,6 +48,13 @@ export const useTipItems = (
       ),
     );
   }, []);
+
+  useEffect((): void => {
+    if (tipAmount === 0) {
+      deactivateAllItems();
+      setTriggerReset((prevState: boolean) => !prevState);
+    }
+  }, [deactivateAllItems, dispatch, tipAmount]);
 
   return { tipItems, handleTipItemClick, triggerReset, deactivateAllItems };
 };
