@@ -18,6 +18,7 @@ export const PRICE_SECTION_LABEL_TEXT_AMOUNT: string = "Tip Amount";
 export const PRICE_SECTION_LABEL_TEXT_TOTAL: string = "Total";
 export const PRICE_SECTION_DIVISOR_TEXT: string = "person";
 export const BUTTON_TEXT_RESET: string = "reset";
+export const BUTTON_ARIA_LABEL_PREFIX: string = "button for: ";
 export const BILL_ICON_ALT_TEXT: string = "Dollar Icon for Input Field";
 export const LOGO_ICON_ALT_TEXT: string = "Logo Icon of Splitter";
 export const CALCULATE_TOTAL_AND_TIP_ERROR_MESSAGE: string =

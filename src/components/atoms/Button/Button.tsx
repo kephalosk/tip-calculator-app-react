@@ -2,15 +2,20 @@ import "./Button.scss";
 import React, { ReactElement, useRef } from "react";
 import { useBlurOnPointerUp, useKeyClickBypass } from "@/hooks";
 import clsx from "clsx";
+import { BUTTON_ARIA_LABEL_PREFIX } from "@/globals/constants/constants.ts";
 
-interface Props {
+export interface ButtonProps {
   text: string;
   handleButtonClick: () => void;
   isDisabled?: boolean;
 }
 
-const Button: React.FC<Props> = React.memo(
-  ({ text, handleButtonClick, isDisabled = false }: Props): ReactElement => {
+const Button: React.FC<ButtonProps> = React.memo(
+  ({
+    text,
+    handleButtonClick,
+    isDisabled = false,
+  }: ButtonProps): ReactElement => {
     const buttonRef: React.RefObject<HTMLButtonElement | null> =
       useRef<HTMLButtonElement>(null);
     const { handleClick, handleKeyDown } = useKeyClickBypass(handleButtonClick);
@@ -29,7 +34,7 @@ const Button: React.FC<Props> = React.memo(
                 handleKeyDown(event)
         }
         onMouseDown={isDisabled ? undefined : handlePointerUp}
-        aria-label={`button for: ${text}`}
+        aria-label={`${BUTTON_ARIA_LABEL_PREFIX}${text}`}
         aria-disabled={isDisabled}
         tabIndex={isDisabled ? -1 : 0}
         disabled={isDisabled}

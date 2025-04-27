@@ -27,13 +27,18 @@ body {
 }
 
 .appIcon {
-  width: 90px;
+  width: 5.625rem;
 }
 
 .attribution {
-  font-size: 12px;
+  margin-top: 0.75rem;
   text-align: center;
   color: hsl(183, 100%, 15%);
+  font-family: "Space Mono", sans-serif;
+  font-weight: bold;
+  font-size: clamp(0.75rem, 0.45rem + 0.6vw, 1.5rem);
+  line-height: clamp(1.1875rem, 0.7125rem + 0.6vw, 2.375rem);
+  letter-spacing: 0;
 }
 
 .attribution a {

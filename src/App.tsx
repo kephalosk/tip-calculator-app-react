@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import CardContainer from "@/components/container/CardContainer/CardContainer.tsx";
 import { LOGO_ICON_SRC } from "@/globals/constants/ressources.ts";
 import { LOGO_ICON_ALT_TEXT } from "@/globals/constants/constants.ts";

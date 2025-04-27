@@ -1,9 +1,10 @@
 @use 'colors';
+@use 'fonts';
 @use 'functions';
 @use 'screens';
 @use 'spaces';
 
-$app-max-width: functions.to-rem(1140px);
+$app-icon-width: functions.to-rem(90px);
 
 * {
   margin: 0;
@@ -33,13 +34,15 @@ body {
 }
 
 .appIcon {
-  width: 90px;
+  width: $app-icon-width;
 }
 
 .attribution {
-  font-size: 12px;
+  margin-top: spaces.$space-12px;
   text-align: center;
   color: colors.$green-900;
+
+  @include fonts.text-preset-5;
 }
 
 .attribution a {

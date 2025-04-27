@@ -3,6 +3,9 @@
 @use '../../../styles/functions';
 @use '../../../styles/spaces';
 
+$border-thickness: functions.to-rem(1px);
+$transition-duration: 0.2s;
+
 .button {
   padding: spaces.$space-8px spaces.$space-16px ;
   width: 100%;
@@ -11,32 +14,32 @@
   text-transform: uppercase;
   color: colors.$green-900;
   transition:
-          border 0.2s ease,
-          background-color 0.2s ease;
+          border $transition-duration ease,
+          background-color $transition-duration ease;
 
   @include fonts.text-preset-3;
 }
 .button:hover {
-  border: functions.to-rem(1px) solid colors.$green-200;
+  border: $border-thickness solid colors.$green-200;
   background-color: colors.$green-200;
   outline: none;
   box-shadow: none;
 }
 .button:focus {
-  border: functions.to-rem(1px) solid colors.$green-200;
+  border: $border-thickness solid colors.$green-200;
   background-color: colors.$green-200;
   outline: none;
   box-shadow: none;
 }
 .button:focus-visible {
-  border: functions.to-rem(1px) solid colors.$white;
+  border: $border-thickness solid colors.$white;
   background-color: colors.$green-200;
   outline: none;
   box-shadow: none;
 }
 
 .button.disabled {
-  border: functions.to-rem(1px) solid colors.$green-600;
+  border: $border-thickness solid colors.$green-600;
   background-color: colors.$green-600;
   cursor: not-allowed;
 }
