@@ -1,6 +1,6 @@
 import { render, act } from "@testing-library/react";
 import { jest } from "@jest/globals";
-import useInputReset from "./useInputReset.ts";
+import { useInputReset } from "./useInputReset.ts";
 
 const handleInputChangeMock: jest.Mock = jest.fn();
 

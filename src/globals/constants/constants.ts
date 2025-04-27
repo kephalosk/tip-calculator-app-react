@@ -25,3 +25,6 @@ export const CALCULATE_TOTAL_AND_TIP_ERROR_MESSAGE: string =
   "Invalid Input value for calculateTotalAndTip";
 export const EMPTY_PRICE_DECIMAL_STRING: string = "0.00";
 export const EMPTY_STRING: string = "";
+export const INPUT_ARIA_LABEL_PREFIX: string = "Input field for ";
+export const REGEXP_FOR_WHOLE_NUMBERS: string = "^\\d*$";
+export const REGEXP_FOR_DECIMALS: string = "^\\d+(\\.\\d{0,2})?$";

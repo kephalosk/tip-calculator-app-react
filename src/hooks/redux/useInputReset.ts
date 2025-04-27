@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const useInputReset = (
+export const useInputReset = (
   triggerReset: boolean,
   handleInputChange: (value: string) => void,
 ): void => {
@@ -8,5 +8,3 @@ const useInputReset = (
     handleInputChange("");
   }, [triggerReset]);
 };
-
-export default useInputReset;

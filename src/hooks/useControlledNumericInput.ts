@@ -9,7 +9,7 @@ export interface UseControlledNumericInputProps {
   allowDecimals?: boolean;
 }
 
-const useControlledNumericInput = ({
+export const useControlledNumericInput = ({
   maxValue,
   propagateValue,
   allowDecimals = false,
@@ -145,5 +145,3 @@ const useControlledNumericInput = ({
     handleInputChange,
   };
 };
-
-export default useControlledNumericInput;

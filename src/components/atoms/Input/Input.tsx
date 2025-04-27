@@ -1,9 +1,14 @@
 import "./Input.scss";
 import React, { ReactElement } from "react";
-import useControlledNumericInput from "@/hooks/useControlledNumericInput";
+import { useControlledNumericInput } from "@/hooks/useControlledNumericInput";
 import clsx from "clsx";
 import { useCursorPositionInCaseOfPercentage } from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
-import useInputReset from "@/hooks/redux/useInputReset.ts";
+import { useInputReset } from "@/hooks/redux/useInputReset.ts";
+import {
+  INPUT_ARIA_LABEL_PREFIX,
+  REGEXP_FOR_DECIMALS,
+  REGEXP_FOR_WHOLE_NUMBERS,
+} from "@/globals/constants/constants.ts";
 
 export interface InputProps {
   id: string;
@@ -57,8 +62,10 @@ const Input: React.FC<InputProps> = React.memo(
           handleCursorPosition((event.target as HTMLInputElement).value)
         }
         inputMode="decimal"
-        pattern={allowDecimals ? "^\\d+(\\.\\d{0,2})?$" : "^\\d*$"}
-        aria-label={placeholder ? undefined : `Input field for ${name}`}
+        pattern={allowDecimals ? REGEXP_FOR_DECIMALS : REGEXP_FOR_WHOLE_NUMBERS}
+        aria-label={
+          placeholder ? undefined : `${INPUT_ARIA_LABEL_PREFIX}${name}`
+        }
         aria-invalid={hasError}
         autoComplete="off"
       />
