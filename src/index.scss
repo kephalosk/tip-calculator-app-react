@@ -1,3 +1,5 @@
+@use './styles/colors';
+
 :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -12,7 +14,7 @@
 }
 
 a {
-  color: hsl(228, 45%, 60%);
+  color: colors.$attribution;
   text-decoration: inherit;
 }
 
@@ -22,5 +24,3 @@ body {
   place-items: center;
   min-height: 100vh;
 }
-
-/*# sourceMappingURL=index.css.map */
