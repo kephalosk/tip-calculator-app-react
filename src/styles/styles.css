@@ -16,6 +16,18 @@ body {
 .app {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 2.5rem;
+}
+@media (min-width: 47.5rem) {
+  .app {
+    row-gap: 5rem;
+  }
+}
+
+.appIcon {
+  width: 90px;
 }
 
 .attribution {

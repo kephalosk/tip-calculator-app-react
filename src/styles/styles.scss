@@ -23,6 +23,17 @@ body {
 .app {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: spaces.$space-40px;
+
+  @include screens.tablet-and-up{
+    row-gap: spaces.$space-80px;
+  }
+}
+
+.appIcon {
+  width: 90px;
 }
 
 .attribution {

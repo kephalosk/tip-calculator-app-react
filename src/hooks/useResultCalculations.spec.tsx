@@ -85,7 +85,6 @@ describe("useResultCalculations Hook", () => {
 
   it.each([
     ["bill", 0],
-    ["tip", 0],
     ["people", -1],
   ])(
     "does not call calculateTotalAndTip if %s is %s",

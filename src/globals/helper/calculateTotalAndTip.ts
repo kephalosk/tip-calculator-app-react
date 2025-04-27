@@ -8,7 +8,7 @@ const calculateTotalAndTip = (
   tipAmount: number,
   peopleCount: number,
 ): { tipTotal: string; totalSum: string } => {
-  if (billAmount <= 0 || tipAmount <= 0 || peopleCount <= 0) {
+  if (billAmount <= 0 || tipAmount < 0 || peopleCount <= 0) {
     console.error(CALCULATE_TOTAL_AND_TIP_ERROR_MESSAGE);
     return {
       tipTotal: EMPTY_PRICE_DECIMAL_STRING,

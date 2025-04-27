@@ -20,7 +20,7 @@ export const useResultCalculations = (): {
   const peopleCount: number = useSelector(selectPeopleValueResult);
 
   useEffect((): void => {
-    if (billAmount && tipAmount && peopleCount > 0) {
+    if (billAmount && peopleCount > 0) {
       const { tipTotal, totalSum } = calculateTotalAndTip(
         billAmount,
         tipAmount,
