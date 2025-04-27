@@ -11,7 +11,7 @@ import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import { TIP_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
-import { useTipItems } from "@/hooks/useTipItems.ts";
+import { useTipItems } from "@/hooks/redux/useTipItems.ts";
 import { useInputValue } from "@/hooks/redux/useInputValue.ts";
 
 const TipContainer: () => ReactElement = (): ReactElement => {

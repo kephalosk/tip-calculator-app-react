@@ -1,5 +1,5 @@
 import { render, act } from "@testing-library/react";
-import { useTipItems } from "./useTipItems"; // Dein Hook-Pfad
+import { useTipItems } from "./useTipItems.ts"; // Dein Hook-Pfad
 import { setTipValue } from "@/redux/slices/tipSlice.ts";
 import { useDispatch } from "react-redux";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";

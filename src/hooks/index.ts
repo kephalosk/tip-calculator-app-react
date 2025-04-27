@@ -3,7 +3,7 @@ export * from "./useControlledNumericInput";
 export * from "./useCursorPositionInCaseOfPercentage";
 export * from "./useKeyClickBypass";
 export * from "./useResultCalculations";
-export * from "./useTipItems";
+export * from "./redux/useTipItems.ts";
 export * from "./redux/useBill";
 export * from "./redux/useBillReset";
 export * from "./redux/useInputReset";

@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import TipContainer from "./TipContainer";
-import { useTipItems } from "@/hooks/useTipItems";
+import { useTipItems } from "@/hooks/redux/useTipItems.ts";
 import { useInputValue } from "@/hooks/redux/useInputValue.ts";
 import { useDispatch } from "react-redux";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
@@ -47,7 +47,7 @@ jest.mock(
     )),
 );
 
-jest.mock("@/hooks/useTipItems", (): { useTipItems: jest.Mock } => ({
+jest.mock("@/hooks/redux/useTipItems.ts", (): { useTipItems: jest.Mock } => ({
   useTipItems: jest.fn(),
 }));
 
