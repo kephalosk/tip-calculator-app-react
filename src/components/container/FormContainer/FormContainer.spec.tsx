@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react";
 import { ReactNode } from "react";
 import BillContainer from "@/components/container/BillContainer/BillContainer.tsx";
 import FormContainer from "@/components/container/FormContainer/FormContainer.tsx";
+import PeopleContainer from "@/components/container/PeopleContainer/PeopleContainer.tsx";
+import TipContainer from "@/components/container/TipContainer/TipContainer.tsx";
 
 const billContainerTestId: string = "bill-container";
 jest.mock(
@@ -25,13 +27,12 @@ jest.mock(
 );
 
 describe("FormContainer", (): void => {
-  const setup = (): HTMLElement => {
-    const { container } = render(<FormContainer />);
-    return container;
+  const setup = (): { container: HTMLElement } => {
+    return render(<FormContainer />);
   };
 
   it("renders div formContainer", (): void => {
-    const container: HTMLElement = setup();
+    const { container } = setup();
 
     const element: HTMLElement | null =
       container.querySelector(".formContainer");
@@ -45,6 +46,7 @@ describe("FormContainer", (): void => {
     const element: HTMLElement | null = screen.getByTestId(billContainerTestId);
 
     expect(element).toBeInTheDocument();
+    expect(BillContainer).toHaveBeenCalledTimes(1);
     expect(BillContainer).toHaveBeenCalledWith({}, undefined);
   });
 
@@ -54,7 +56,8 @@ describe("FormContainer", (): void => {
     const element: HTMLElement | null = screen.getByTestId(tipContainerTestId);
 
     expect(element).toBeInTheDocument();
-    expect(BillContainer).toHaveBeenCalledWith({}, undefined);
+    expect(TipContainer).toHaveBeenCalledTimes(1);
+    expect(TipContainer).toHaveBeenCalledWith({}, undefined);
   });
 
   it("renders component PeopleContainer", (): void => {
@@ -65,6 +68,7 @@ describe("FormContainer", (): void => {
     );
 
     expect(element).toBeInTheDocument();
-    expect(BillContainer).toHaveBeenCalledWith({}, undefined);
+    expect(PeopleContainer).toHaveBeenCalledTimes(1);
+    expect(PeopleContainer).toHaveBeenCalledWith({}, undefined);
   });
 });

@@ -42,6 +42,7 @@ describe("CardContainer", (): void => {
     const element: HTMLElement | null = screen.getByTestId(formContainerTestId);
 
     expect(element).toBeInTheDocument();
+    expect(FormContainer).toHaveBeenCalledTimes(1);
     expect(FormContainer).toHaveBeenCalledWith({}, undefined);
   });
 
@@ -53,6 +54,7 @@ describe("CardContainer", (): void => {
     );
 
     expect(element).toBeInTheDocument();
+    expect(ResultContainer).toHaveBeenCalledTimes(1);
     expect(ResultContainer).toHaveBeenCalledWith({}, undefined);
   });
 });
