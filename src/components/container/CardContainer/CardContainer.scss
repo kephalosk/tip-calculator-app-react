@@ -3,21 +3,25 @@
 @use '../../../styles/screens';
 @use '../../../styles/spaces';
 
+$card-max-width: functions.to-rem(920px);
+$visible-screen-width: 100vw;
+$half-visible-screen-width: 50vw;
+
 .cardContainer {
   border-radius: spaces.$radius-25px spaces.$radius-25px 0 0;
   background-color: colors.$white;
   padding: spaces.$space-32px spaces.$space-24px;
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  max-width: functions.to-rem(920px);
+  width: $visible-screen-width;
+  max-width: $card-max-width;
   row-gap: spaces.$space-32px;
 
   @include screens.tablet-and-up{
     border-radius: spaces.$radius-25px;
     padding: spaces.$space-24px;
     display: grid;
-    grid-template-columns: repeat(2,minmax(0, 50vw));
+    grid-template-columns: repeat(2,minmax(0, $half-visible-screen-width));
     column-gap: spaces.$space-12px;
   }
 }

@@ -1,9 +1,9 @@
 import "./CardContainer.scss";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import FormContainer from "@/components/container/FormContainer/FormContainer.tsx";
 import ResultContainer from "@/components/container/ResultContainer/ResultContainer.tsx";
 
-const CardContainer = (): ReactElement => {
+const CardContainer: React.FC = (): ReactElement => {
   return (
     <div className="cardContainer">
       <FormContainer />

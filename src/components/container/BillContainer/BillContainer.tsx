@@ -1,5 +1,5 @@
 import "./BillContainer.scss";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import {
@@ -13,7 +13,7 @@ import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { DOLLAR_ICON_SRC } from "@/globals/constants/ressources.ts";
 import { useBillReset } from "@/hooks/redux/useBillReset.ts";
 
-const BillContainer: () => ReactElement = (): ReactElement => {
+const BillContainer: React.FC = (): ReactElement => {
   const { updateBillValue } = useBill();
   const { triggerReset } = useBillReset();
 
