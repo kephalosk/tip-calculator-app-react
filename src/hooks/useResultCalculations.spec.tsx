@@ -2,11 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store.ts";
 import calculateTotalAndTip from "@/globals/helper/calculateTotalAndTip.ts";
-import {
+import useResultCalculations, {
   selectBillValueResult,
   selectPeopleValueResult,
   selectTipValueResult,
-  useResultCalculations,
 } from "@/hooks/useResultCalculations.ts";
 import { EMPTY_STRING } from "@/globals/constants/constants.ts";
 

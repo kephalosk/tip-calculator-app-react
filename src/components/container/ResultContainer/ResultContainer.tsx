@@ -7,8 +7,8 @@ import {
   PRICE_SECTION_LABEL_TEXT_AMOUNT,
   PRICE_SECTION_LABEL_TEXT_TOTAL,
 } from "@/globals/constants/constants.ts";
-import { useResultCalculations } from "@/hooks/useResultCalculations.ts";
-import { useResetFields } from "@/hooks/redux/useResetFields.ts";
+import useResultCalculations from "@/hooks/useResultCalculations.ts";
+import useResetFields from "@/hooks/redux/useResetFields.ts";
 
 const ResultContainer = (): ReactElement => {
   const { tipTotal, totalSum } = useResultCalculations();

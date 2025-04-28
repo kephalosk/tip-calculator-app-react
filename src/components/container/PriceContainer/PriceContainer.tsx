@@ -1,5 +1,5 @@
 import "./PriceContainer.scss";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import Label from "@/components/atoms/Label/Label.tsx";
 import {
   EMPTY_PRICE_DECIMAL_STRING,
@@ -12,7 +12,7 @@ export interface PriceContainerProps {
   priceAmount: string;
 }
 
-const PriceContainer = ({
+const PriceContainer: React.FC<PriceContainerProps> = ({
   priceType,
   priceAmount,
 }: PriceContainerProps): ReactElement => {

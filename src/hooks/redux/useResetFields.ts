@@ -5,7 +5,7 @@ import { resetBillValue } from "@/redux/slices/billSlice.ts";
 import { resetPeopleValue } from "@/redux/slices/peopleSlice.ts";
 import { resetTipValue } from "@/redux/slices/tipSlice.ts";
 
-export const useResetFields = (): (() => void) => {
+const useResetFields = (): (() => void) => {
   const dispatch: AppDispatch = useDispatch();
 
   return useCallback(() => {
@@ -14,3 +14,5 @@ export const useResetFields = (): (() => void) => {
     dispatch(resetPeopleValue());
   }, [dispatch]);
 };
+
+export default useResetFields;

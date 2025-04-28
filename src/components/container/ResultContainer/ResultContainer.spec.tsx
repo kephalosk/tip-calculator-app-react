@@ -1,10 +1,10 @@
 import PriceContainer from "@/components/container/PriceContainer/PriceContainer.tsx";
 import Button from "@/components/atoms/Button/Button.tsx";
 import { ReactElement } from "react";
-import { useResultCalculations } from "@/hooks/useResultCalculations.ts";
+import useResultCalculations from "@/hooks/useResultCalculations.ts";
 import { render, screen } from "@testing-library/react";
 import ResultContainer from "@/components/container/ResultContainer/ResultContainer.tsx";
-import { useResetFields } from "@/hooks/redux/useResetFields.ts";
+import useResetFields from "@/hooks/redux/useResetFields.ts";
 import {
   BUTTON_TEXT_RESET,
   PRICE_SECTION_LABEL_TEXT_AMOUNT,
@@ -15,8 +15,8 @@ const priceContainerTestId: string = "price-container";
 jest.mock(
   "@/components/container/PriceContainer/PriceContainer.tsx",
   (): jest.Mock =>
-    jest.fn((): ReactElement => {
-      return <div data-testid={priceContainerTestId}></div>;
+    jest.fn((props): ReactElement => {
+      return <div data-testid={priceContainerTestId}>{props.priceType}</div>;
     }),
 );
 
@@ -33,10 +33,10 @@ jest.mock(
   "@/hooks/useResultCalculations.ts",
   (): {
     __esModule: boolean;
-    useResultCalculations: jest.Mock;
+    default: jest.Mock;
   } => ({
     __esModule: true,
-    useResultCalculations: jest.fn(),
+    default: jest.fn(),
   }),
 );
 
@@ -44,10 +44,10 @@ jest.mock(
   "@/hooks/redux/useResetFields.ts",
   (): {
     __esModule: boolean;
-    useResetFields: jest.Mock;
+    default: jest.Mock;
   } => ({
     __esModule: true,
-    useResetFields: jest.fn(),
+    default: jest.fn(),
   }),
 );
 
@@ -59,13 +59,20 @@ describe("ResultContainer", (): void => {
 
   const tipTotal: string = "10.00";
   const totalSum: string = "110.00";
+  const useResultCalculationsMock: {
+    tipTotal: string;
+    totalSum: string;
+  } = {
+    tipTotal,
+    totalSum,
+  };
+
   const resetAllFieldsMock: jest.Mock = jest.fn();
 
   beforeEach((): void => {
-    (useResultCalculations as jest.Mock).mockReturnValue({
-      tipTotal,
-      totalSum,
-    });
+    (useResultCalculations as jest.Mock).mockReturnValue(
+      useResultCalculationsMock,
+    );
     (useResetFields as jest.Mock).mockReturnValue(resetAllFieldsMock);
   });
 
@@ -81,9 +88,12 @@ describe("ResultContainer", (): void => {
   it("renders component PriceContainer for tipTotal", (): void => {
     setup();
 
-    const elements: HTMLElement[] = screen.getAllByTestId(priceContainerTestId);
+    const element: HTMLElement = screen.getByText(
+      PRICE_SECTION_LABEL_TEXT_AMOUNT,
+    );
 
-    expect(elements).toHaveLength(2);
+    expect(element).toBeInTheDocument();
+    expect(PriceContainer).toHaveBeenCalledTimes(2);
     expect(PriceContainer).toHaveBeenNthCalledWith(
       1,
       { priceAmount: tipTotal, priceType: PRICE_SECTION_LABEL_TEXT_AMOUNT },
@@ -104,9 +114,11 @@ describe("ResultContainer", (): void => {
   it("renders component PriceContainer for totalSum", (): void => {
     setup();
 
-    const elements: HTMLElement[] = screen.getAllByTestId(priceContainerTestId);
+    const element: HTMLElement = screen.getByText(
+      PRICE_SECTION_LABEL_TEXT_TOTAL,
+    );
 
-    expect(elements).toHaveLength(2);
+    expect(element).toBeInTheDocument();
     expect(PriceContainer).toHaveBeenNthCalledWith(
       2,
       { priceAmount: totalSum, priceType: PRICE_SECTION_LABEL_TEXT_TOTAL },
@@ -120,6 +132,7 @@ describe("ResultContainer", (): void => {
     const element: HTMLElement = screen.getByTestId(buttonTestId);
 
     expect(element).toBeInTheDocument();
+    expect(Button).toHaveBeenCalledTimes(1);
     expect(Button).toHaveBeenCalledWith(
       {
         handleButtonClick: resetAllFieldsMock,

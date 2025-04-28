@@ -1,5 +1,5 @@
 import "./PeopleContainer.scss";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import {
@@ -15,7 +15,7 @@ import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
 import usePeopleUpdate from "@/hooks/redux/usePeopleUpdate.ts";
 import { usePeopleReset } from "@/hooks/redux/usePeopleReset.ts";
 
-const PeopleContainer: () => ReactElement = (): ReactElement => {
+const PeopleContainer: React.FC = (): ReactElement => {
   const { hasError, handlePeopleUpdate } = usePeopleUpdate();
   const { triggerReset } = usePeopleReset();
 

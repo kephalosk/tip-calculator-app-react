@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { resetBillValue } from "@/redux/slices/billSlice.ts";
 import { resetTipValue } from "@/redux/slices/tipSlice.ts";
 import { resetPeopleValue } from "@/redux/slices/peopleSlice.ts";
-import { useResetFields } from "@/hooks/redux/useResetFields.ts";
+import useResetFields from "@/hooks/redux/useResetFields.ts";
 import { ReactElement } from "react";
 
 jest.mock(

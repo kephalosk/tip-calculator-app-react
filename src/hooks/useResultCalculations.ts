@@ -8,7 +8,7 @@ export const selectTipValueResult = (state: RootState) => state.tip.value;
 export const selectBillValueResult = (state: RootState) => state.bill.value;
 export const selectPeopleValueResult = (state: RootState) => state.people.value;
 
-export const useResultCalculations = (): {
+const useResultCalculations = (): {
   tipTotal: string;
   totalSum: string;
 } => {
@@ -36,3 +36,5 @@ export const useResultCalculations = (): {
 
   return { tipTotal, totalSum };
 };
+
+export default useResultCalculations;
