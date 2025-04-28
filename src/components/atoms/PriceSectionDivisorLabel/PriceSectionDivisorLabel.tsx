@@ -1,29 +1,35 @@
 import "./PriceSectionDivisorLabel.scss";
 import React, { ReactElement } from "react";
 import {
-  LABEL_TEXT_EMPTY_MESSAGE,
+  EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT,
+  EMPTY_STRING,
   PRICE_SECTION_DEVISOR_PREFIX,
 } from "@/globals/constants/constants.ts";
+import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
 
-interface Props extends React.HTMLProps<HTMLLabelElement> {
+export interface PriceSectionDivisorLabelProps
+  extends React.HTMLProps<HTMLLabelElement> {
   text?: string;
 }
 
-const PriceSectionDivisorLabel: React.FC<Props> = React.memo(
-  ({ text = "" }: Props): ReactElement => {
-    if (!text && process.env.NODE_ENV === "development") {
-      console.warn(LABEL_TEXT_EMPTY_MESSAGE);
-    }
+const PriceSectionDivisorLabel: React.FC<PriceSectionDivisorLabelProps> =
+  React.memo(
+    ({ text = EMPTY_STRING }: PriceSectionDivisorLabelProps): ReactElement => {
+      useWarnIfEmptyText(text);
 
-    return (
-      <label
-        className="priceSectionDivisorLabel"
-        aria-label={`${PRICE_SECTION_DEVISOR_PREFIX} ${text}`}
-      >
-        {`${PRICE_SECTION_DEVISOR_PREFIX} ${text}`}
-      </label>
-    );
-  },
-);
+      return (
+        <label
+          className="priceSectionDivisorLabel"
+          aria-label={
+            text === EMPTY_STRING
+              ? EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT
+              : `${PRICE_SECTION_DEVISOR_PREFIX} ${text}`
+          }
+        >
+          {`${PRICE_SECTION_DEVISOR_PREFIX} ${text}`}
+        </label>
+      );
+    },
+  );
 
 export default PriceSectionDivisorLabel;

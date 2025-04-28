@@ -1,5 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import PriceSectionLabel from "./PriceSectionLabel";
+import {
+  ENVIRONMENT_DEVELOPMENT,
+  ENVIRONMENT_PRODUCTION,
+} from "@/globals/constants/constants.ts";
 
 global.console.warn = jest.fn();
 
@@ -11,7 +15,7 @@ describe("PriceSectionLabel Component", (): void => {
   };
 
   afterEach((): void => {
-    process.env.NODE_ENV = "development";
+    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
   });
 
   it("renders correctly with text", () => {
@@ -35,7 +39,7 @@ describe("PriceSectionLabel Component", (): void => {
   });
 
   it("renders correctly with empty text and shows a warning in development mode", (): void => {
-    process.env.NODE_ENV = "development";
+    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
     const { container } = render(<PriceSectionLabel {...testProps} text="" />);
 
     const labelElement: HTMLElement | null =
@@ -47,7 +51,7 @@ describe("PriceSectionLabel Component", (): void => {
   });
 
   it("does not show a warning in production mode if text is empty", (): void => {
-    process.env.NODE_ENV = "production";
+    process.env.NODE_ENV = ENVIRONMENT_PRODUCTION;
     const { container } = render(<PriceSectionLabel {...testProps} text="" />);
 
     const labelElement: HTMLElement | null =

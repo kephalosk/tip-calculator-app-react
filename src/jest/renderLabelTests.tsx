@@ -5,23 +5,31 @@ import {
   EMPTY_LABEL_TEXT,
   EMPTY_PRICE_DECIMAL_STRING,
   EMPTY_PRICE_LABEL_TEXT,
+  PRICE_SECTION_DEVISOR_PREFIX,
+  EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT,
 } from "@/globals/constants/constants.ts";
 import React from "react";
 import { LabelProps } from "@/components/atoms/Label/Label.tsx";
 import { PriceLabelProps } from "@/components/atoms/PriceLabel/PriceLabel.tsx";
+import { PriceSectionDivisorLabelProps } from "@/components/atoms/PriceSectionDivisorLabel/PriceSectionDivisorLabel.tsx";
 
 export enum LabelType {
   LABEL = "label",
   PRICE_LABEL = "priceLabel",
+  PRICE_SECTION_DIVISOR_LABEL = "priceSectionDivisorLabel",
 }
 
 const renderLabelTests = (
   Component: React.ElementType,
   labelType: LabelType,
   text: string,
-  defaultProps: LabelProps | PriceLabelProps,
+  defaultProps: LabelProps | PriceLabelProps | PriceSectionDivisorLabelProps,
 ): void => {
-  const setup = (propsOverride?: Partial<LabelProps | PriceLabelProps>) => {
+  const setup = (
+    propsOverride?: Partial<
+      LabelProps | PriceLabelProps | PriceSectionDivisorLabelProps
+    >,
+  ) => {
     const props: LabelProps | PriceLabelProps = {
       ...defaultProps,
       ...propsOverride,
@@ -74,6 +82,8 @@ function getExpectedText(labelType: LabelType, text: string): string {
       return text;
     case LabelType.PRICE_LABEL:
       return `$${text}`;
+    case LabelType.PRICE_SECTION_DIVISOR_LABEL:
+      return `${PRICE_SECTION_DEVISOR_PREFIX} ${text}`;
   }
 }
 
@@ -83,6 +93,8 @@ function getExpectedDefaultText(labelType: LabelType): string {
       return EMPTY_STRING;
     case LabelType.PRICE_LABEL:
       return `$${EMPTY_PRICE_DECIMAL_STRING}`;
+    case LabelType.PRICE_SECTION_DIVISOR_LABEL:
+      return `${PRICE_SECTION_DEVISOR_PREFIX}`;
   }
 }
 
@@ -92,6 +104,8 @@ function getExpectedDefaultAriaLabel(labelType: LabelType): string {
       return EMPTY_LABEL_TEXT;
     case LabelType.PRICE_LABEL:
       return EMPTY_PRICE_LABEL_TEXT;
+    case LabelType.PRICE_SECTION_DIVISOR_LABEL:
+      return EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT;
   }
 }
 

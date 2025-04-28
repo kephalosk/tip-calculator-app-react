@@ -1,113 +1,28 @@
-import { render } from "@testing-library/react";
-import PriceSectionDivisorLabel from "./PriceSectionDivisorLabel";
-import {
-  LABEL_TEXT_EMPTY_MESSAGE,
-  PRICE_SECTION_DEVISOR_PREFIX,
-} from "@/globals/constants/constants.ts";
+import { PriceSectionDivisorLabelProps } from "./PriceSectionDivisorLabel";
+import renderLabelTests, { LabelType } from "@/jest/renderLabelTests.tsx";
+import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabel/PriceSectionDivisorLabel.tsx";
 
-global.console.warn = jest.fn();
+jest.mock(
+  "@/hooks/useWarnIfEmptyText",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
 
 describe("PriceSectionDivisorLabel Component", (): void => {
-  const text: string = "person";
-
-  const testProps: { text: string } = {
-    text,
+  const defaultText: string = "person";
+  const defaultProps: PriceSectionDivisorLabelProps = {
+    text: defaultText,
   };
 
-  afterEach((): void => {
-    process.env.NODE_ENV = "development";
-  });
-
-  it("renders correctly with text", () => {
-    const { container } = render(<PriceSectionDivisorLabel {...testProps} />);
-
-    const labelElement: HTMLElement | null = container.querySelector(
-      ".priceSectionDivisorLabel",
-    );
-
-    expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveAttribute(
-      "aria-label",
-      `${PRICE_SECTION_DEVISOR_PREFIX} ${text}`,
-    );
-  });
-
-  it("renders with default empty text", () => {
-    const { container } = render(
-      <PriceSectionDivisorLabel {...testProps} text={undefined} />,
-    );
-
-    const labelElement: HTMLElement | null = container.querySelector(
-      ".priceSectionDivisorLabel",
-    );
-
-    expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
-  });
-
-  it("renders correctly with empty text and shows a warning in development mode", (): void => {
-    process.env.NODE_ENV = "development";
-    const { container } = render(
-      <PriceSectionDivisorLabel {...testProps} text="" />,
-    );
-
-    const labelElement: HTMLElement | null = container.querySelector(
-      ".priceSectionDivisorLabel",
-    );
-
-    expect(labelElement).toHaveAttribute(
-      "aria-label",
-      `${PRICE_SECTION_DEVISOR_PREFIX} `,
-    );
-    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
-    expect(console.warn).toHaveBeenCalledWith(LABEL_TEXT_EMPTY_MESSAGE);
-  });
-
-  it("does not show a warning in production mode if text is empty", (): void => {
-    process.env.NODE_ENV = "production";
-    const { container } = render(
-      <PriceSectionDivisorLabel {...testProps} text="" />,
-    );
-
-    const labelElement: HTMLElement | null = container.querySelector(
-      ".priceSectionDivisorLabel",
-    );
-
-    expect(labelElement).toHaveAttribute(
-      "aria-label",
-      `${PRICE_SECTION_DEVISOR_PREFIX} `,
-    );
-    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it("sets the default text value if no text prop is provided", (): void => {
-    const { container } = render(
-      <PriceSectionDivisorLabel {...testProps} text="" />,
-    );
-
-    const labelElement: HTMLElement | null = container.querySelector(
-      ".priceSectionDivisorLabel",
-    );
-
-    expect(labelElement).toHaveTextContent(PRICE_SECTION_DEVISOR_PREFIX);
-    expect(labelElement).toHaveAttribute(
-      "aria-label",
-      `${PRICE_SECTION_DEVISOR_PREFIX} `,
-    );
-  });
-
-  it("does not re-render when the text prop does not change", (): void => {
-    const { container, rerender } = render(
-      <PriceSectionDivisorLabel {...testProps} text={text} />,
-    );
-
-    const labelElement: HTMLElement | null = container.querySelector(
-      ".priceSectionDivisorLabel",
-    );
-    const initialRender: HTMLElement | null = labelElement;
-    rerender(<PriceSectionDivisorLabel text={text} />);
-
-    expect(labelElement).toBe(initialRender);
-  });
+  renderLabelTests(
+    PriceSectionDivisorLabel,
+    LabelType.PRICE_SECTION_DIVISOR_LABEL,
+    defaultText,
+    defaultProps,
+  );
 });

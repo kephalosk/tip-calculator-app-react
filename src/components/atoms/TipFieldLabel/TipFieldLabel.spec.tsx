@@ -1,6 +1,10 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import TipFieldLabel from "./TipFieldLabel";
 import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
+import {
+  ENVIRONMENT_DEVELOPMENT,
+  ENVIRONMENT_PRODUCTION,
+} from "@/globals/constants/constants.ts";
 
 jest.mock(
   "@/hooks/useKeyClickBypass",
@@ -41,7 +45,7 @@ describe("TipFieldLabel Component", (): void => {
   });
 
   afterEach((): void => {
-    process.env.NODE_ENV = "development";
+    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
     cleanup();
   });
 
@@ -92,14 +96,14 @@ describe("TipFieldLabel Component", (): void => {
   });
 
   it("warns in development mode if text is empty", (): void => {
-    process.env.NODE_ENV = "development";
+    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
     render(<TipFieldLabel {...testProps} text="" />);
 
     expect(console.warn).toHaveBeenCalledWith("Label text is empty!");
   });
 
   it("does not warn if text is empty in production mode", (): void => {
-    process.env.NODE_ENV = "production";
+    process.env.NODE_ENV = ENVIRONMENT_PRODUCTION;
     render(<TipFieldLabel {...testProps} text="" />);
 
     expect(console.warn).not.toHaveBeenCalled();

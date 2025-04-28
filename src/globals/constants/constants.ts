@@ -27,7 +27,11 @@ export const EMPTY_PRICE_DECIMAL_STRING: string = "0.00";
 export const EMPTY_STRING: string = "";
 export const EMPTY_LABEL_TEXT: string = "Empty Label";
 export const EMPTY_PRICE_LABEL_TEXT: string = "Empty Price Label";
+export const EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT: string =
+  "Empty Price Section Devisor Label";
 export const INPUT_ARIA_LABEL_PREFIX: string = "Input field for ";
 export const REGEXP_FOR_WHOLE_NUMBERS: string = "^\\d*$";
 export const REGEXP_FOR_DECIMALS: string = "^\\d+(\\.\\d{0,2})?$";
 export const EMPTY_TEXT_WARNING_MESSAGE: string = "Label text is empty!";
+export const ENVIRONMENT_DEVELOPMENT: string = "development";
+export const ENVIRONMENT_PRODUCTION: string = "production";
