@@ -16,25 +16,23 @@ import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
 import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
 
-const headlineTestId: string = "headline-label";
+const headlineLabelTestId: string = "headline-label";
 jest.mock(
   "@/components/label/HeadlineLabel/HeadlineLabel",
   (): jest.Mock =>
     jest.fn(
       (props): ReactNode => (
-        <div data-testid={headlineTestId}>{props.text}</div>
+        <div data-testid={headlineLabelTestId}>{props.text}</div>
       ),
     ),
 );
 
-const errorTestId: string = "error-label";
+const errorLabelTestId: string = "error-label";
 jest.mock(
   "@/components/label/ErrorLabel/ErrorLabel.tsx",
   (): jest.Mock =>
     jest.fn((props) => (
-      <label data-testid={errorTestId} className={errorTestId}>
-        {props.text}
-      </label>
+      <label data-testid={errorLabelTestId}>{props.text}</label>
     )),
 );
 
@@ -75,10 +73,12 @@ jest.mock(
 );
 
 describe("PeopleContainer", (): void => {
+  const setup = (): { container: HTMLElement } => {
+    return render(<PeopleContainer />);
+  };
+
   const hasError: boolean = false;
   const handlePeopleUpdateMock: jest.Mock = jest.fn();
-  const triggerReset: boolean = false;
-
   const usePeopleUpdateMock: {
     hasError: boolean;
     handlePeopleUpdate: jest.Mock;
@@ -87,6 +87,7 @@ describe("PeopleContainer", (): void => {
     handlePeopleUpdate: handlePeopleUpdateMock,
   };
 
+  const triggerReset: boolean = false;
   const usePeopleResetMock: {
     triggerReset: boolean;
   } = {
@@ -99,7 +100,7 @@ describe("PeopleContainer", (): void => {
   });
 
   it("renders div peopleContainer", (): void => {
-    const { container } = render(<PeopleContainer />);
+    const { container } = setup();
 
     const headlineLabel: HTMLElement | null =
       container.querySelector(".peopleContainer");
@@ -108,7 +109,7 @@ describe("PeopleContainer", (): void => {
   });
 
   it("renders div peopleContainerHeader", (): void => {
-    const { container } = render(<PeopleContainer />);
+    const { container } = setup();
 
     const headlineLabel: HTMLElement | null = container.querySelector(
       ".peopleContainerHeader",
@@ -118,9 +119,9 @@ describe("PeopleContainer", (): void => {
   });
 
   it("renders the HeadlineLabel with correct text", (): void => {
-    render(<PeopleContainer />);
+    setup();
 
-    const headlineLabel: HTMLElement = screen.getByTestId(headlineTestId);
+    const headlineLabel: HTMLElement = screen.getByTestId(headlineLabelTestId);
 
     expect(headlineLabel).toBeInTheDocument();
     expect(HeadlineLabel).toHaveBeenCalledWith(
@@ -134,9 +135,9 @@ describe("PeopleContainer", (): void => {
       ...usePeopleUpdateMock,
       hasError: true,
     });
-    render(<PeopleContainer />);
+    setup();
 
-    const errorLabel: HTMLElement = screen.getByTestId(errorTestId);
+    const errorLabel: HTMLElement = screen.getByTestId(errorLabelTestId);
 
     expect(errorLabel).toBeInTheDocument();
     expect(ErrorLabel).toHaveBeenCalledWith(
@@ -150,16 +151,17 @@ describe("PeopleContainer", (): void => {
       ...usePeopleUpdateMock,
       hasError: false,
     });
-    const { container } = render(<PeopleContainer />);
+    setup();
 
-    const headlineLabel: HTMLElement | null =
-      container.querySelector(errorTestId);
-    expect(headlineLabel).not.toBeInTheDocument();
+    const errorLabel: HTMLElement | null =
+      screen.queryByTestId(errorLabelTestId);
+
+    expect(errorLabel).not.toBeInTheDocument();
     expect(ErrorLabel).not.toHaveBeenCalled();
   });
 
   it("renders span peopleContainerInput", (): void => {
-    const { container } = render(<PeopleContainer />);
+    const { container } = setup();
 
     const headlineLabel: HTMLElement | null = container.querySelector(
       ".peopleContainerInput",
@@ -169,7 +171,7 @@ describe("PeopleContainer", (): void => {
   });
 
   it("renders the Input component with correct props", (): void => {
-    render(<PeopleContainer />);
+    setup();
 
     const inputElement: HTMLElement = screen.getByTestId(inputTestId);
 
@@ -189,7 +191,7 @@ describe("PeopleContainer", (): void => {
   });
 
   it("renders the dollar icon image with correct alt text", (): void => {
-    const { container } = render(<PeopleContainer />);
+    const { container } = setup();
 
     const imgElement: HTMLElement | null = container.querySelector(
       ".peopleContainerInputIcon",
@@ -202,7 +204,7 @@ describe("PeopleContainer", (): void => {
   });
 
   it("calls handlePeopleUpdate when input value changes", (): void => {
-    render(<PeopleContainer />);
+    setup();
 
     const input: HTMLElement = screen.getByTestId(inputTestId);
     fireEvent.change(input, { target: { value: PEOPLE_INPUT_MAX_VALUE } });
@@ -211,5 +213,19 @@ describe("PeopleContainer", (): void => {
       `${PEOPLE_INPUT_MAX_VALUE}`,
       expect.any(Object),
     );
+  });
+
+  it("calls hook usePeopleUpdate", (): void => {
+    setup();
+
+    expect(usePeopleUpdate).toHaveBeenCalledTimes(1);
+    expect(usePeopleUpdate).toHaveBeenCalledWith();
+  });
+
+  it("calls hook usePeopleReset", (): void => {
+    setup();
+
+    expect(usePeopleReset).toHaveBeenCalledTimes(1);
+    expect(usePeopleReset).toHaveBeenCalledWith();
   });
 });
