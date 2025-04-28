@@ -1,12 +1,11 @@
 import "./PriceContainer.scss";
 import { ReactElement } from "react";
-import PriceLabel from "@/components/atoms/PriceLabel/PriceLabel.tsx";
-import PriceSectionLabel from "@/components/atoms/PriceSectionLabel/PriceSectionLabel.tsx";
-import PriceSectionDivisorLabel from "@/components/atoms/PriceSectionDivisorLabel/PriceSectionDivisorLabel.tsx";
+import Label from "@/components/atoms/Label/Label.tsx";
 import {
   EMPTY_PRICE_DECIMAL_STRING,
   PRICE_SECTION_DIVISOR_TEXT,
 } from "@/globals/constants/constants.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
 
 export interface PriceContainerProps {
   priceType: string;
@@ -20,10 +19,14 @@ const PriceContainer = ({
   return (
     <div className="priceContainer">
       <div className="priceContainerSection">
-        <PriceSectionLabel text={priceType} />
-        <PriceSectionDivisorLabel text={PRICE_SECTION_DIVISOR_TEXT} />
+        <Label type={LabelTypeEnum.PRICE_SECTION_LABEL} text={priceType} />
+        <Label
+          type={LabelTypeEnum.PRICE_SECTION_DIVISOR_LABEL}
+          text={PRICE_SECTION_DIVISOR_TEXT}
+        />
       </div>
-      <PriceLabel
+      <Label
+        type={LabelTypeEnum.PRICE_LABEL}
         text={priceAmount.length ? priceAmount : EMPTY_PRICE_DECIMAL_STRING}
       />
     </div>

@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import ErrorLabel from "./ErrorLabel.tsx";
 import Label from "@/components/atoms/Label/Label.tsx";
+import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
 
 jest.mock("@/components/atoms/Label/Label.tsx", () => ({
   __esModule: true,
@@ -21,6 +22,11 @@ describe("ErrorLabel Component", (): void => {
 
     const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toBeInTheDocument();
+    expect(Label).toHaveBeenCalledTimes(1);
+    expect(Label).toHaveBeenCalledWith(
+      { type: LabelTypeEnum.LABEL, text },
+      undefined,
+    );
   });
 
   it("applies the correct class to the span element", (): void => {

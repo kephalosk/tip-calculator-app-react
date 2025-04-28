@@ -3,6 +3,7 @@ import React, { ReactElement } from "react";
 import clsx from "clsx";
 import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
 import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
+import { EMPTY_STRING } from "@/globals/constants/constants.ts";
 
 export interface TipFieldLabelProps extends React.HTMLProps<HTMLLabelElement> {
   text?: string;
@@ -12,7 +13,7 @@ export interface TipFieldLabelProps extends React.HTMLProps<HTMLLabelElement> {
 
 const TipFieldLabel: React.FC<TipFieldLabelProps> = React.memo(
   ({
-    text = "",
+    text = EMPTY_STRING,
     isActive = false,
     propagateChange,
   }: TipFieldLabelProps): ReactElement => {
