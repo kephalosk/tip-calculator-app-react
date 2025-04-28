@@ -1,9 +1,9 @@
 import { render, act } from "@testing-library/react";
-import { selectTipValue, useTipItems } from "@/hooks";
 import { setTipValue } from "@/redux/slices/tipSlice.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
 import { RootState } from "@/redux/store.ts";
+import { selectTipValue, useTipItems } from "@/hooks/redux/useTipItems.ts";
 
 jest.mock(
   "react-redux",

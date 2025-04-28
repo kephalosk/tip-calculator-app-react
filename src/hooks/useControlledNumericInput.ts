@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 
-export interface UseControlledNumericInputProps {
+interface UseControlledNumericInputProps {
   maxValue: number;
   propagateValue: (
     value: number,
@@ -9,7 +9,7 @@ export interface UseControlledNumericInputProps {
   allowDecimals?: boolean;
 }
 
-export const useControlledNumericInput = ({
+const useControlledNumericInput = ({
   maxValue,
   propagateValue,
   allowDecimals = false,
@@ -145,3 +145,6 @@ export const useControlledNumericInput = ({
     handleInputChange,
   };
 };
+
+export default useControlledNumericInput;
+export type { UseControlledNumericInputProps };

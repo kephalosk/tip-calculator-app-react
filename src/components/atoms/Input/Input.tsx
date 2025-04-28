@@ -1,9 +1,9 @@
 import "./Input.scss";
 import React, { ReactElement } from "react";
-import { useControlledNumericInput } from "@/hooks/useControlledNumericInput";
+import useControlledNumericInput from "@/hooks/useControlledNumericInput";
 import clsx from "clsx";
-import { useCursorPositionInCaseOfPercentage } from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
-import { useInputReset } from "@/hooks/redux/useInputReset.ts";
+import useCursorPositionInCaseOfPercentage from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
+import useInputReset from "@/hooks/redux/useInputReset.ts";
 import {
   INPUT_ARIA_LABEL_PREFIX,
   REGEXP_FOR_DECIMALS,

@@ -1,8 +1,8 @@
 import { fireEvent, render } from "@testing-library/react";
 import Input, { InputProps } from "./Input";
-import { useCursorPositionInCaseOfPercentage } from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
-import { useControlledNumericInput } from "@/hooks/useControlledNumericInput.ts";
-import { useInputReset } from "@/hooks/redux/useInputReset.ts";
+import useCursorPositionInCaseOfPercentage from "@/hooks/useCursorPositionInCaseOfPercentage.ts";
+import useControlledNumericInput from "@/hooks/useControlledNumericInput.ts";
+import useInputReset from "@/hooks/redux/useInputReset.ts";
 import {
   INPUT_ARIA_LABEL_PREFIX,
   REGEXP_FOR_DECIMALS,
@@ -13,10 +13,10 @@ jest.mock(
   "@/hooks/useControlledNumericInput",
   (): {
     __esModule: boolean;
-    useControlledNumericInput: jest.Mock;
+    default: jest.Mock;
   } => ({
     __esModule: true,
-    useControlledNumericInput: jest.fn(),
+    default: jest.fn(),
   }),
 );
 
@@ -24,10 +24,10 @@ jest.mock(
   "@/hooks/useCursorPositionInCaseOfPercentage",
   (): {
     __esModule: boolean;
-    useCursorPositionInCaseOfPercentage: jest.Mock;
+    default: jest.Mock;
   } => ({
     __esModule: true,
-    useCursorPositionInCaseOfPercentage: jest.fn(),
+    default: jest.fn(),
   }),
 );
 
@@ -35,10 +35,10 @@ jest.mock(
   "@/hooks/redux/useInputReset.ts",
   (): {
     __esModule: boolean;
-    useInputReset: jest.Mock;
+    default: jest.Mock;
   } => ({
     __esModule: true,
-    useInputReset: jest.fn(),
+    default: jest.fn(),
   }),
 );
 

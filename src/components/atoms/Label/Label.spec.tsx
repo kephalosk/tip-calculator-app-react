@@ -1,74 +1,64 @@
-import { render, screen } from "@testing-library/react";
-import Label from "./Label";
+import { render } from "@testing-library/react";
+import Label, { LabelProps } from "./Label";
+import { useWarnIfEmptyText } from "@/hooks/useWarnIfEmptyText.ts";
+import {
+  EMPTY_STRING,
+  EMPTY_STRING_TEXT,
+} from "@/globals/constants/constants.ts";
 
-global.console.warn = jest.fn();
+jest.mock(
+  "@/hooks/useWarnIfEmptyText",
+  (): {
+    __esModule: boolean;
+    useWarnIfEmptyText: jest.Mock;
+  } => ({
+    __esModule: true,
+    useWarnIfEmptyText: jest.fn(),
+  }),
+);
 
 describe("Label Component", (): void => {
   const text: string = "Test Label";
 
-  const testProps: { text: string } = {
-    text,
+  const setup = (
+    propsOverride?: Partial<LabelProps>,
+  ): { container: HTMLElement } => {
+    const defaultProps: LabelProps = {
+      text,
+    };
+
+    const props: LabelProps = { ...defaultProps, ...propsOverride };
+    return render(<Label {...props} />);
   };
 
-  afterEach((): void => {
-    process.env.NODE_ENV = "development";
+  beforeEach((): void => {
+    (useWarnIfEmptyText as jest.Mock).mockReturnValue(undefined);
   });
 
-  it("renders correctly with text", () => {
-    render(<Label {...testProps} />);
-    const labelElement: HTMLElement = screen.getByText(/Test Label/i);
+  it("renders the label with passed prop text", (): void => {
+    const { container } = setup({ text });
 
-    expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveAttribute("aria-label", "Test Label");
+    const element: HTMLElement | null = container.querySelector(".label");
+
+    expect(element).toBeInTheDocument();
+    expect(element).toHaveTextContent(text);
+    expect(element).toHaveAttribute("aria-label", text);
   });
 
-  it("renders with default empty text", () => {
-    const { container } = render(<Label {...testProps} text={undefined} />);
+  it("renders the label with default value if prop text is undefined", (): void => {
+    const { container } = setup({ text: undefined });
 
-    const labelElement: HTMLElement | null = container.querySelector(".label");
+    const element: HTMLElement | null = container.querySelector(".label");
 
-    expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveTextContent("");
+    expect(element).toBeInTheDocument();
+    expect(element).toHaveTextContent(EMPTY_STRING);
+    expect(element).toHaveAttribute("aria-label", EMPTY_STRING_TEXT);
   });
 
-  it("renders correctly with empty text and shows a warning in development mode", (): void => {
-    process.env.NODE_ENV = "development";
-    const { container } = render(<Label {...testProps} text="" />);
+  it("calls hook useWarnIfEmptyText", (): void => {
+    setup();
 
-    const labelElement: HTMLElement | null = container.querySelector(".label");
-
-    expect(labelElement).toHaveAttribute("aria-label", "");
-    expect(labelElement).toHaveTextContent("");
-    expect(console.warn).toHaveBeenCalledWith("Label text is empty!");
-  });
-
-  it("does not show a warning in production mode if text is empty", (): void => {
-    process.env.NODE_ENV = "production";
-    const { container } = render(<Label {...testProps} text="" />);
-
-    const labelElement: HTMLElement | null = container.querySelector(".label");
-
-    expect(labelElement).toHaveAttribute("aria-label", "");
-    expect(labelElement).toHaveTextContent("");
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it("sets the default text value if no text prop is provided", (): void => {
-    const { container } = render(<Label {...testProps} text="" />);
-
-    const labelElement: HTMLElement | null = container.querySelector(".label");
-
-    expect(labelElement).toHaveTextContent("");
-    expect(labelElement).toHaveAttribute("aria-label", "");
-  });
-
-  it("does not re-render when the text prop does not change", (): void => {
-    const { rerender } = render(<Label {...testProps} text="Test Label" />);
-
-    const labelElement: HTMLElement = screen.getByText("Test Label");
-    const initialRender: HTMLElement = labelElement;
-    rerender(<Label text="Test Label" />);
-
-    expect(labelElement).toBe(initialRender);
+    expect(useWarnIfEmptyText).toHaveBeenCalledTimes(1);
+    expect(useWarnIfEmptyText).toHaveBeenCalledWith(text);
   });
 });

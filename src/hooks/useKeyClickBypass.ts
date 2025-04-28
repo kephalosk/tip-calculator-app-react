@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from "react";
 
-export const useKeyClickBypass = (
+const useKeyClickBypass = (
   action: () => void,
   triggerKey: string = "Enter",
 ): {
@@ -29,3 +29,5 @@ export const useKeyClickBypass = (
 
   return { handleKeyDown, handleClick };
 };
+
+export default useKeyClickBypass;

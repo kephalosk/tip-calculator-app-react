@@ -1,18 +1,28 @@
 import { fireEvent, render } from "@testing-library/react";
 import Button, { ButtonProps } from "./Button.tsx";
-import { useBlurOnPointerUp, useKeyClickBypass } from "@/hooks";
 import { BUTTON_ARIA_LABEL_PREFIX } from "@/globals/constants/constants.ts";
+import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
+import useBlurOnPointerUp from "@/hooks/useBlurOnPointerUp.ts";
 
 jest.mock(
-  "@/hooks",
+  "@/hooks/useKeyClickBypass",
   (): {
     __esModule: boolean;
-    useKeyClickBypass: jest.Mock;
-    useBlurOnPointerUp: jest.Mock;
+    default: jest.Mock;
   } => ({
     __esModule: true,
-    useKeyClickBypass: jest.fn(),
-    useBlurOnPointerUp: jest.fn(),
+    default: jest.fn(),
+  }),
+);
+
+jest.mock(
+  "@/hooks/useBlurOnPointerUp",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
   }),
 );
 

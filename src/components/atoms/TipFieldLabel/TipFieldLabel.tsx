@@ -1,7 +1,7 @@
 import "./TipFieldLabel.scss";
 import React, { ReactElement } from "react";
 import clsx from "clsx";
-import { useKeyClickBypass } from "@/hooks";
+import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
 
 interface Props extends React.HTMLProps<HTMLLabelElement> {
   text?: string;

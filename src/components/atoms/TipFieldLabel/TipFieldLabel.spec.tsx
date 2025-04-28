@@ -1,15 +1,15 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import TipFieldLabel from "./TipFieldLabel";
-import { useKeyClickBypass } from "@/hooks";
+import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
 
 jest.mock(
-  "@/hooks",
+  "@/hooks/useKeyClickBypass",
   (): {
     __esModule: boolean;
-    useKeyClickBypass: jest.Mock;
+    default: jest.Mock;
   } => ({
     __esModule: true,
-    useKeyClickBypass: jest.fn(),
+    default: jest.fn(),
   }),
 );
 

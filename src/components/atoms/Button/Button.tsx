@@ -1,8 +1,9 @@
 import "./Button.scss";
 import React, { ReactElement, useRef } from "react";
-import { useBlurOnPointerUp, useKeyClickBypass } from "@/hooks";
 import clsx from "clsx";
 import { BUTTON_ARIA_LABEL_PREFIX } from "@/globals/constants/constants.ts";
+import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
+import useBlurOnPointerUp from "@/hooks/useBlurOnPointerUp.ts";
 
 export interface ButtonProps {
   text: string;

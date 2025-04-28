@@ -1,6 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import {
-  useControlledNumericInput,
+import useControlledNumericInput, {
   UseControlledNumericInputProps,
 } from "./useControlledNumericInput";
 import React, { ChangeEvent } from "react";

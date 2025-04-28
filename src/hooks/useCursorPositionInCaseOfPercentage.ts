@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react";
 
-export const useCursorPositionInCaseOfPercentage = (
+const useCursorPositionInCaseOfPercentage = (
   withPercentageSign: boolean,
 ): {
   handleCursorPosition: (currentValue: string) => void;
@@ -33,3 +33,5 @@ export const useCursorPositionInCaseOfPercentage = (
     handleCursorPosition,
   };
 };
+
+export default useCursorPositionInCaseOfPercentage;

@@ -1,0 +1,7 @@
+import { EMPTY_TEXT_WARNING_MESSAGE } from "@/globals/constants/constants.ts";
+
+export const useWarnIfEmptyText = (text: string): void => {
+  if (!text && process.env.NODE_ENV === "development") {
+    console.warn(EMPTY_TEXT_WARNING_MESSAGE);
+  }
+};

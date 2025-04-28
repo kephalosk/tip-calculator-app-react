@@ -1,5 +1,5 @@
 import { screen, render, fireEvent } from "@testing-library/react";
-import { useKeyClickBypass } from "./useKeyClickBypass";
+import useKeyClickBypass from "./useKeyClickBypass";
 
 const TestComponent = ({ action }: { action: () => void }) => {
   const { handleKeyDown, handleClick } = useKeyClickBypass(action);

@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { useCursorPositionInCaseOfPercentage } from "./useCursorPositionInCaseOfPercentage";
+import useCursorPositionInCaseOfPercentage from "./useCursorPositionInCaseOfPercentage";
 import waitForTimeout from "@/globals/utils/waitForTimeout.ts";
 import React from "react";
 

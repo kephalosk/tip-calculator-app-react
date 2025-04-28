@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { useBlurOnPointerUp } from "./useBlurOnPointerUp";
+import useBlurOnPointerUp from "./useBlurOnPointerUp";
 
 describe("useBlurOnPointerUp", (): void => {
   const mockBlur: jest.Mock = jest.fn();
