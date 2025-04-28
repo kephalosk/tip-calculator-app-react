@@ -11,23 +11,27 @@ import Input from "@/components/atoms/Input/Input.tsx";
 import React, { ReactNode } from "react";
 import useBill from "@/hooks/redux/useBill.ts";
 import { useBillReset } from "@/hooks/redux/useBillReset.ts";
+import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
+import { DOLLAR_ICON_SRC } from "@/globals/constants/ressources.ts";
 
+const headlineLabelTestId: string = "headline-label";
 jest.mock(
   "@/components/label/HeadlineLabel/HeadlineLabel",
   (): jest.Mock =>
     jest.fn(
       (props): ReactNode => (
-        <div data-testid="headline-label">{props.text}</div>
+        <div data-testid={headlineLabelTestId}>{props.text}</div>
       ),
     ),
 );
 
+const inputTestId: string = "input";
 jest.mock(
   "@/components/atoms/Input/Input",
   (): jest.Mock =>
     jest.fn((props) => (
       <input
-        data-testid="input"
+        data-testid={inputTestId}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           props.propagateValue(e.target.value, e)
         }
@@ -58,11 +62,15 @@ jest.mock(
 );
 
 describe("BillContainer", (): void => {
-  const mockUpdateBillValue = jest.fn();
+  const setup = (): { container: HTMLElement } => {
+    return render(<BillContainer />);
+  };
+
+  const UpdateBillValueMock: jest.Mock = jest.fn();
 
   beforeEach((): void => {
     (useBill as jest.Mock).mockReturnValue({
-      updateBillValue: mockUpdateBillValue,
+      updateBillValue: UpdateBillValueMock,
     });
     (useBillReset as jest.Mock).mockReturnValue({
       triggerReset: false,
@@ -70,7 +78,7 @@ describe("BillContainer", (): void => {
   });
 
   it("renders div billContainer", (): void => {
-    const { container } = render(<BillContainer />);
+    const { container } = setup();
 
     const headlineLabel: HTMLElement | null =
       container.querySelector(".billContainer");
@@ -79,14 +87,16 @@ describe("BillContainer", (): void => {
   });
 
   it("renders the HeadlineLabel with correct text", (): void => {
-    render(<BillContainer />);
+    setup();
 
-    const headlineLabel: HTMLElement = screen.getByText(BILL_LABEL);
+    const headlineLabel: HTMLElement = screen.getByTestId(headlineLabelTestId);
     expect(headlineLabel).toBeInTheDocument();
+    expect(HeadlineLabel).toHaveBeenCalledTimes(1);
+    expect(HeadlineLabel).toHaveBeenCalledWith({ text: BILL_LABEL }, undefined);
   });
 
   it("renders span billContainerInput", (): void => {
-    const { container } = render(<BillContainer />);
+    const { container } = setup();
 
     const headlineLabel: HTMLElement | null = container.querySelector(
       ".billContainerInput",
@@ -98,7 +108,7 @@ describe("BillContainer", (): void => {
   it("renders the Input component with correct props", (): void => {
     render(<BillContainer />);
 
-    const inputElement: HTMLElement = screen.getByRole("textbox");
+    const inputElement: HTMLElement = screen.getByTestId(inputTestId);
 
     expect(inputElement).toBeInTheDocument();
     expect(Input).toHaveBeenCalledWith(
@@ -114,27 +124,42 @@ describe("BillContainer", (): void => {
     );
   });
 
+  it("renders the dollar icon image with correct alt text", (): void => {
+    const { container } = setup();
+
+    const imgElement: HTMLElement | null = container.querySelector(
+      ".billContainerInputIcon",
+    );
+
+    expect(imgElement).toBeInTheDocument();
+    expect(imgElement).toHaveAttribute("src", DOLLAR_ICON_SRC);
+    expect(imgElement).toHaveAttribute("alt", BILL_ICON_ALT_TEXT);
+    expect(imgElement).toHaveAttribute("aria-hidden", "true");
+  });
+
   it("calls updateBillValue when input value changes", (): void => {
     render(<BillContainer />);
 
-    const input: HTMLElement = screen.getByRole("textbox");
-    fireEvent.change(input, { target: { value: BILL_INPUT_MAX_VALUE } });
+    const inputElement: HTMLElement = screen.getByTestId(inputTestId);
+    fireEvent.change(inputElement, { target: { value: BILL_INPUT_MAX_VALUE } });
 
-    expect(mockUpdateBillValue).toHaveBeenCalledWith(
+    expect(UpdateBillValueMock).toHaveBeenCalledWith(
       `${BILL_INPUT_MAX_VALUE}`,
       expect.any(Object),
     );
   });
 
-  it("renders the dollar icon image with correct alt text", (): void => {
-    render(<BillContainer />);
+  it("calls hook useBill", (): void => {
+    setup();
 
-    const imgElement: HTMLElement = screen.getByAltText(BILL_ICON_ALT_TEXT);
+    expect(useBill).toHaveBeenCalledTimes(1);
+    expect(useBill).toHaveBeenCalledWith();
+  });
 
-    expect(imgElement).toBeInTheDocument();
-    expect(imgElement).toHaveAttribute(
-      "src",
-      "src/assets/images/icon-dollar.svg",
-    );
+  it("calls hook useBillReset", (): void => {
+    setup();
+
+    expect(useBillReset).toHaveBeenCalledTimes(1);
+    expect(useBillReset).toHaveBeenCalledWith();
   });
 });
