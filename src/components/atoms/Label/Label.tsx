@@ -1,9 +1,9 @@
 import "./Label.scss";
 import React, { ReactElement } from "react";
-import { useWarnIfEmptyText } from "@/hooks/useWarnIfEmptyText.ts";
+import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
 import {
   EMPTY_STRING,
-  EMPTY_STRING_TEXT,
+  EMPTY_LABEL_TEXT,
 } from "@/globals/constants/constants.ts";
 
 export interface LabelProps extends React.HTMLProps<HTMLLabelElement> {
@@ -15,7 +15,7 @@ const Label: React.FC<LabelProps> = React.memo(
     useWarnIfEmptyText(text);
 
     return (
-      <label className="label" aria-label={text ? text : EMPTY_STRING_TEXT}>
+      <label className="label" aria-label={text ? text : EMPTY_LABEL_TEXT}>
         {text}
       </label>
     );

@@ -4,8 +4,11 @@
 @use '../../../styles/screens';
 @use '../../../styles/spaces';
 
+$border-thickness: functions.to-rem(2px);
+$transition-duration: 0.2s;
+
 .input {
-  border: functions.to-rem(2px) solid colors.$grey-50;
+  border: $border-thickness solid colors.$grey-50;
   border-radius: spaces.$radius-5px;
   background-color: colors.$grey-50;
   padding: spaces.$space-4px spaces.$space-12px;
@@ -15,7 +18,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: colors.$grey-200;
-  transition: border 0.2s ease;
+  transition: border $transition-duration ease;
 
   @include fonts.text-preset-2;
 
@@ -24,22 +27,22 @@
   }
 }
 .input:hover {
-  border: functions.to-rem(2px) solid colors.$green-400;
+  border: $border-thickness solid colors.$green-400;
 }
 .input:focus, .input:focus-visible {
-  border: functions.to-rem(2px) solid colors.$green-900;
+  border: $border-thickness solid colors.$green-900;
   outline: none;
 }
 .input::placeholder {
   color: colors.$grey-500;
 }
 .input.error {
-  border: functions.to-rem(2px) solid colors.$red;
+  border: $border-thickness solid colors.$red;
 }
 .input.error:hover {
-  border: functions.to-rem(2px) solid colors.$red;
+  border: $border-thickness solid colors.$red;
 }
 .input.error:focus, .input.error:focus-visible {
-  border: functions.to-rem(2px) solid colors.$red;
+  border: $border-thickness solid colors.$red;
   outline: none;
 }

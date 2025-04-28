@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { useWarnIfEmptyText } from "@/hooks/useWarnIfEmptyText.ts";
+import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
 import { render } from "@testing-library/react";
 import { EMPTY_TEXT_WARNING_MESSAGE } from "@/globals/constants/constants.ts";
 

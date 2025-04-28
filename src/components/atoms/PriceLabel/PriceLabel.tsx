@@ -1,19 +1,28 @@
 import "./PriceLabel.scss";
 import React, { ReactElement } from "react";
-import { EMPTY_PRICE_DECIMAL_STRING } from "@/globals/constants/constants.ts";
+import {
+  EMPTY_PRICE_DECIMAL_STRING,
+  EMPTY_PRICE_LABEL_TEXT,
+} from "@/globals/constants/constants.ts";
+import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
 
-interface Props extends React.HTMLProps<HTMLLabelElement> {
+export interface PriceLabelProps extends React.HTMLProps<HTMLLabelElement> {
   text?: string;
 }
 
-const PriceLabel: React.FC<Props> = React.memo(
-  ({ text = EMPTY_PRICE_DECIMAL_STRING }: Props): ReactElement => {
-    if (!text && process.env.NODE_ENV === "development") {
-      console.warn("Label text is empty!");
-    }
+const PriceLabel: React.FC<PriceLabelProps> = React.memo(
+  ({ text = EMPTY_PRICE_DECIMAL_STRING }: PriceLabelProps): ReactElement => {
+    useWarnIfEmptyText(text);
 
     return (
-      <label className="priceLabel" aria-label={`$${text}`}>
+      <label
+        className="priceLabel"
+        aria-label={
+          text === EMPTY_PRICE_DECIMAL_STRING
+            ? EMPTY_PRICE_LABEL_TEXT
+            : `$${text}`
+        }
+      >
         ${text}
       </label>
     );
