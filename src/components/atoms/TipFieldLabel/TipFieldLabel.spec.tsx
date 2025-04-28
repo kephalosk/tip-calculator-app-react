@@ -1,10 +1,18 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import TipFieldLabel from "./TipFieldLabel";
+import TipFieldLabel, { TipFieldLabelProps } from "./TipFieldLabel";
 import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
-import {
-  ENVIRONMENT_DEVELOPMENT,
-  ENVIRONMENT_PRODUCTION,
-} from "@/globals/constants/constants.ts";
+import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
+
+jest.mock(
+  "@/hooks/useWarnIfEmptyText",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
 
 jest.mock(
   "@/hooks/useKeyClickBypass",
@@ -17,21 +25,22 @@ jest.mock(
   }),
 );
 
-global.console.warn = jest.fn();
-
 describe("TipFieldLabel Component", (): void => {
   const text: string = "Test Label";
   const isActive: boolean = false;
   const propagateChangeMock: jest.Mock = jest.fn();
 
-  const testProps: {
-    text: string;
-    isActive: boolean;
-    propagateChange: jest.Mock;
-  } = {
-    text,
-    isActive,
-    propagateChange: propagateChangeMock,
+  const setup = (
+    propsOverride?: Partial<TipFieldLabelProps>,
+  ): { container: HTMLElement } => {
+    const defaultProps: TipFieldLabelProps = {
+      text,
+      isActive,
+      propagateChange: propagateChangeMock,
+    };
+
+    const props: TipFieldLabelProps = { ...defaultProps, ...propsOverride };
+    return render(<TipFieldLabel {...props} />);
   };
 
   const handleClickMock: jest.Mock = jest.fn();
@@ -45,12 +54,11 @@ describe("TipFieldLabel Component", (): void => {
   });
 
   afterEach((): void => {
-    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
     cleanup();
   });
 
   it("renders correctly with the provided text", (): void => {
-    render(<TipFieldLabel {...testProps} />);
+    setup({ text });
 
     const labelElement = screen.getByText(text);
     expect(labelElement).toBeInTheDocument();
@@ -58,9 +66,7 @@ describe("TipFieldLabel Component", (): void => {
   });
 
   it("renders with default empty text", () => {
-    const { container } = render(
-      <TipFieldLabel {...testProps} text={undefined} />,
-    );
+    const { container } = setup({ text: undefined });
 
     const labelElement: HTMLElement | null =
       container.querySelector(".tipFieldLabel");
@@ -70,16 +76,14 @@ describe("TipFieldLabel Component", (): void => {
   });
 
   it("applies the active class when isActive is true", (): void => {
-    render(<TipFieldLabel {...testProps} isActive={true} />);
+    setup({ isActive: true });
 
     const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toHaveClass("tipFieldLabel active");
   });
 
   it("renders with default isActive is false", () => {
-    const { container } = render(
-      <TipFieldLabel {...testProps} isActive={undefined} />,
-    );
+    const { container } = setup({ isActive: undefined });
 
     const labelElement: HTMLElement | null =
       container.querySelector(".tipFieldLabel");
@@ -88,29 +92,22 @@ describe("TipFieldLabel Component", (): void => {
   });
 
   it("does not apply the active class when isActive is false", (): void => {
-    render(<TipFieldLabel {...testProps} />);
+    setup({ isActive: false });
 
     const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toHaveClass("tipFieldLabel");
     expect(labelElement).not.toHaveClass("active");
   });
 
-  it("warns in development mode if text is empty", (): void => {
-    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
-    render(<TipFieldLabel {...testProps} text="" />);
+  it("calls hook useWarnIfEmptyText", (): void => {
+    setup();
 
-    expect(console.warn).toHaveBeenCalledWith("Label text is empty!");
-  });
-
-  it("does not warn if text is empty in production mode", (): void => {
-    process.env.NODE_ENV = ENVIRONMENT_PRODUCTION;
-    render(<TipFieldLabel {...testProps} text="" />);
-
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(useWarnIfEmptyText).toHaveBeenCalledTimes(1);
+    expect(useWarnIfEmptyText).toHaveBeenCalledWith(text);
   });
 
   it("calls handleClick when label is clicked", (): void => {
-    const { container } = render(<TipFieldLabel {...testProps} text="" />);
+    const { container } = setup();
 
     const labelElement: HTMLElement | null =
       container.querySelector(".tipFieldLabel");
@@ -120,7 +117,7 @@ describe("TipFieldLabel Component", (): void => {
   });
 
   it("calls handleKeyDown when a key is pressed", (): void => {
-    const { container } = render(<TipFieldLabel {...testProps} text="" />);
+    const { container } = setup();
 
     const labelElement: HTMLElement | null =
       container.querySelector(".tipFieldLabel");
