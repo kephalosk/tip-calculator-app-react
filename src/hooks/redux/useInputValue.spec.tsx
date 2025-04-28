@@ -1,6 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
 import { useDispatch } from "react-redux";
-import { useInputValue } from "./useInputValue.ts";
+import useInputValue from "./useInputValue.ts";
 import { setTipValue } from "@/redux/slices/tipSlice.ts";
 import React from "react";
 

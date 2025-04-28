@@ -11,8 +11,8 @@ import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import { TIP_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
-import { useTipItems } from "@/hooks/redux/useTipItems.ts";
-import { useInputValue } from "@/hooks/redux/useInputValue.ts";
+import useTipItems from "@/hooks/redux/useTipItems.ts";
+import useInputValue from "@/hooks/redux/useInputValue.ts";
 
 const TipContainer: () => ReactElement = (): ReactElement => {
   const { tipItems, handleTipItemClick, triggerReset, deactivateAllItems } =
@@ -20,7 +20,6 @@ const TipContainer: () => ReactElement = (): ReactElement => {
   const { handleInputChange } = useInputValue(deactivateAllItems);
 
   const inputProps: InputProps = {
-    allowDecimals: true,
     id: TIP_INPUT_ID,
     name: TIP_INPUT_NAME,
     maxValue: TIP_INPUT_MAX_VALUE,
@@ -29,6 +28,7 @@ const TipContainer: () => ReactElement = (): ReactElement => {
       event?: React.ChangeEvent<HTMLInputElement>,
     ) => handleInputChange(value / 100, event),
     placeholder: TIP_INPUT_PLACEHOLDER,
+    allowDecimals: true,
     withPercentageSign: true,
     triggerReset,
   };

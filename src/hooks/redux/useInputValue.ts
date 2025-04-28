@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { setTipValue } from "@/redux/slices/tipSlice.ts";
 import { Dispatch } from "@reduxjs/toolkit";
 
-export const useInputValue = (
+const useInputValue = (
   deactivateAllItems: () => void,
 ): {
   handleInputChange: (
@@ -25,3 +25,5 @@ export const useInputValue = (
 
   return { handleInputChange };
 };
+
+export default useInputValue;

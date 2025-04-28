@@ -1,31 +1,39 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import TipContainer from "./TipContainer";
-import { useTipItems } from "@/hooks/redux/useTipItems.ts";
-import { useInputValue } from "@/hooks/redux/useInputValue.ts";
-import { useDispatch } from "react-redux";
+import useTipItems from "@/hooks/redux/useTipItems.ts";
+import useInputValue from "@/hooks/redux/useInputValue.ts";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
 import Input from "@/components/atoms/Input/Input.tsx";
 import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
 import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import React, { ReactNode } from "react";
+import {
+  TIP_INPUT_ID,
+  TIP_INPUT_NAME,
+  TIP_INPUT_PLACEHOLDER,
+  TIP_LABEL,
+} from "@/globals/constants/constants.ts";
+import { TIP_INPUT_MAX_VALUE } from "@/globals/config.ts";
 
+const headlineLabelTestId: string = "headline-label";
 jest.mock(
   "@/components/label/HeadlineLabel/HeadlineLabel",
   (): jest.Mock =>
     jest.fn(
       (props): ReactNode => (
-        <div data-testid="headline-label">{props.text}</div>
+        <div data-testid={headlineLabelTestId}>{props.text}</div>
       ),
     ),
 );
 
+const TipFieldLabelTestId: string = "tip-field-label";
 jest.mock(
   "@/components/atoms/TipFieldLabel/TipFieldLabel",
   (): jest.Mock =>
     jest.fn(
       (props): ReactNode => (
         <div
-          data-testid="tip-field-label"
+          data-testid={TipFieldLabelTestId}
           onClick={() => props.propagateChange()}
         >
           {props.text}
@@ -34,12 +42,13 @@ jest.mock(
     ),
 );
 
+const inputTestId: string = "input";
 jest.mock(
   "@/components/atoms/Input/Input",
   (): jest.Mock =>
     jest.fn((props) => (
       <input
-        data-testid="input"
+        data-testid={inputTestId}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           props.propagateValue(e.target.value, e)
         }
@@ -47,14 +56,25 @@ jest.mock(
     )),
 );
 
-jest.mock("@/hooks/redux/useTipItems.ts", (): { useTipItems: jest.Mock } => ({
-  useTipItems: jest.fn(),
-}));
+jest.mock(
+  "@/hooks/redux/useTipItems.ts",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
 
 jest.mock(
   "@/hooks/redux/useInputValue.ts",
-  (): { useInputValue: jest.Mock } => ({
-    useInputValue: jest.fn(),
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
   }),
 );
 
@@ -63,28 +83,34 @@ jest.mock("react-redux", (): { useDispatch: jest.Mock } => ({
 }));
 
 describe("TipContainer", (): void => {
-  const dispatch: jest.Mock = jest.fn();
-  const mockHandleTipItemClick: jest.Mock = jest.fn();
-  const mockHandleInputChange: jest.Mock = jest.fn();
-  const mockDeactivateAllItems: jest.Mock = jest.fn();
+  const setup = (): { container: HTMLElement } => {
+    return render(<TipContainer />);
+  };
 
   const mockTipItems: TipItem[] = TipItems;
+  const handleTipItemClickMock: jest.Mock = jest.fn();
+  const deactivateAllItemsMock: jest.Mock = jest.fn();
+  const useTipItemsMock = {
+    tipItems: mockTipItems,
+    handleTipItemClick: handleTipItemClickMock,
+    triggerReset: false,
+    deactivateAllItems: deactivateAllItemsMock,
+  };
+
+  const handleInputChangeMock: jest.Mock = jest.fn();
+  const useInputValueMock: {
+    handleInputChange: jest.Mock;
+  } = {
+    handleInputChange: handleInputChangeMock,
+  };
 
   beforeEach((): void => {
-    (useDispatch as unknown as jest.Mock).mockReturnValue(dispatch);
-    (useTipItems as jest.Mock).mockReturnValue({
-      tipItems: mockTipItems,
-      handleTipItemClick: mockHandleTipItemClick,
-      triggerReset: false,
-      deactivateAllItems: mockDeactivateAllItems,
-    });
-    (useInputValue as jest.Mock).mockReturnValue({
-      handleInputChange: mockHandleInputChange,
-    });
+    (useTipItems as jest.Mock).mockReturnValue(useTipItemsMock);
+    (useInputValue as jest.Mock).mockReturnValue(useInputValueMock);
   });
 
-  it("renders div billContainer", (): void => {
-    const { container } = render(<TipContainer />);
+  it("renders div tipContainer", (): void => {
+    const { container } = setup();
 
     const headlineLabel: HTMLElement | null =
       container.querySelector(".tipContainer");
@@ -93,16 +119,17 @@ describe("TipContainer", (): void => {
   });
 
   it("renders component HeadlineLabel correctly", (): void => {
-    render(<TipContainer />);
+    setup();
 
     const component: HTMLElement = screen.getByTestId("headline-label");
 
     expect(component).toBeInTheDocument();
-    expect(HeadlineLabel).toHaveBeenCalled();
+    expect(HeadlineLabel).toHaveBeenCalledTimes(1);
+    expect(HeadlineLabel).toHaveBeenCalledWith({ text: TIP_LABEL }, undefined);
   });
 
   it("renders div tipContainerGrid", (): void => {
-    const { container } = render(<TipContainer />);
+    const { container } = setup();
 
     const headlineLabel: HTMLElement | null =
       container.querySelector(".tipContainerGrid");
@@ -111,42 +138,68 @@ describe("TipContainer", (): void => {
   });
 
   it("renders components TipFieldLabels correctly", (): void => {
-    render(<TipContainer />);
+    setup();
 
     const components: HTMLElement[] = screen.getAllByTestId("tip-field-label");
 
     expect(components).toHaveLength(TipItems.length);
     expect(TipFieldLabel).toHaveBeenCalledTimes(5);
+    mockTipItems.forEach((item: TipItem, index: number): void => {
+      expect(TipFieldLabel).toHaveBeenNthCalledWith(
+        index + 1,
+        {
+          isActive: item.isActive,
+          propagateChange: expect.any(Function),
+          text: item.text,
+        },
+        undefined,
+      );
+    });
   });
 
-  it("renders component TipContainer correctly", (): void => {
-    render(<TipContainer />);
+  it("renders component Input correctly", (): void => {
+    setup();
 
     const component: HTMLElement = screen.getByTestId("input");
 
     expect(component).toBeInTheDocument();
-    expect(Input).toHaveBeenCalled();
+    expect(Input).toHaveBeenCalledTimes(1);
+    expect(Input).toHaveBeenCalledWith(
+      {
+        id: TIP_INPUT_ID,
+        name: TIP_INPUT_NAME,
+        maxValue: TIP_INPUT_MAX_VALUE,
+        propagateValue: expect.any(Function),
+        placeholder: TIP_INPUT_PLACEHOLDER,
+        allowDecimals: true,
+        withPercentageSign: true,
+        triggerReset: false,
+      },
+      undefined,
+    );
   });
 
   it("calls useTipItems", (): void => {
-    render(<TipContainer />);
+    setup();
 
+    expect(useTipItems).toHaveBeenCalledTimes(1);
     expect(useTipItems).toHaveBeenCalled();
   });
 
   it("calls useInputValue", (): void => {
-    render(<TipContainer />);
+    setup();
 
+    expect(useInputValue).toHaveBeenCalledTimes(1);
     expect(useInputValue).toHaveBeenCalled();
   });
 
   it("calls propagateValue", (): void => {
-    render(<TipContainer />);
+    setup();
 
     const input: HTMLElement = screen.getByTestId("input");
     fireEvent.change(input, { target: { value: "42" } });
 
-    expect(mockHandleInputChange).toHaveBeenCalledWith(0.42, expect.anything());
+    expect(handleInputChangeMock).toHaveBeenCalledWith(0.42, expect.anything());
   });
 
   it("calls propagateChange", (): void => {
@@ -155,6 +208,6 @@ describe("TipContainer", (): void => {
     const tipFields: HTMLElement[] = screen.getAllByTestId("tip-field-label");
     fireEvent.click(tipFields.at(1)!);
 
-    expect(mockHandleTipItemClick).toHaveBeenCalledWith(0.1);
+    expect(handleTipItemClickMock).toHaveBeenCalledWith(0.1);
   });
 });

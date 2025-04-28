@@ -176,6 +176,7 @@ describe("PeopleContainer", (): void => {
     const inputElement: HTMLElement = screen.getByTestId(inputTestId);
 
     expect(inputElement).toBeInTheDocument();
+    expect(Input).toHaveBeenCalledTimes(1);
     expect(Input).toHaveBeenCalledWith(
       {
         id: PEOPLE_INPUT_ID,

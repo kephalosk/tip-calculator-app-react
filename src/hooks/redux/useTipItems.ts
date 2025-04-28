@@ -7,7 +7,7 @@ import { RootState } from "@/redux/store.ts";
 
 export const selectTipValue = (state: RootState) => state.tip.value;
 
-export const useTipItems = (
+const useTipItems = (
   initialItems: TipItem[],
 ): {
   handleTipItemClick: (selectedValue: number) => void;
@@ -58,3 +58,5 @@ export const useTipItems = (
 
   return { tipItems, handleTipItemClick, triggerReset, deactivateAllItems };
 };
+
+export default useTipItems;
