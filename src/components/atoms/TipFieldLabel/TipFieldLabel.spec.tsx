@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import TipFieldLabel, { TipFieldLabelProps } from "./TipFieldLabel";
 import useKeyClickBypass from "@/hooks/useKeyClickBypass.ts";
 import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
@@ -45,16 +45,17 @@ describe("TipFieldLabel Component", (): void => {
 
   const handleClickMock: jest.Mock = jest.fn();
   const handleKeyDownMock: jest.Mock = jest.fn();
+  const useKeyClickBypassMock: {
+    handleClick: jest.Mock;
+    handleKeyDown: jest.Mock;
+  } = {
+    handleClick: handleClickMock,
+    handleKeyDown: handleKeyDownMock,
+  };
 
   beforeEach(() => {
-    (useKeyClickBypass as jest.Mock).mockReturnValue({
-      handleClick: handleClickMock,
-      handleKeyDown: handleKeyDownMock,
-    });
-  });
-
-  afterEach((): void => {
-    cleanup();
+    (useKeyClickBypass as jest.Mock).mockReturnValue(useKeyClickBypassMock);
+    (useWarnIfEmptyText as jest.Mock).mockReturnValue(undefined);
   });
 
   it("renders correctly with the provided text", (): void => {
@@ -97,6 +98,13 @@ describe("TipFieldLabel Component", (): void => {
     const labelElement: HTMLElement = screen.getByText(text);
     expect(labelElement).toHaveClass("tipFieldLabel");
     expect(labelElement).not.toHaveClass("active");
+  });
+
+  it("calls hook useKeyClickBypass", (): void => {
+    setup();
+
+    expect(useKeyClickBypass).toHaveBeenCalledTimes(1);
+    expect(useKeyClickBypass).toHaveBeenCalledWith(propagateChangeMock);
   });
 
   it("calls hook useWarnIfEmptyText", (): void => {

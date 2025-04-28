@@ -3,8 +3,11 @@
 @use '../../../styles/functions';
 @use '../../../styles/spaces';
 
+$border-thickness: functions.to-rem(2px);
+$transition-duration: 0.2s;
+
 .tipFieldLabel {
-  border: functions.to-rem(2px) solid colors.$green-900;
+  border: $border-thickness solid colors.$green-900;
   border-radius: spaces.$radius-5px;
   background-color: colors.$green-900;
   padding: spaces.$space-4px spaces.$space-16px;
@@ -16,20 +19,20 @@
   text-align: center;
   color: colors.$white;
   transition:
-          border 0.2s ease,
-          background-color 0.2s ease,
-          color 0.2s ease;
+          border $transition-duration ease,
+          background-color $transition-duration ease,
+          color $transition-duration ease;
 
   @include fonts.text-preset-2;
 }
 .tipFieldLabel:hover {
-  border: functions.to-rem(2px) solid colors.$green-200;
+  border: $border-thickness solid colors.$green-200;
   background-color: colors.$green-200;
   color: colors.$green-900;
   cursor: pointer;
 }
 .tipFieldLabel:focus-visible {
-  border: functions.to-rem(2px) solid colors.$green-900;
+  border: $border-thickness solid colors.$green-900;
   background-color: colors.$green-200;
   color: colors.$green-900;
   cursor: pointer;
@@ -37,13 +40,13 @@
   box-shadow: none;
 }
 .tipFieldLabel.active {
-  border: functions.to-rem(2px) solid colors.$green-200;
+  border: $border-thickness solid colors.$green-200;
   background-color: colors.$green-200;
   color: colors.$green-900;
   cursor: pointer;
 }
 .tipFieldLabel.active:focus-visible {
-  border: functions.to-rem(2px) solid colors.$green-900;
+  border: $border-thickness solid colors.$green-900;
   outline: none;
   box-shadow: none;
 }

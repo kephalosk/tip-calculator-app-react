@@ -50,6 +50,7 @@ describe("Label Component", (): void => {
     ariaLabel,
     renderedText,
   };
+
   beforeEach(() => {
     (useLabelType as jest.Mock).mockReturnValue(useLabelTypeMock);
     (useWarnIfEmptyText as jest.Mock).mockReturnValue(undefined);
