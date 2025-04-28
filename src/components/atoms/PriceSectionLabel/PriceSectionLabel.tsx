@@ -1,19 +1,27 @@
 import "./PriceSectionLabel.scss";
 import React, { ReactElement } from "react";
-import { ENVIRONMENT_DEVELOPMENT } from "@/globals/constants/constants.ts";
+import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
+import {
+  EMPTY_PRICE_SECTION_LABEL_TEXT,
+  EMPTY_STRING,
+} from "@/globals/constants/constants.ts";
 
-interface Props extends React.HTMLProps<HTMLLabelElement> {
+export interface PriceSectionLabelProps
+  extends React.HTMLProps<HTMLLabelElement> {
   text?: string;
 }
 
-const PriceSectionLabel: React.FC<Props> = React.memo(
-  ({ text = "" }: Props): ReactElement => {
-    if (!text && process.env.NODE_ENV === ENVIRONMENT_DEVELOPMENT) {
-      console.warn("Label text is empty!");
-    }
+const PriceSectionLabel: React.FC<PriceSectionLabelProps> = React.memo(
+  ({ text = EMPTY_STRING }: PriceSectionLabelProps): ReactElement => {
+    useWarnIfEmptyText(text);
 
     return (
-      <label className="priceSectionLabel" aria-label={text}>
+      <label
+        className="priceSectionLabel"
+        aria-label={
+          text === EMPTY_STRING ? EMPTY_PRICE_SECTION_LABEL_TEXT : text
+        }
+      >
         {text}
       </label>
     );

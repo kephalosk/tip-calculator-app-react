@@ -7,6 +7,7 @@ import {
   EMPTY_PRICE_LABEL_TEXT,
   PRICE_SECTION_DEVISOR_PREFIX,
   EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT,
+  EMPTY_PRICE_SECTION_LABEL_TEXT,
 } from "@/globals/constants/constants.ts";
 import React from "react";
 import { LabelProps } from "@/components/atoms/Label/Label.tsx";
@@ -17,6 +18,7 @@ export enum LabelType {
   LABEL = "label",
   PRICE_LABEL = "priceLabel",
   PRICE_SECTION_DIVISOR_LABEL = "priceSectionDivisorLabel",
+  PRICE_SECTION_LABEL = "priceSectionLabel",
 }
 
 const renderLabelTests = (
@@ -84,6 +86,8 @@ function getExpectedText(labelType: LabelType, text: string): string {
       return `$${text}`;
     case LabelType.PRICE_SECTION_DIVISOR_LABEL:
       return `${PRICE_SECTION_DEVISOR_PREFIX} ${text}`;
+    case LabelType.PRICE_SECTION_LABEL:
+      return text;
   }
 }
 
@@ -95,6 +99,8 @@ function getExpectedDefaultText(labelType: LabelType): string {
       return `$${EMPTY_PRICE_DECIMAL_STRING}`;
     case LabelType.PRICE_SECTION_DIVISOR_LABEL:
       return `${PRICE_SECTION_DEVISOR_PREFIX}`;
+    case LabelType.PRICE_SECTION_LABEL:
+      return EMPTY_STRING;
   }
 }
 
@@ -106,6 +112,8 @@ function getExpectedDefaultAriaLabel(labelType: LabelType): string {
       return EMPTY_PRICE_LABEL_TEXT;
     case LabelType.PRICE_SECTION_DIVISOR_LABEL:
       return EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT;
+    case LabelType.PRICE_SECTION_LABEL:
+      return EMPTY_PRICE_SECTION_LABEL_TEXT;
   }
 }
 

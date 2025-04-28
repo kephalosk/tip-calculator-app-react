@@ -1,86 +1,27 @@
-import { render, screen } from "@testing-library/react";
-import PriceSectionLabel from "./PriceSectionLabel";
-import {
-  ENVIRONMENT_DEVELOPMENT,
-  ENVIRONMENT_PRODUCTION,
-} from "@/globals/constants/constants.ts";
+import PriceSectionLabel, { PriceSectionLabelProps } from "./PriceSectionLabel";
+import renderLabelTests, { LabelType } from "@/jest/renderLabelTests.tsx";
 
-global.console.warn = jest.fn();
+jest.mock(
+  "@/hooks/useWarnIfEmptyText",
+  (): {
+    __esModule: boolean;
+    default: jest.Mock;
+  } => ({
+    __esModule: true,
+    default: jest.fn(),
+  }),
+);
 
-describe("PriceSectionLabel Component", (): void => {
-  const text: string = "Test Label";
-
-  const testProps: { text: string } = {
-    text,
+describe("PriceSectionDivisorLabel Component", (): void => {
+  const defaultText: string = "Tip Amount";
+  const defaultProps: PriceSectionLabelProps = {
+    text: defaultText,
   };
 
-  afterEach((): void => {
-    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
-  });
-
-  it("renders correctly with text", () => {
-    render(<PriceSectionLabel {...testProps} />);
-    const labelElement: HTMLElement = screen.getByText(/Test Label/i);
-
-    expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveAttribute("aria-label", "Test Label");
-  });
-
-  it("renders with default empty text", () => {
-    const { container } = render(
-      <PriceSectionLabel {...testProps} text={undefined} />,
-    );
-
-    const labelElement: HTMLElement | null =
-      container.querySelector(".priceSectionLabel");
-
-    expect(labelElement).toBeInTheDocument();
-    expect(labelElement).toHaveTextContent("");
-  });
-
-  it("renders correctly with empty text and shows a warning in development mode", (): void => {
-    process.env.NODE_ENV = ENVIRONMENT_DEVELOPMENT;
-    const { container } = render(<PriceSectionLabel {...testProps} text="" />);
-
-    const labelElement: HTMLElement | null =
-      container.querySelector(".priceSectionLabel");
-
-    expect(labelElement).toHaveAttribute("aria-label", "");
-    expect(labelElement).toHaveTextContent("");
-    expect(console.warn).toHaveBeenCalledWith("Label text is empty!");
-  });
-
-  it("does not show a warning in production mode if text is empty", (): void => {
-    process.env.NODE_ENV = ENVIRONMENT_PRODUCTION;
-    const { container } = render(<PriceSectionLabel {...testProps} text="" />);
-
-    const labelElement: HTMLElement | null =
-      container.querySelector(".priceSectionLabel");
-
-    expect(labelElement).toHaveAttribute("aria-label", "");
-    expect(labelElement).toHaveTextContent("");
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it("sets the default text value if no text prop is provided", (): void => {
-    const { container } = render(<PriceSectionLabel {...testProps} text="" />);
-
-    const labelElement: HTMLElement | null =
-      container.querySelector(".priceSectionLabel");
-
-    expect(labelElement).toHaveTextContent("");
-    expect(labelElement).toHaveAttribute("aria-label", "");
-  });
-
-  it("does not re-render when the text prop does not change", (): void => {
-    const { rerender } = render(
-      <PriceSectionLabel {...testProps} text="Test Label" />,
-    );
-
-    const labelElement: HTMLElement = screen.getByText("Test Label");
-    const initialRender: HTMLElement = labelElement;
-    rerender(<PriceSectionLabel text="Test Label" />);
-
-    expect(labelElement).toBe(initialRender);
-  });
+  renderLabelTests(
+    PriceSectionLabel,
+    LabelType.PRICE_SECTION_LABEL,
+    defaultText,
+    defaultProps,
+  );
 });

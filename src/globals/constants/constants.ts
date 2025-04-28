@@ -29,6 +29,8 @@ export const EMPTY_LABEL_TEXT: string = "Empty Label";
 export const EMPTY_PRICE_LABEL_TEXT: string = "Empty Price Label";
 export const EMPTY_PRICE_SECTION_DEVISOR_LABEL_TEXT: string =
   "Empty Price Section Devisor Label";
+export const EMPTY_PRICE_SECTION_LABEL_TEXT: string =
+  "Empty Price Section Label";
 export const INPUT_ARIA_LABEL_PREFIX: string = "Input field for ";
 export const REGEXP_FOR_WHOLE_NUMBERS: string = "^\\d*$";
 export const REGEXP_FOR_DECIMALS: string = "^\\d+(\\.\\d{0,2})?$";
