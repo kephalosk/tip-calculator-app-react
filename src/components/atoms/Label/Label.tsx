@@ -1,22 +1,23 @@
 import "./Label.scss";
 import React, { ReactElement } from "react";
 import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
-import {
-  EMPTY_STRING,
-  EMPTY_LABEL_TEXT,
-} from "@/globals/constants/constants.ts";
+import { EMPTY_STRING } from "@/globals/constants/constants.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
+import useLabelType from "@/hooks/useLabelType.ts";
 
 export interface LabelProps extends React.HTMLProps<HTMLLabelElement> {
+  type: LabelTypeEnum;
   text?: string;
 }
 
 const Label: React.FC<LabelProps> = React.memo(
-  ({ text = EMPTY_STRING }: LabelProps): ReactElement => {
+  ({ type, text = EMPTY_STRING }: LabelProps): ReactElement => {
+    const { ariaLabel, renderedText } = useLabelType(type, text);
     useWarnIfEmptyText(text);
 
     return (
-      <label className="label" aria-label={text ? text : EMPTY_LABEL_TEXT}>
-        {text}
+      <label className={`label ${type}`} aria-label={ariaLabel}>
+        {renderedText}
       </label>
     );
   },
