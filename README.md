@@ -2,11 +2,20 @@
 
 This is a solution to the [Tip calculator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/tip-calculator-app-ugJNGbJUX). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
+To run this project:
+
+1. clone Repo
+2. check node version (v20.18.4) and npm version (v10.7.0)
+3. run: npm install
+4. run: npm run dev
+5. for unit tests run: npm run test
+
 ## Table of contents
 
 - [Overview](#overview)
     - [Screenshots](#screenshots)
     - [Links](#links)
+- [Coverage](#coverage)
 - [My process](#my-process)
 - [Built with](#built-with)
 - [Author](#author)
@@ -31,6 +40,14 @@ Active
 
 - Solution URL: [GitHub Repo](https://github.com/kephalosk/tip-calculator-app-react )
 - Live Site URL: [GitHub Pages](https://kephalosk.github.io/tip-calculator-app-react )
+
+## Coverage
+
+
+![Performance](ressources/screenshots/performance.png)
+
+
+![Coverage](ressources/screenshots/coverage.png)
 
 ## My process
 
