@@ -1,5 +1,22 @@
 @use '../../../styles/colors';
 @use '../../../styles/fonts';
+@use '../../../styles/spaces';
+
+.errorLabel {
+  padding-bottom: spaces.$space-6px;
+  display: flex;
+  width: 100%;
+  text-align: right;
+  color: colors.$red;
+}
+
+.headlineLabel {
+  padding-bottom: spaces.$space-6px;
+  display: flex;
+  width: 100%;
+  text-align: left;
+  color: colors.$grey-500;
+}
 
 .label {
   width: 100%;

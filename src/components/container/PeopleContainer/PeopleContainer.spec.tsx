@@ -12,28 +12,21 @@ import {
 import { PEOPLE_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import usePeopleUpdate from "@/hooks/redux/usePeopleUpdate";
 import { usePeopleReset } from "@/hooks/redux/usePeopleReset";
-import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
-import ErrorLabel from "@/components/label/ErrorLabel/ErrorLabel.tsx";
 import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
+import Label from "@/components/atoms/Label/Label.tsx";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 
-const headlineLabelTestId: string = "headline-label";
+const labelTestId: string = "headline-label";
 jest.mock(
-  "@/components/label/HeadlineLabel/HeadlineLabel",
+  "@/components/atoms/Label/Label",
   (): jest.Mock =>
     jest.fn(
       (props): ReactNode => (
-        <div data-testid={headlineLabelTestId}>{props.text}</div>
+        <div data-testid={labelTestId} className={props.type}>
+          {props.text}
+        </div>
       ),
     ),
-);
-
-const errorLabelTestId: string = "error-label";
-jest.mock(
-  "@/components/label/ErrorLabel/ErrorLabel.tsx",
-  (): jest.Mock =>
-    jest.fn((props) => (
-      <label data-testid={errorLabelTestId}>{props.text}</label>
-    )),
 );
 
 const inputTestId: string = "input";
@@ -118,30 +111,40 @@ describe("PeopleContainer", (): void => {
     expect(headlineLabel).toBeInTheDocument();
   });
 
-  it("renders the HeadlineLabel with correct text", (): void => {
+  it("renders the Headline Label with correct text", (): void => {
     setup();
 
-    const headlineLabel: HTMLElement = screen.getByTestId(headlineLabelTestId);
+    const headlineLabel: HTMLElement = screen.getByTestId(labelTestId);
 
     expect(headlineLabel).toBeInTheDocument();
-    expect(HeadlineLabel).toHaveBeenCalledWith(
-      { text: PEOPLE_LABEL },
+    expect(Label).toHaveBeenCalledTimes(1);
+    expect(Label).toHaveBeenCalledWith(
+      {
+        type: LabelTypeEnum.HEADLINE_LABEL,
+        text: PEOPLE_LABEL,
+      },
       undefined,
     );
   });
 
-  it("renders component ErrorLabel when hasError is true", (): void => {
+  it("renders component Error Label when hasError is true", (): void => {
     (usePeopleUpdate as jest.Mock).mockReturnValue({
       ...usePeopleUpdateMock,
       hasError: true,
     });
-    setup();
+    const { container } = setup();
 
-    const errorLabel: HTMLElement = screen.getByTestId(errorLabelTestId);
+    const errorLabel: HTMLElement | null = container.querySelector(
+      `.${LabelTypeEnum.ERROR_LABEL}`,
+    );
 
     expect(errorLabel).toBeInTheDocument();
-    expect(ErrorLabel).toHaveBeenCalledWith(
-      { text: PEOPLE_INPUT_ERROR_MESSAGE },
+    expect(Label).toHaveBeenCalledTimes(2);
+    expect(Label).toHaveBeenCalledWith(
+      {
+        type: LabelTypeEnum.ERROR_LABEL,
+        text: PEOPLE_INPUT_ERROR_MESSAGE,
+      },
       undefined,
     );
   });
@@ -151,13 +154,13 @@ describe("PeopleContainer", (): void => {
       ...usePeopleUpdateMock,
       hasError: false,
     });
-    setup();
+    const { container } = setup();
 
-    const errorLabel: HTMLElement | null =
-      screen.queryByTestId(errorLabelTestId);
+    const errorLabel: HTMLElement | null = container.querySelector(
+      `.${LabelTypeEnum.ERROR_LABEL}`,
+    );
 
     expect(errorLabel).not.toBeInTheDocument();
-    expect(ErrorLabel).not.toHaveBeenCalled();
   });
 
   it("renders span peopleContainerInput", (): void => {

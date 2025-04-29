@@ -2,7 +2,7 @@ import "./Label.scss";
 import React, { ReactElement } from "react";
 import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
 import { EMPTY_STRING } from "@/globals/constants/constants.ts";
-import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 import useLabelType from "@/hooks/useLabelType.ts";
 
 export interface LabelProps extends React.HTMLProps<HTMLLabelElement> {

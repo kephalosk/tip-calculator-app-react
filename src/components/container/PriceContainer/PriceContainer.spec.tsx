@@ -9,7 +9,7 @@ import PriceContainer, {
   PriceContainerProps,
 } from "@/components/container/PriceContainer/PriceContainer.tsx";
 import Label from "@/components/atoms/Label/Label.tsx";
-import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 
 jest.mock(
   "@/components/atoms/Label/Label.tsx",

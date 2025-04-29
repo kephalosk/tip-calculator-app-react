@@ -5,7 +5,7 @@ import {
   EMPTY_PRICE_DECIMAL_STRING,
   PRICE_SECTION_DIVISOR_TEXT,
 } from "@/globals/constants/constants.ts";
-import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 
 export interface PriceContainerProps {
   priceType: string;

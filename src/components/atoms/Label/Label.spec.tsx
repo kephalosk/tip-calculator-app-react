@@ -2,7 +2,7 @@ import Label, { LabelProps } from "./Label";
 import { render } from "@testing-library/react";
 import useWarnIfEmptyText from "@/hooks/useWarnIfEmptyText.ts";
 import useLabelType from "@/hooks/useLabelType.ts";
-import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 import { EMPTY_STRING } from "@/globals/constants/constants.ts";
 
 jest.mock(

@@ -1,4 +1,4 @@
-import { LabelTypeEnum } from "@/globals/constants/LabelType.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 import {
   EMPTY_LABEL_TEXT,
   EMPTY_PRICE_DECIMAL_STRING,

@@ -5,7 +5,6 @@ import useInputValue from "@/hooks/redux/useInputValue.ts";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
 import Input from "@/components/atoms/Input/Input.tsx";
 import TipFieldLabel from "@/components/atoms/TipFieldLabel/TipFieldLabel.tsx";
-import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import React, { ReactNode } from "react";
 import {
   TIP_INPUT_ID,
@@ -14,15 +13,15 @@ import {
   TIP_LABEL,
 } from "@/globals/constants/constants.ts";
 import { TIP_INPUT_MAX_VALUE } from "@/globals/config.ts";
+import Label from "@/components/atoms/Label/Label.tsx";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 
-const headlineLabelTestId: string = "headline-label";
+const labelTestId: string = "label";
 jest.mock(
-  "@/components/label/HeadlineLabel/HeadlineLabel",
+  "@/components/atoms/Label/Label.tsx",
   (): jest.Mock =>
     jest.fn(
-      (props): ReactNode => (
-        <div data-testid={headlineLabelTestId}>{props.text}</div>
-      ),
+      (props): ReactNode => <div data-testid={labelTestId}>{props.text}</div>,
     ),
 );
 
@@ -78,10 +77,6 @@ jest.mock(
   }),
 );
 
-jest.mock("react-redux", (): { useDispatch: jest.Mock } => ({
-  useDispatch: jest.fn(),
-}));
-
 describe("TipContainer", (): void => {
   const setup = (): { container: HTMLElement } => {
     return render(<TipContainer />);
@@ -118,14 +113,17 @@ describe("TipContainer", (): void => {
     expect(headlineLabel).toBeInTheDocument();
   });
 
-  it("renders component HeadlineLabel correctly", (): void => {
+  it("renders component Headline Label correctly", (): void => {
     setup();
 
-    const component: HTMLElement = screen.getByTestId("headline-label");
+    const component: HTMLElement = screen.getByTestId(labelTestId);
 
     expect(component).toBeInTheDocument();
-    expect(HeadlineLabel).toHaveBeenCalledTimes(1);
-    expect(HeadlineLabel).toHaveBeenCalledWith({ text: TIP_LABEL }, undefined);
+    expect(Label).toHaveBeenCalledTimes(1);
+    expect(Label).toHaveBeenCalledWith(
+      { type: LabelTypeEnum.HEADLINE_LABEL, text: TIP_LABEL },
+      undefined,
+    );
   });
 
   it("renders div tipContainerGrid", (): void => {

@@ -1,6 +1,5 @@
 import "./TipContainer.scss";
 import React, { ReactElement } from "react";
-import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import {
   TIP_INPUT_ID,
   TIP_INPUT_NAME,
@@ -13,6 +12,8 @@ import { TIP_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { TipItem, TipItems } from "@/globals/constants/TipItems.ts";
 import useTipItems from "@/hooks/redux/useTipItems.ts";
 import useInputValue from "@/hooks/redux/useInputValue.ts";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
+import Label from "@/components/atoms/Label/Label.tsx";
 
 const TipContainer: () => ReactElement = (): ReactElement => {
   const { tipItems, handleTipItemClick, triggerReset, deactivateAllItems } =
@@ -35,7 +36,7 @@ const TipContainer: () => ReactElement = (): ReactElement => {
 
   return (
     <div className="tipContainer">
-      <HeadlineLabel text={TIP_LABEL} />
+      <Label type={LabelTypeEnum.HEADLINE_LABEL} text={TIP_LABEL} />
       <div className="tipContainerGrid">
         {tipItems.map((item: TipItem, index: number) => (
           <TipFieldLabel
