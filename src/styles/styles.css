@@ -13,6 +13,10 @@ body {
   justify-content: center;
 }
 
+h1 {
+  opacity: 0;
+}
+
 .app {
   display: flex;
   flex-direction: column;
