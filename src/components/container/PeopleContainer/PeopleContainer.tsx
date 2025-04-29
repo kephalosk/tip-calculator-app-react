@@ -9,11 +9,11 @@ import {
   PEOPLE_LABEL,
 } from "@/globals/constants/constants.ts";
 import { PEOPLE_INPUT_MAX_VALUE } from "@/globals/config.ts";
-import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
 import usePeopleUpdate from "@/hooks/redux/usePeopleUpdate.ts";
 import { usePeopleReset } from "@/hooks/redux/usePeopleReset.ts";
 import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 import Label from "@/components/atoms/Label/Label.tsx";
+import { PEOPLE_ICON_SRC } from "@/globals/constants/ressources.ts";
 
 const PeopleContainer: React.FC = (): ReactElement => {
   const { hasError, handlePeopleUpdate } = usePeopleUpdate();
