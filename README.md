@@ -35,7 +35,7 @@ Active
 ## My process
 
 - download project files
-- setup project
+- setup project with React/Vite/SWC/TypeScript/Jest
 - check ux design
 - recreate index.html
 - create scss styles
@@ -56,9 +56,8 @@ Active
 
 ## Built with
 
-- Semantic HTML5 markup
+- React/Vite/SWC/TypeScript/Jest
 - SCSS custom properties
-- plain JavaScript
 - Flexbox
 - CSS Grid
 - Mobile-first workflow
