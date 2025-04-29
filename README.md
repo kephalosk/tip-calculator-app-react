@@ -1,50 +1,69 @@
-# React + TypeScript + Vite
+# Frontend Mentor - Time tracking dashboard solution
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a solution to the [Tip calculator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/tip-calculator-app-ugJNGbJUX). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-Currently, two official plugins are available:
+## Table of contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Overview](#overview)
+    - [Screenshots](#screenshots)
+    - [Links](#links)
+- [My process](#my-process)
+- [Built with](#built-with)
+- [Author](#author)
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Screenshots
 
-- Configure the top-level `parserOptions` property like this:
+Desktop
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+![Desktop](ressources/screenshots/desktop.png)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Mobile
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+![Mobile](ressources/screenshots/mobile.png)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Active
+
+![Active](ressources/screenshots/active.png)
+
+### Links
+
+- Solution URL: [GitHub Repo](https://github.com/kephalosk/tip-calculator-app-react )
+- Live Site URL: [GitHub Pages](https://kephalosk.github.io/tip-calculator-app-react )
+
+## My process
+
+- download project files
+- setup project
+- check ux design
+- recreate index.html
+- create scss styles
+- identify components
+- create atom and container components
+- create components s/css classes
+- create components constants
+- outsource component logic in hooks
+- write unit tests
+- open html in browser
+- polish layout
+- refactor javascript/typescript code
+- clean up code semantically
+- add screenshots
+- update README
+- clean up project
+- upload solution
+
+## Built with
+
+- Semantic HTML5 markup
+- SCSS custom properties
+- plain JavaScript
+- Flexbox
+- CSS Grid
+- Mobile-first workflow
+
+## Author
+
+- Website - [GitHub Account](https://github.com/kephalosk/)
+- Frontend Mentor - [@kephalosk](https://www.frontendmentor.io/profile/kephalosk)

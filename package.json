@@ -1,5 +1,6 @@
 {
   "name": "tip-calculator-app-react",
+  "homepage": "https://kephalosk.github.io/tip-calculator-app-react",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
