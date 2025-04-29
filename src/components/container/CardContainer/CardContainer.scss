@@ -8,6 +8,7 @@ $visible-screen-width: 100vw;
 $half-visible-screen-width: 50vw;
 
 .cardContainer {
+  box-shadow: 0 10px 50px -25px colors.$grey-500;
   border-radius: spaces.$radius-25px spaces.$radius-25px 0 0;
   background-color: colors.$white;
   padding: spaces.$space-32px spaces.$space-24px;
