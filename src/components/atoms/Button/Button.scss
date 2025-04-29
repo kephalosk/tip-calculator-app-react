@@ -7,12 +7,15 @@ $border-thickness: functions.to-rem(1px);
 $transition-duration: 0.2s;
 
 .button {
+  border: $border-thickness solid colors.$green-400;
   padding: spaces.$space-8px spaces.$space-16px ;
   width: 100%;
   border-radius: spaces.$radius-5px;
   background-color: colors.$green-400;
   text-transform: uppercase;
   color: colors.$green-900;
+  outline: none;
+  box-shadow: none;
   transition:
           border $transition-duration ease,
           background-color $transition-duration ease;
