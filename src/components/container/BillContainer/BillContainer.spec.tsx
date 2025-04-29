@@ -11,17 +11,16 @@ import Input from "@/components/atoms/Input/Input.tsx";
 import React, { ReactNode } from "react";
 import useBill from "@/hooks/redux/useBill.ts";
 import { useBillReset } from "@/hooks/redux/useBillReset.ts";
-import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import { DOLLAR_ICON_SRC } from "@/globals/constants/ressources.ts";
+import Label from "@/components/atoms/Label/Label.tsx";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 
-const headlineLabelTestId: string = "headline-label";
+const labelTestId: string = "label";
 jest.mock(
-  "@/components/label/HeadlineLabel/HeadlineLabel",
+  "@/components/atoms/Label/Label.tsx",
   (): jest.Mock =>
     jest.fn(
-      (props): ReactNode => (
-        <div data-testid={headlineLabelTestId}>{props.text}</div>
-      ),
+      (props): ReactNode => <div data-testid={labelTestId}>{props.text}</div>,
     ),
 );
 
@@ -89,10 +88,16 @@ describe("BillContainer", (): void => {
   it("renders the HeadlineLabel with correct text", (): void => {
     setup();
 
-    const headlineLabel: HTMLElement = screen.getByTestId(headlineLabelTestId);
+    const headlineLabel: HTMLElement = screen.getByTestId(labelTestId);
     expect(headlineLabel).toBeInTheDocument();
-    expect(HeadlineLabel).toHaveBeenCalledTimes(1);
-    expect(HeadlineLabel).toHaveBeenCalledWith({ text: BILL_LABEL }, undefined);
+    expect(Label).toHaveBeenCalledTimes(1);
+    expect(Label).toHaveBeenCalledWith(
+      {
+        type: LabelTypeEnum.HEADLINE_LABEL,
+        text: BILL_LABEL,
+      },
+      undefined,
+    );
   });
 
   it("renders span billContainerInput", (): void => {

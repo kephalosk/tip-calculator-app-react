@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 import {
+  EMPTY_ERROR_LABEL_TEXT,
+  EMPTY_HEADLINE_LABEL_TEXT,
   EMPTY_LABEL_TEXT,
   EMPTY_PRICE_DECIMAL_STRING,
   EMPTY_PRICE_LABEL_TEXT,
@@ -28,6 +30,10 @@ const useLabelType = (
           : `${PRICE_SECTION_DEVISOR_PREFIX} ${text}`;
       case LabelTypeEnum.PRICE_SECTION_LABEL:
         return text === EMPTY_STRING ? EMPTY_PRICE_SECTION_LABEL_TEXT : text;
+      case LabelTypeEnum.ERROR_LABEL:
+        return text === EMPTY_STRING ? EMPTY_ERROR_LABEL_TEXT : text;
+      case LabelTypeEnum.HEADLINE_LABEL:
+        return text === EMPTY_STRING ? EMPTY_HEADLINE_LABEL_TEXT : text;
       default:
         return text === EMPTY_STRING ? EMPTY_LABEL_TEXT : text;
     }
@@ -42,6 +48,10 @@ const useLabelType = (
       case LabelTypeEnum.PRICE_SECTION_DIVISOR_LABEL:
         return `${PRICE_SECTION_DEVISOR_PREFIX} ${text}`;
       case LabelTypeEnum.PRICE_SECTION_LABEL:
+        return text;
+      case LabelTypeEnum.ERROR_LABEL:
+        return text;
+      case LabelTypeEnum.HEADLINE_LABEL:
         return text;
       default:
         return text;

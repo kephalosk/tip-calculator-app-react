@@ -1,6 +1,5 @@
 import "./BillContainer.scss";
 import React, { ReactElement } from "react";
-import HeadlineLabel from "@/components/label/HeadlineLabel/HeadlineLabel.tsx";
 import Input, { InputProps } from "@/components/atoms/Input/Input.tsx";
 import {
   BILL_ICON_ALT_TEXT,
@@ -12,6 +11,8 @@ import useBill from "@/hooks/redux/useBill.ts";
 import { BILL_INPUT_MAX_VALUE } from "@/globals/config.ts";
 import { DOLLAR_ICON_SRC } from "@/globals/constants/ressources.ts";
 import { useBillReset } from "@/hooks/redux/useBillReset.ts";
+import Label from "@/components/atoms/Label/Label.tsx";
+import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 
 const BillContainer: React.FC = (): ReactElement => {
   const { updateBillValue } = useBill();
@@ -28,7 +29,7 @@ const BillContainer: React.FC = (): ReactElement => {
 
   return (
     <div className="billContainer">
-      <HeadlineLabel text={BILL_LABEL} />
+      <Label type={LabelTypeEnum.HEADLINE_LABEL} text={BILL_LABEL} />
       <span className="billContainerInput">
         <Input {...inputProps} />
         <img

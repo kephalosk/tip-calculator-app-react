@@ -1,5 +1,7 @@
 import { LabelTypeEnum } from "@/globals/constants/LabelTypeEnum.ts";
 import {
+  EMPTY_ERROR_LABEL_TEXT,
+  EMPTY_HEADLINE_LABEL_TEXT,
   EMPTY_LABEL_TEXT,
   EMPTY_PRICE_DECIMAL_STRING,
   EMPTY_PRICE_LABEL_TEXT,
@@ -54,6 +56,8 @@ describe("useLabelType hook", (): void => {
       `${PRICE_SECTION_DEVISOR_PREFIX} ${textDefined}`,
     ],
     [LabelTypeEnum.PRICE_SECTION_LABEL, textDefined],
+    [LabelTypeEnum.ERROR_LABEL, textDefined],
+    [LabelTypeEnum.HEADLINE_LABEL, textDefined],
     ["undefined" as LabelTypeEnum, textDefined],
   ])(
     "returns aria-label for labelType %s for defined text",
@@ -83,6 +87,8 @@ describe("useLabelType hook", (): void => {
       EMPTY_STRING,
       EMPTY_PRICE_SECTION_LABEL_TEXT,
     ],
+    [LabelTypeEnum.ERROR_LABEL, EMPTY_STRING, EMPTY_ERROR_LABEL_TEXT],
+    [LabelTypeEnum.HEADLINE_LABEL, EMPTY_STRING, EMPTY_HEADLINE_LABEL_TEXT],
     ["undefined" as LabelTypeEnum, EMPTY_STRING, EMPTY_LABEL_TEXT],
   ])(
     "returns default aria-label for labelType %s for empty text %s",
@@ -103,6 +109,8 @@ describe("useLabelType hook", (): void => {
       `${PRICE_SECTION_DEVISOR_PREFIX} ${textDefined}`,
     ],
     [LabelTypeEnum.PRICE_SECTION_LABEL, textDefined],
+    [LabelTypeEnum.ERROR_LABEL, textDefined],
+    [LabelTypeEnum.HEADLINE_LABEL, textDefined],
     ["undefined" as LabelTypeEnum, textDefined],
   ])(
     "returns text to render for labelType %s",
