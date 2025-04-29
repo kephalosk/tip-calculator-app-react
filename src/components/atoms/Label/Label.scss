@@ -45,7 +45,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: colors.$grey-400;
+  color: colors.$grey-200;
 
   @include fonts.text-preset-5;
 }

@@ -5,6 +5,7 @@
 @use 'spaces';
 
 $app-icon-width: functions.to-rem(90px);
+$app-icon-height: functions.to-rem(56px);
 
 * {
   margin: 0;
@@ -38,6 +39,7 @@ h1 {
 }
 
 .appIcon {
+  height: $app-icon-height;
   width: $app-icon-width;
 }
 

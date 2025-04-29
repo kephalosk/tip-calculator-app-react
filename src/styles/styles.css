@@ -31,6 +31,7 @@ h1 {
 }
 
 .appIcon {
+  height: 3.5rem;
   width: 5.625rem;
 }
 
@@ -46,7 +47,7 @@ h1 {
 }
 
 .attribution a {
-  color: hsl(228, 45%, 60%);
+  color: hsl(228, 45%, 40%);
 }
 
 /*# sourceMappingURL=styles.css.map */
