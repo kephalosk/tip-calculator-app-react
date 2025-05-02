@@ -12,8 +12,8 @@ describe("calculateTotalAndTip", (): void => {
     const tipAmount: number = 10;
     const peopleCount: number = 10;
 
-    const expectedTipTotal: string = "10.00";
-    const expectedTotalSum: string = "110.00";
+    const expectedTipTotal: string = "1000.00";
+    const expectedTotalSum: string = "1100.00";
 
     const { tipTotal, totalSum } = calculateTotalAndTip(
       billAmount,

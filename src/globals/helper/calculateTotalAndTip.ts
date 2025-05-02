@@ -16,7 +16,7 @@ const calculateTotalAndTip = (
     };
   }
 
-  const calculatedTip: number = billAmount * (tipAmount / 100);
+  const calculatedTip: number = billAmount * tipAmount;
   const calculatedTipPerPerson: string = (calculatedTip / peopleCount).toFixed(
     2,
   );
